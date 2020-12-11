@@ -36,7 +36,7 @@ import java.util.ArrayList;
 
 public class UserDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    // Vars
+    // Variables
 
     static final float END_SCALE = 0.7f;
 
