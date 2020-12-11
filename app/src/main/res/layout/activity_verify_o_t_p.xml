@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Common.LoginSignup.VerifyOTP"
+    android:padding="30dp"
+    android:background="@color/White"
+    android:id="@+id/otp_scrollview">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp">
+
+
+        <TextView
+            android:id="@+id/otp_title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/otp_code_text"
+            android:textSize="100sp"
+            android:textColor="@color/Black"
+            android:fontFamily="@font/muli_black"
+            android:textAllCaps="true"
+            android:includeFontPadding="false"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/otp_title2"
+            android:layout_below="@id/otp_title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/otp_verification_text"
+            android:textSize="24sp"
+            android:textColor="@color/Black"
+            android:fontFamily="@font/muli_black"
+            android:textAllCaps="true"
+            android:includeFontPadding="false"
+            android:layout_centerHorizontal="true" />
+
+
+        <TextView
+            android:id="@+id/otp_description_text"
+            android:layout_below="@id/otp_title2"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/Black"
+            android:fontFamily="@font/muli_light"
+            android:includeFontPadding="false"
+            android:layout_centerHorizontal="true" />
+
+        <com.chaos.view.PinView
+            android:id="@+id/pin_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            app:itemCount="6"
+            app:itemWidth="40dp"
+            app:itemHeight="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_below="@id/otp_description_text"
+            app:lineColor="@color/colorAccent"
+            android:itemBackground="@color/lightWhite"
+            style="@style/PinWidget.PinView"
+            android:inputType="number"
+            android:cursorVisible="true"
+            app:cursorColor="@color/Black"
+            app:lineWidth="1dp"
+            app:hideLineWhenFilled="true"
+            app:itemRadius="5dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pin_view"
+            android:background="@color/colorPrimary"
+            android:onClick="callNextScreenFromOTP"
+            android:text="@string/verify_code"
+            android:elevation="5dp"
+            android:layout_marginVertical="30dp"
+            android:textColor="@color/Black"/>
+
+        <RelativeLayout
+            android:id="@+id/verify_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:padding="20dp"
+            android:elevation="8dp"
+            android:background="@drawable/white_circle">
+
+            <ProgressBar
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
+
+
+</ScrollView>

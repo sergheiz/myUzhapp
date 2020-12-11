@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Common.LoginSignup.RegistrationSuccess"
+    android:background="@color/White"
+    android:padding="30dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_success"
+            android:textColor="@color/Black"
+            android:textSize="40sp"
+            android:fontFamily="@font/muli_black"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:gravity="center_horizontal" />
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:paddingLeft="20dp"
+            android:src="@drawable/registered_icon"
+            android:layout_margin="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_success_message"
+            android:textColor="@color/Black"
+            android:textSize="16sp"
+            android:fontFamily="@font/muli_light"
+            android:textAlignment="center"
+            android:gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:elevation="5dp"
+            android:onClick="callLoginScreen"
+            android:background="@color/Black"
+            android:textColor="@color/White"
+            android:layout_marginVertical="20dp"/>
+
+
+    </LinearLayout>
+
+</ScrollView>

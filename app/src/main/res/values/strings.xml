@@ -1,0 +1,130 @@
+<resources>
+    <string name="app_name">Ужгород</string>
+    <string name="logo_name">Your City App</string>
+    <string name="slogan_name"> We will help you to find your way</string>
+    <string name="powered_by"> Powered By NoName inc.</string>
+
+    // strings for on boarding screen
+    // titles
+    <string name="first_slide_title">Search Your Location</string>
+    <string name="second_slide_title">Make A Call</string>
+    <string name="third_slide_title">Add Missing Place</string>
+    <string name="fourth_slide_title">Sit Back And Enjoy</string>
+
+    // descriptions
+    <string name="first_slide_desc">You can search any places nearby</string>
+    <string name="second_slide_desc">We provide a phone numbers of all our places</string>
+    <string name="third_slide_desc">If you have a shop or something that you want to be a part of our growing app, feel free to create it</string>
+    <string name="fourth_slide_desc">We will handle everything for you as long as you use our app</string>
+
+
+    // buttons
+    <string name="skip_btn">Skip</string>
+    <string name="next_btn">Next</string>
+    <string name="let_get_started">Lets Get Started</string>
+
+
+    // Dashboard
+
+    //Categories
+    <string name="hotels">Hotels</string>
+    <string name="restaurants">Restaurants</string>
+    <string name="shops">Shops</string>
+    <string name="banks">Banks</string>
+    <string name="airports">Airports</string>
+    <string name="education">Education</string>
+
+    // Titles and Desc
+
+    <string name="featured_locations">All Featured Locations</string>
+    <string name="featured_locations_description">All the locations that are featured and have a top demand in town!</string>
+    <string name="most_viewed_locations">Most Viewed</string>
+    <string name="categories">Categories</string>
+    <string name="view_all">View All</string>
+    <string name="search_text">Search...</string>
+
+    <!--      Menu Names      -->
+    <string name="home">HOME</string>
+    <string name="search">SEARCH</string>
+    <string name="all_categories">ALL CATEGORIES</string>
+    <string name="add_missing_place">ADD MISSING PLACE</string>
+
+    <string name="login">Login</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+
+    <string name="share">Share</string>
+    <string name="rate_us">Rate Us</string>
+
+    // Retailer panel strings
+    // General strings
+    <string name="sign_up">Sign Up</string>
+    <string name="retailer_heading">Grow Your Business</string>
+    <string name="retailer_tag_line">We will help you to grow your business</string>
+    <string name="create_account">Create Account</string>
+    <string name="how_we_work">How we work?</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="forget_password">Forgot Password</string>
+    <string name="make_selection">Make selection</string>
+    <string name="forget_password_detail">Provide your account`s phone number to reset the password</string>
+    <string name="make_selection_detail">Select which contact detail should we use to reset your password</string>
+    <string name="via_sms">via sms:</string>
+    <string name="via_email">via email:</string>
+    <string name="new_credentials">Create New Password</string>
+    <string name="new_credentials_detail">Verification completed successfully! Set a new password for your account</string>
+    <string name="new_password">New Password</string>
+    <string name="password_updated">Password Updated</string>
+    <string name="password_updated_success_message">Your Password Has Been Updated!</string>
+    <string name="registration_success">Registration Successful!</string>
+    <string name="registration_success_message">Your account has been created!</string>
+    <string name="confirm_password">Confirm Password</string>
+
+
+    <string name="enter_username">Username</string>
+    <string name="enter_password">Password</string>
+    <string name="enter_full_name">Full Name</string>
+    <string name="enter_email">Email</string>
+    <string name="enter_phone_number">Phone Number</string>
+    <string name="choose_gender">Choose Gender:</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="select_age">Date of birth:</string>
+
+    //validation
+    <string name="val_not_empty">Field can not be empty</string>
+    <string name="val_too_large">Username is too large</string>
+    <string name="val_no_whitespaces">No white spaces are allowed</string>
+    <string name="val_invalid_email">Invalid Email</string>
+    <string name="val_password">Password is too short</string>
+    <string name="val_match_password">Passwords does not match</string>
+    <string name="val_gender">Please select gender</string>
+    <string name="val_age">You are not eligible to apply!</string>
+    <string name="val_phone">Enter valid phone number</string>
+
+    //OTP
+    <string name="otp_code_text">Code</string>
+    <string name="otp_verification_text">Verification</string>
+    <string name="otp_description_text">Enter One Time Password Sent On:</string>
+    <string name="verify_code">Verify Code</string>
+    <string name="otp_complete">Verification Completed!</string>
+    <string name="otp_not_completed">Verification not completed! try again</string>
+
+    //login
+    <string name="login_complete">Logged in Success!</string>
+    <string name="wrong_password">Wrong password!</string>
+    <string name="val_user">No such user exist</string>
+
+
+    //custom dialog internet
+    <string name="no_internet">No internet connection!</string>
+    <string name="connect">Connect</string>
+    <string name="cancel">Cancel</string>
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

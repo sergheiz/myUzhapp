@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/lightWhite"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/menu_slogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/slogan_name"
+        android:layout_below="@id/app_name"
+        android:layout_toRightOf="@id/menu_app_icon"/>
+
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cocogoose_black"
+        android:layout_toRightOf="@id/menu_app_icon"
+        android:layout_centerVertical="true"
+        android:text="@string/logo_name"
+        android:textColor="@color/Black"
+        android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/menu_app_icon"
+        android:layout_width="100dp"
+        android:layout_height="300dp"
+        android:src="@drawable/menu_app_icon" />
+
+
+</RelativeLayout>
