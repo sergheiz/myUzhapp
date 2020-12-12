@@ -56,6 +56,13 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_user_dashboard);
 
+        Fade fade = null;
+        fade = new Fade();
+        fade.excludeTarget(android.R.id.statusBarBackground, true);
+        fade.excludeTarget(android.R.id.navigationBarBackground, true);
+        getWindow().setEnterTransition(fade);
+        getWindow().setExitTransition(fade);
+
 
 
 
@@ -216,12 +223,18 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         Pair[] pairs = new Pair[1];
         pairs[0] = new Pair(findViewById(R.id.retailer_startup), "transition_retailer");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
-            startActivity(intent, options.toBundle());
-        } else {
-            startActivity(intent);
-        }
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
+        startActivity(intent, options.toBundle());
     }
 
+    public void callTransport(View view) {
+
+        Intent intent = new Intent(getApplicationContext(), TransportCategory.class);
+
+        Pair[] pairs = new Pair[1];
+        pairs[0] = new Pair(findViewById(R.id.transport_category_btn), "transition_dashboard_transport");
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
+        startActivity(intent, options.toBundle());
+
+    }
 }

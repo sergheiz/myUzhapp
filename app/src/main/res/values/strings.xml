@@ -6,7 +6,7 @@
 
     // strings for on boarding screen
 
-    
+
     // titles
     <string name="first_slide_title">Search Your Location</string>
     <string name="second_slide_title">Make A Call</string>
@@ -35,6 +35,10 @@
     <string name="banks">Banks</string>
     <string name="airports">Airports</string>
     <string name="education">Education</string>
+    <string name="transport">Transport</string>
+    <string name="buses">Buses</string>
+    <string name="taxi">Taxi</string>
+
 
     // Titles and Desc
 
@@ -122,7 +126,6 @@
     <string name="no_internet">No internet connection!</string>
     <string name="connect">Connect</string>
     <string name="cancel">Cancel</string>
-
 
 
     <!-- TODO: Remove or change this placeholder text -->

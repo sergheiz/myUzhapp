@@ -204,11 +204,19 @@
                                 android:background="@drawable/card_3"
                                 android:elevation="8dp">
 
+
                                 <ImageView
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_centerInParent="true"
-                                    android:src="@drawable/school_icon" />
+                                    android:src="@drawable/transport_icon" />
+
+                                <Button
+                                    android:id="@+id/transport_category_btn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/transparent"
+                                    android:onClick="callTransport"/>
 
                             </RelativeLayout>
 
@@ -216,7 +224,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_horizontal"
-                                android:text="Education"
+                                android:text="@string/transport"
                                 android:textAlignment="center" />
 
                         </LinearLayout>

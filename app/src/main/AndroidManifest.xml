@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cityguide">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/uzh_launcher"
@@ -9,37 +11,62 @@
         android:roundIcon="@mipmap/uzh_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LocationOwner.RetailerDashboard"
+        <activity
+            android:name=".User.Limejet"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.LoginSignup.RegistrationSuccess"
+        <activity
+            android:name=".User.Buses"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".User.TransportCategory"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.LoginSignup.SetNewPasswordx"
+        <activity
+            android:name=".LocationOwner.RetailerDashboard"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.LoginSignup.VerifyOTP"
+        <activity
+            android:name=".Common.LoginSignup.RegistrationSuccess"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.LoginSignup.ForgetPasswordSuccessMessage"
+        <activity
+            android:name=".Common.LoginSignup.SetNewPasswordx"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.LoginSignup.MakeSelection"
+        <activity
+            android:name=".Common.LoginSignup.VerifyOTP"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.LoginSignup.ForgetPassword"
+        <activity
+            android:name=".Common.LoginSignup.ForgetPasswordSuccessMessage"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.LoginSignup.SignUp3rdClass"
+        <activity
+            android:name=".Common.LoginSignup.MakeSelection"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.LoginSignup.SignUp2ndClass"
+        <activity
+            android:name=".Common.LoginSignup.ForgetPassword"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.LoginSignup.SignUp"
+        <activity
+            android:name=".Common.LoginSignup.SignUp3rdClass"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.LoginSignup.Login"
+        <activity
+            android:name=".Common.LoginSignup.SignUp2ndClass"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.LoginSignup.RetailerStartUpScreen"
+        <activity
+            android:name=".Common.LoginSignup.SignUp"
             android:screenOrientation="portrait" />
-        <activity android:name=".User.AllCategories"
+        <activity
+            android:name=".Common.LoginSignup.Login"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.OnBoarding"
+        <activity
+            android:name=".Common.LoginSignup.RetailerStartUpScreen"
             android:screenOrientation="portrait" />
-        <activity android:name=".User.UserDashboard"
+        <activity
+            android:name=".User.AllCategories"
             android:screenOrientation="portrait" />
-        <activity android:name=".Common.SplashScreen"
+        <activity
+            android:name=".Common.OnBoarding"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".User.UserDashboard"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Common.SplashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
