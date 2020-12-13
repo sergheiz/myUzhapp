@@ -36,16 +36,7 @@
             android:name=".Common.LoginSignup.ForgetPasswordSuccessMessage"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Common.LoginSignup.MakeSelection"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Common.LoginSignup.ForgetPassword"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Common.LoginSignup.SignUp3rdClass"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Common.LoginSignup.SignUp2ndClass"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Common.LoginSignup.SignUp"

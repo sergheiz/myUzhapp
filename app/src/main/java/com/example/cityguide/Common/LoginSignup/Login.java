@@ -51,12 +51,6 @@ public class Login extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_retailer_login);
 
-        Fade fade = null;
-        fade = new Fade();
-        fade.excludeTarget(android.R.id.statusBarBackground, true);
-        fade.excludeTarget(android.R.id.navigationBarBackground, true);
-        getWindow().setEnterTransition(fade);
-        getWindow().setExitTransition(fade);
 
         //hooks
         countryCodePicker = findViewById(R.id.login_country_code_picker);
@@ -172,22 +166,18 @@ public class Login extends AppCompatActivity {
 
                         //get data from Firebase
                         String _fullname = snapshot.child(_completePhoneNumber).child("fullName").getValue(String.class);
-                        String _username = snapshot.child(_completePhoneNumber).child("username").getValue(String.class);
                         String _email = snapshot.child(_completePhoneNumber).child("email").getValue(String.class);
                         String _phoneNo = snapshot.child(_completePhoneNumber).child("phoneNo").getValue(String.class);
-                        String _dateOfBirth = snapshot.child(_completePhoneNumber).child("date").getValue(String.class);
-                        String _gender = snapshot.child(_completePhoneNumber).child("gender").getValue(String.class);
                         String _password = snapshot.child(_completePhoneNumber).child("password").getValue(String.class);
 
                         //Create a Session
-
                         SessionManager sessionManager = new SessionManager(Login.this, SessionManager.SESSION_USERSLOGIN);
-                        sessionManager.createLoginSession(_fullname, _username, _email, _phoneNo, _dateOfBirth, _gender, _password);
+                        sessionManager.createLoginSession(_fullname, _email, _phoneNo, _password);
 
                         startActivity(new Intent(getApplicationContext(), RetailerDashboard.class));
 
                         progressbar.setVisibility(View.GONE);
-                        Toast.makeText(Login.this,  getText(R.string.login_complete)+ "\n" + _fullname + "\n" + _username + "\n" + _email + "\n" + _phoneNo + "\n" + _dateOfBirth, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this,  getText(R.string.login_complete)+ "\n" + _fullname + "\n" + _email + "\n" + _phoneNo, Toast.LENGTH_SHORT).show();
 
                     } else {
                         progressbar.setVisibility(View.GONE);

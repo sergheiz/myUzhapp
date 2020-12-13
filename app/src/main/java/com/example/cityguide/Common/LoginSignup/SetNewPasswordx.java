@@ -39,12 +39,6 @@ public class SetNewPasswordx extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_set_new_passwordx);
 
-        Fade fade = null;
-        fade = new Fade();
-        fade.excludeTarget(android.R.id.statusBarBackground, true);
-        fade.excludeTarget(android.R.id.navigationBarBackground, true);
-        getWindow().setEnterTransition(fade);
-        getWindow().setExitTransition(fade);
 
         //Hooks
         progressBar = findViewById(R.id.set_new_password_progress_bar);

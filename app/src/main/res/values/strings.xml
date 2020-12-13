@@ -99,7 +99,7 @@
 
     //validation
     <string name="val_not_empty">Field can not be empty</string>
-    <string name="val_too_large">Username is too large</string>
+    <string name="val_too_large">Too large!</string>
     <string name="val_no_whitespaces">No white spaces are allowed</string>
     <string name="val_invalid_email">Invalid Email</string>
     <string name="val_password">Password is too short</string>

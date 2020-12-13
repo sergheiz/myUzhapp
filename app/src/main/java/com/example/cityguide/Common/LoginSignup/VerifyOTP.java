@@ -43,7 +43,7 @@ public class VerifyOTP extends AppCompatActivity {
     TextView otpDescriptionText;
     ScrollView scrollViewOTP;
     private Animation animation;
-    String codeBySystem, phoneNo, email, username, fullName, password, date, gender, whatToDo;
+    String codeBySystem, phoneNo, email, fullName, password, whatToDo;
 
     private FirebaseAuth mAuth;
 
@@ -53,12 +53,6 @@ public class VerifyOTP extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_verify_o_t_p);
 
-        Fade fade = null;
-        fade = new Fade();
-        fade.excludeTarget(android.R.id.statusBarBackground, true);
-        fade.excludeTarget(android.R.id.navigationBarBackground, true);
-        getWindow().setEnterTransition(fade);
-        getWindow().setExitTransition(fade);
 
         //Hooks
         mAuth = FirebaseAuth.getInstance();
@@ -77,10 +71,7 @@ public class VerifyOTP extends AppCompatActivity {
         phoneNo = getIntent().getStringExtra("phoneNo");
         fullName = getIntent().getStringExtra("fullName");
         email = getIntent().getStringExtra("email");
-        username = getIntent().getStringExtra("username");
         password = getIntent().getStringExtra("password");
-        date = getIntent().getStringExtra("date");
-        gender = getIntent().getStringExtra("gender");
         whatToDo = getIntent().getStringExtra("whatToDo");
 
         otpDescriptionText.setText(getText(R.string.otp_description_text)+"\n" + phoneNo);
@@ -181,7 +172,7 @@ public class VerifyOTP extends AppCompatActivity {
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         DatabaseReference reference = rootNode.getReference("Users");
 
-        UserHelperClass addNewUser = new UserHelperClass(phoneNo, email, username, fullName, password, date, gender);
+        UserHelperClass addNewUser = new UserHelperClass(phoneNo, email, fullName, password);
 
         reference.child(phoneNo).setValue(addNewUser);
         progressbar.setVisibility(View.GONE);

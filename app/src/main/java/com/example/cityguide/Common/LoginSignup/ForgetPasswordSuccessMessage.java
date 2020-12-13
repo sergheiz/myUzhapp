@@ -19,12 +19,6 @@ public class ForgetPasswordSuccessMessage extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_forget_password_success_message);
 
-        Fade fade = null;
-        fade = new Fade();
-        fade.excludeTarget(android.R.id.statusBarBackground, true);
-        fade.excludeTarget(android.R.id.navigationBarBackground, true);
-        getWindow().setEnterTransition(fade);
-        getWindow().setExitTransition(fade);
 
     }
 
