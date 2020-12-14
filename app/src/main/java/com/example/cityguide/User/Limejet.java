@@ -3,6 +3,7 @@ package com.example.cityguide.User;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.transition.Fade;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
@@ -18,8 +19,14 @@ public class Limejet extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_limejet);
+
+        Fade fade = new Fade();
+        fade.excludeTarget(android.R.id.statusBarBackground, true);
+        fade.excludeTarget(android.R.id.navigationBarBackground, true);
+
+        getWindow().setEnterTransition(fade);
+        getWindow().setExitTransition(fade);
 
         limejetWebView = findViewById(R.id.limejet_webView);
         WebSettings webSettings = limejetWebView.getSettings();
