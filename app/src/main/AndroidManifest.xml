@@ -12,13 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".User.Limejet"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".User.Buses"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".User.TransportCategory"
+            android:name=".Common.Categories.Transport.TransportCategory"
             android:screenOrientation="portrait" />
         <activity
             android:name=".LocationOwner.RetailerDashboard"
@@ -48,7 +42,7 @@
             android:name=".Common.LoginSignup.RetailerStartUpScreen"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".User.AllCategories"
+            android:name=".Common.Categories.AllCategories"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Common.OnBoarding"

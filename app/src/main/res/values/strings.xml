@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Ужгород</string>
-    <string name="logo_name">Your City App</string>
-    <string name="slogan_name"> We will help you to find your way</string>
+    <string name="logo_name">Ужгород</string>
+    <string name="slogan_name"> Your city app</string>
     <string name="powered_by"> Powered By NoName inc.</string>
 
     // strings for on boarding screen
@@ -35,9 +35,12 @@
     <string name="banks">Banks</string>
     <string name="airports">Airports</string>
     <string name="education">Education</string>
+
+
     <string name="transport">Transport</string>
     <string name="buses">Buses</string>
     <string name="taxi">Taxi</string>
+    <string name="trains">Trains</string>
 
 
     // Titles and Desc

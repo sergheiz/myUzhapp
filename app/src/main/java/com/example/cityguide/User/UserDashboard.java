@@ -10,18 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.transition.Fade;
-import android.transition.Transition;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.cityguide.Common.LoginSignup.Login;
+import com.example.cityguide.Common.Categories.AllCategories;
+import com.example.cityguide.Common.Categories.Transport.TransportCategory;
 import com.example.cityguide.Common.LoginSignup.RetailerStartUpScreen;
 import com.example.cityguide.HelperClasses.HomeAdapter.CategoriesAdapter;
 import com.example.cityguide.HelperClasses.HomeAdapter.CategoriesHelperClass;
@@ -43,6 +43,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     RecyclerView featuredRecycler, mostViewedRecycler, categoriesRecycler;
     RecyclerView.Adapter adapter;
     private GradientDrawable gradient1, gradient2, gradient3, gradient4, gradient5;
+    private Animation animation;
     ImageView menuIcon;
     LinearLayout contentView;
 
@@ -64,7 +65,6 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
 
 
-
         //Hooks
         featuredRecycler = findViewById(R.id.featured_recycler);
         mostViewedRecycler = findViewById(R.id.most_viewed_recycler);
@@ -75,6 +75,12 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         //Menu Hooks
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
+
+        //Animation Hook
+        animation = AnimationUtils.loadAnimation(this, R.anim.slid_animation);
+
+        //Set animation to elements
+        contentView.setAnimation(animation);
 
         navigationDrawer();
 

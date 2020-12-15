@@ -23,14 +23,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/snow"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:lottie_rawRes="@raw/snow_santa"
-            app:lottie_loop="true"
-            app:lottie_autoPlay="true"
-            />
+            android:layout_height="wrap_content">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/snow"
+                android:layout_width="match_parent"
+                android:layout_height="1000dp"
+                android:layout_marginTop="-50dp"
+                app:lottie_rawRes="@raw/snow_santa"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"
+                />
+
+        </LinearLayout>
+
+
 
         <LinearLayout
             android:id="@+id/content"
@@ -62,7 +71,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:onClick="callRetailerScreens"
-                    android:padding="5dp"
                     android:src="@drawable/add_missing_place_icon" />
 
                 <TextView
@@ -71,8 +79,13 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:fontFamily="@font/cocogoose_black"
-                    android:layout_margin="10dp"
+                    android:layout_marginHorizontal="10dp"
                     android:text="@string/logo_name"
+                    android:shadowColor="@color/colorPrimary"
+                    android:shadowDx="3"
+                    android:shadowDy="3"
+                    android:shadowRadius="5"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="28sp" />
 
                 <ImageView
@@ -91,7 +104,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_below="@id/app_name"
-                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="70dp"
                     android:background="@color/White"
                     android:elevation="8dp">
 
@@ -209,7 +223,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_centerInParent="true"
-                                    android:src="@drawable/transport_icon" />
+                                    android:src="@drawable/buses_icon" />
 
                                 <Button
                                     android:id="@+id/transport_category_btn"
@@ -314,12 +328,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:padding="20dp">
+                        android:paddingBottom="10dp"
+                        android:orientation="vertical">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="20dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -351,13 +366,14 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:orientation="vertical"
-                        android:padding="20dp">
+                        android:layout_marginTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:orientation="vertical">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="20dp">
 
                             <TextView
                                 android:layout_width="wrap_content"

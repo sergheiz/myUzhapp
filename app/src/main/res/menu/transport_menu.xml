@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/transport_menu_buses"
+        android:title="@string/buses"
+        android:icon="@drawable/buses_icon"
+        app:cnb_backgroundColor="@color/colorPrimary">
+
+    </item>
+
+    <item
+        android:id="@+id/transport_menu_taxi"
+        android:title="@string/taxi"
+        android:icon="@drawable/taxi_icon"
+        app:cnb_backgroundColor="@color/colorPrimary">
+
+    </item>
+
+    <item
+        android:id="@+id/transport_menu_trains"
+        android:title="@string/trains"
+        android:icon="@drawable/train_icon"
+        app:cnb_backgroundColor="@color/colorPrimary">
+
+    </item>
+
+</menu>

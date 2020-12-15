@@ -20,7 +20,7 @@ import com.example.cityguide.User.UserDashboard;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private static int SPLASH_TIMER = 7000;
+    private static int SPLASH_TIMER = 6000;
 
     //Variables
     ImageView backgroundImage;
