@@ -31,6 +31,7 @@ public class TransportBusesFragment extends Fragment {
         webSettings.setJavaScriptEnabled(true);
         buses.getSettings().setUseWideViewPort(true);
         buses.getSettings().setBuiltInZoomControls(true);
+        
 
         // Force links and redirects to open in the WebView instead of in a browser
         buses.setWebViewClient(new WebViewClient());
