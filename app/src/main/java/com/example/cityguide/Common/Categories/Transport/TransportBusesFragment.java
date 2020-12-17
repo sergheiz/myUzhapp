@@ -17,24 +17,26 @@ import com.example.cityguide.R;
 
 public class TransportBusesFragment extends Fragment {
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_transport_buses, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-        WebView buses = view.findViewById(R.id.buses_webView);
-        WebSettings webSettings = buses.getSettings();
-        buses.setWebViewClient(new WebViewClient());
+        View v=inflater.inflate(R.layout.fragment_transport_buses, container, false);
+        WebView buses = (WebView) v.findViewById(R.id.buses_webView);
         buses.loadUrl("https://city.dozor.tech/ua/uzhgorod");
-        webSettings.setJavaScriptEnabled(true);
-        buses.getSettings().setLoadWithOverviewMode(true);
-        //buses.getSettings().setSupportZoom(true);
-        //buses.getSettings().setUseWideViewPort(true);
-        buses.setInitialScale(200);
 
+        // Enable Javascript
+        WebSettings webSettings = buses.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        buses.getSettings().setUseWideViewPort(true);
+        buses.getSettings().setBuiltInZoomControls(true);
+
+        // Force links and redirects to open in the WebView instead of in a browser
+        buses.setWebViewClient(new WebViewClient());
+
+        return v;
     }
+
+
 }

@@ -19,18 +19,18 @@ public class TransportTrainsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transport_trains, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-        WebView trains = view.findViewById(R.id.trains_webView);
-        WebSettings webSettings = trains.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        trains.setWebViewClient(new WebViewClient());
+        View v=inflater.inflate(R.layout.fragment_transport_trains, container, false);
+        WebView trains = v.findViewById(R.id.trains_webView);
         trains.loadUrl("https://poizdato.net/rozklad-po-stantsii/uzhhorod/");
 
+        // Enable Javascript
+        WebSettings webSettings = trains.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+        // Force links and redirects to open in the WebView instead of in a browser
+        trains.setWebViewClient(new WebViewClient());
+
+        return v;
     }
+
 }

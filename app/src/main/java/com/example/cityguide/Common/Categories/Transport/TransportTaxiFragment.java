@@ -21,20 +21,19 @@ public class TransportTaxiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transport_taxi, container, false);
-
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-        WebView taxi = view.findViewById(R.id.taxi_webView);
-        WebSettings webSettings = taxi.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        taxi.setWebViewClient(new WebViewClient());
+        View v=inflater.inflate(R.layout.fragment_transport_taxi, container, false);
+        WebView taxi = v.findViewById(R.id.taxi_webView);
         taxi.loadUrl("https://expresstaxi.uz.ua/online");
 
+        // Enable Javascript
+        WebSettings webSettings = taxi.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+        // Force links and redirects to open in the WebView instead of in a browser
+        taxi.setWebViewClient(new WebViewClient());
+
+        return v;
     }
+
 
 }
