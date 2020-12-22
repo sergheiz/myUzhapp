@@ -19,6 +19,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.example.cityguide.Common.Categories.AllCategories;
 import com.example.cityguide.Common.Categories.Transport.TransportCategory;
@@ -43,9 +45,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     RecyclerView featuredRecycler, mostViewedRecycler, categoriesRecycler;
     RecyclerView.Adapter adapter;
     private GradientDrawable gradient1, gradient2, gradient3, gradient4, gradient5;
-    private Animation animation;
-    ImageView menuIcon;
-    LinearLayout contentView;
+    ImageView menuIcon, expandIcon;
+    RelativeLayout moreCategories;
 
     //Drawer Menu
     DrawerLayout drawerLayout;
@@ -70,17 +71,16 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         mostViewedRecycler = findViewById(R.id.most_viewed_recycler);
         categoriesRecycler = findViewById(R.id.categories_recycler);
         menuIcon = findViewById(R.id.menu_icon);
-        contentView = findViewById(R.id.content);
+
+        expandIcon = findViewById(R.id.expand_more_categories);
+        moreCategories = findViewById(R.id.more_lines);
+
 
         //Menu Hooks
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
-        //Animation Hook
-        animation = AnimationUtils.loadAnimation(this, R.anim.slid_animation);
 
-        //Set animation to elements
-        contentView.setAnimation(animation);
 
         navigationDrawer();
 
@@ -107,33 +107,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
             }
         });
 
-        animateNavigationDrawer();
     }
 
-    private void animateNavigationDrawer() {
-
-        //Add any color or remove it to use the default one!
-        //To make it transparent use Color.Transparent in side setScrimColor();
-        //drawerLayout.setScrimColor(Color.TRANSPARENT);
-        //drawerLayout.setScrimColor(getResources().getColor(R.color.colorPrimary));
-        drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-
-                // Scale the View based on current slide offset
-                final float diffScaledOffset = slideOffset * (1 - END_SCALE);
-                final float offsetScale = 1 - diffScaledOffset;
-                contentView.setScaleX(offsetScale);
-                contentView.setScaleY(offsetScale);
-
-                // Translate the View, accounting for the scaled width
-                final float xOffset = drawerView.getWidth() * slideOffset;
-                final float xOffsetDiff = contentView.getWidth() * diffScaledOffset / 2;
-                final float xTranslation = xOffset - xOffsetDiff;
-                contentView.setTranslationX(xTranslation);
-            }
-        });
-    }
 
     @Override
     public void onBackPressed() {
@@ -154,8 +129,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
                 break;
         }
 
-
         return true;
+
     }
 
 
@@ -199,8 +174,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     private void categoriesRecycler() {
 
         //All Gradients
-        gradient2 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xffd4cbe5, 0xfffff});
-        gradient1 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xff7adccf, 0xfffff});
+        gradient1 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xffd4cbe5, 0xfffff});
+        gradient2 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xff7adccf, 0xfffff});
         gradient3 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xfff7c59f, 0xfffff});
         gradient4 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xffb8d7f5, 0xfffff});
         gradient5 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xffF1E9CE, 0xfffff});
@@ -241,5 +216,16 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
         startActivity(intent, options.toBundle());
 
+    }
+
+
+    public void moreCategories(View view) {
+        moreCategories.setVisibility(View.VISIBLE);
+        expandIcon.setVisibility(View.GONE);
+    }
+
+    public void lessCategories(View view) {
+        moreCategories.setVisibility(View.GONE);
+        expandIcon.setVisibility(View.VISIBLE);
     }
 }

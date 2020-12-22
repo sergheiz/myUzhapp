@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Ужгород</string>
-    <string name="logo_name">Ужгород</string>
+    <string name="app_name">Ungvár</string>
     <string name="slogan_name"> Your city app</string>
     <string name="powered_by"> Powered By NoName inc.</string>
 
@@ -29,12 +28,15 @@
     // Dashboard
 
     //Categories
-    <string name="hotels">Hotels</string>
-    <string name="restaurants">Restaurants</string>
+    <string name="other">Other</string>
+    <string name="residence">Residence</string>
+    <string name="food">Food and Drink</string>
     <string name="shops">Shops</string>
     <string name="banks">Banks</string>
     <string name="airports">Airports</string>
     <string name="education">Education</string>
+    <string name="work">Work</string>
+    <string name="entertain">Entertainment</string>
 
 
     <string name="transport">Transport</string>
@@ -94,11 +96,6 @@
     <string name="enter_full_name">Full Name</string>
     <string name="enter_email">Email</string>
     <string name="enter_phone_number">Phone Number</string>
-    <string name="choose_gender">Choose Gender:</string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
-    <string name="other">Other</string>
-    <string name="select_age">Date of birth:</string>
 
     //validation
     <string name="val_not_empty">Field can not be empty</string>

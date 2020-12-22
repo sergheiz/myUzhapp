@@ -16,10 +16,10 @@ import java.util.ArrayList;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.AdapterAllCategoriesViewHolder> {
 
-    ArrayList<CategoriesHelperClass> mostViewedLocations;
+    ArrayList<CategoriesHelperClass> Categories;
 
     public CategoriesAdapter(ArrayList<CategoriesHelperClass> mostViewedLocations) {
-        this.mostViewedLocations = mostViewedLocations;
+        this.Categories = mostViewedLocations;
     }
 
     @NonNull
@@ -33,7 +33,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ad
     @Override
     public void onBindViewHolder(@NonNull AdapterAllCategoriesViewHolder holder, int position) {
 
-        CategoriesHelperClass helperClass = mostViewedLocations.get(position);
+        CategoriesHelperClass helperClass = Categories.get(position);
         holder.imageView.setImageResource(helperClass.getImage());
         holder.textView.setText(helperClass.getTitile());
         holder.relativeLayout.setBackground(helperClass.getGradient());
@@ -41,7 +41,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ad
 
     @Override
     public int getItemCount() {
-        return mostViewedLocations.size();
+        return Categories.size();
     }
 
     public static class AdapterAllCategoriesViewHolder extends RecyclerView.ViewHolder {

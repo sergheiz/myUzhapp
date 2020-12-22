@@ -21,13 +21,15 @@
 
         <TextView
             android:id="@+id/mv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/mv_image"
             android:fontFamily="@font/baloo"
-            android:text="Chicken Hut"
-            android:textSize="20sp" />
+            android:lines="1"
+            android:autoSizeTextType="uniform"
+            android:textSize="20sp"
+            android:text="Chicken Hut" />
 
         <RatingBar
             android:id="@+id/mv_rating"

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.transition.Fade;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.cityguide.R;
 

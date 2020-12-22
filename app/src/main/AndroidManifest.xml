@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Common.Categories.Transport.TransportCategory"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".LocationOwner.RetailerDashboard"
             android:screenOrientation="portrait" />
@@ -43,13 +43,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Common.Categories.AllCategories"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Common.OnBoarding"
             android:screenOrientation="portrait" />
         <activity
             android:name=".User.UserDashboard"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Common.SplashScreen"
             android:screenOrientation="portrait">

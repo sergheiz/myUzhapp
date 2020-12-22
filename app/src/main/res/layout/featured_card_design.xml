@@ -27,6 +27,8 @@
             android:fontFamily="@font/baloo"
             android:text="Chicken Hut"
             android:textColor="@color/colorAccent"
+            android:lines="1"
+            android:autoSizeTextType="uniform"
             android:textSize="20sp" />
 
         <RatingBar
