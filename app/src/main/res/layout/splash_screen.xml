@@ -9,15 +9,29 @@
 
 
     <ImageView
+        android:paddingStart="50dp"
         android:id="@+id/background_image"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintVertical_bias=".1"
-        android:src="@drawable/splashscreen_winter"
+        android:src="@drawable/splash_screen_winter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elegantTextHeight="true"
+        android:elevation="8dp"
+        android:text="@string/app_name"
+        android:textSize="60sp"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/cocogoose_black"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/background_image"/>
 
     <TextView
         android:id="@+id/powered_by_line"
@@ -34,17 +48,6 @@
         app:layout_constraintEnd_toEndOf="@+id/background_image"
         app:layout_constraintStart_toStartOf="@+id/background_image" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/bounces"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/christmas_bounce"
-        app:lottie_loop="false"
-        app:lottie_autoPlay="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-         />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/snow"

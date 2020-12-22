@@ -24,7 +24,7 @@ public class SplashScreen extends AppCompatActivity {
 
     //Variables
     ImageView backgroundImage;
-    TextView poweredByLine;
+    TextView poweredByLine, appName;
     LottieAnimationView bounces, snowman;
 
 
@@ -46,12 +46,12 @@ public class SplashScreen extends AppCompatActivity {
         //Hooks
         backgroundImage = findViewById(R.id.background_image);
         poweredByLine = findViewById(R.id.powered_by_line);
-        bounces = findViewById(R.id.bounces);
+        appName = findViewById(R.id.app_name);
         snowman = findViewById(R.id.snowman);
 
 
-        backgroundImage.animate().translationY(-1400).setDuration(1000).setStartDelay(5000);
-        bounces.animate().translationY(-1600).setDuration(1000).setStartDelay(5000);
+        backgroundImage.animate().translationY(-2000).setDuration(1000).setStartDelay(5000);
+        appName.animate().translationY(-2000).setDuration(1000).setStartDelay(5000);
         poweredByLine.animate().translationY(1400).setDuration(1000).setStartDelay(5000);
         snowman.animate().translationY(1400).setDuration(1000).setStartDelay(5000);
 
