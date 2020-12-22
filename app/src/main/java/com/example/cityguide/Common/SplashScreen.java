@@ -22,7 +22,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private static int SPLASH_TIMER = 6000;
 
-    //Variables
+    //Variabs
     ImageView backgroundImage;
     TextView poweredByLine, appName;
     LottieAnimationView bounces, snowman;
