@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:elevation="10dp"
-            android:src="@drawable/menu_app_icon" />
+            android:src="@drawable/app_image_main" />
 
         <TextView
             android:layout_width="wrap_content"

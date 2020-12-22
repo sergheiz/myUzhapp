@@ -15,12 +15,8 @@ import android.transition.Fade;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 
 import com.example.cityguide.Common.Categories.AllCategories;
 import com.example.cityguide.Common.Categories.Transport.TransportCategory;
@@ -142,9 +138,9 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         ArrayList<FeaturedHelperClass> featuredLocations = new ArrayList<>();
 
-        featuredLocations.add(new FeaturedHelperClass(R.drawable.chickenhut_img, "Chicken Hut", "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on"));
-        featuredLocations.add(new FeaturedHelperClass(R.drawable.hodynka_img, "Hodynka", "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good."));
-        featuredLocations.add(new FeaturedHelperClass(R.drawable.castle_img, "Uzhhorod Castle", "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork."));
+        featuredLocations.add(new FeaturedHelperClass(R.drawable.chicken_hut_photo, "Chicken Hut", "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on"));
+        featuredLocations.add(new FeaturedHelperClass(R.drawable.hodynka_photo, "Hodynka", "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good."));
+        featuredLocations.add(new FeaturedHelperClass(R.drawable.uzh_castle_photo, "Uzhhorod Castle", "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork."));
 
         adapter = new FeaturedAdapter(featuredLocations);
         featuredRecycler.setAdapter(adapter);
@@ -161,9 +157,9 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         ArrayList<MostViewedHelperClass> mostViewedLocations = new ArrayList<>();
 
-        mostViewedLocations.add(new MostViewedHelperClass(R.drawable.chickenhut_img, "Chicken Hut", "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on"));
-        mostViewedLocations.add(new MostViewedHelperClass(R.drawable.hodynka_img, "Hodynka", "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good."));
-        mostViewedLocations.add(new MostViewedHelperClass(R.drawable.castle_img, "Uzhhorod Castle", "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork."));
+        mostViewedLocations.add(new MostViewedHelperClass(R.drawable.chicken_hut_photo, "Chicken Hut", "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on"));
+        mostViewedLocations.add(new MostViewedHelperClass(R.drawable.hodynka_photo, "Hodynka", "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good."));
+        mostViewedLocations.add(new MostViewedHelperClass(R.drawable.uzh_castle_photo, "Uzhhorod Castle", "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork."));
 
         adapter = new MostViewedAdapter(mostViewedLocations);
         mostViewedRecycler.setAdapter(adapter);

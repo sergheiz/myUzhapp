@@ -17,8 +17,7 @@
             android:id="@+id/featured_image"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/chickenhut_img" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/featured_title"

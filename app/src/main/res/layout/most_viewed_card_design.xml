@@ -16,8 +16,7 @@
             android:id="@+id/mv_image"
             android:layout_width="100dp"
             android:layout_height="150dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/chickenhut_img" />
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/mv_title"

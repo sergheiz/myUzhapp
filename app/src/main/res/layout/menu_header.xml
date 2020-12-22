@@ -30,7 +30,7 @@
         android:id="@+id/menu_app_icon"
         android:layout_width="100dp"
         android:layout_height="300dp"
-        android:src="@drawable/menu_app_icon" />
+        android:src="@drawable/app_image_main" />
 
 
 </RelativeLayout>

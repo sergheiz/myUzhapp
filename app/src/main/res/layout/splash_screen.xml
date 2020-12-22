@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintVertical_bias=".1"
-        android:src="@drawable/splash_screen_winter"
+        android:src="@drawable/splascreen_winter_img"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
