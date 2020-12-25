@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.cityguide.Common.Categories.AllCategories;
+import com.example.cityguide.Common.Categories.FoodAndDrink.MainFoodAndDrink;
 import com.example.cityguide.Common.Categories.Transport.TransportCategory;
 import com.example.cityguide.Common.LoginSignup.RetailerStartUpScreen;
 import com.example.cityguide.HelperClasses.HomeAdapter.CategoriesAdapter;
@@ -203,17 +204,6 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         startActivity(intent, options.toBundle());
     }
 
-    public void callTransport(View view) {
-
-        Intent intent = new Intent(getApplicationContext(), TransportCategory.class);
-
-        Pair[] pairs = new Pair[1];
-        pairs[0] = new Pair(findViewById(R.id.transport_category_btn), "transition_dashboard_transport");
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
-        startActivity(intent, options.toBundle());
-
-    }
-
 
     public void moreCategories(View view) {
         moreCategories.setVisibility(View.VISIBLE);
@@ -224,4 +214,32 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         moreCategories.setVisibility(View.GONE);
         expandIcon.setVisibility(View.VISIBLE);
     }
+
+
+    public void callFoodAndDrink(View view) {
+
+        Intent intent = new Intent(getApplicationContext(), MainFoodAndDrink.class);
+
+        Pair[] pairs = new Pair[1];
+        pairs[0] = new Pair(findViewById(R.id.card1), "transition_dashboard_food_and_drink");
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
+        startActivity(intent, options.toBundle());
+
+    }
+
+    public void callTransport(View view) {
+
+        Intent intent = new Intent(getApplicationContext(), TransportCategory.class);
+
+        Pair[] pairs = new Pair[1];
+        pairs[0] = new Pair(findViewById(R.id.card3), "transition_dashboard_transport");
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
+        startActivity(intent, options.toBundle());
+
+    }
+
+
+
+
+
 }

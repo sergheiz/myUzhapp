@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginVertical="100dp"
     tools:context=".Common.Categories.AllCategories"
     android:background="@color/lightWhite"
     android:transitionName="transition_Categories"
@@ -23,20 +22,14 @@
             android:padding="15dp"
             android:src="@drawable/general_back_icon" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:padding="15dp"
-            android:src="@drawable/search_icon" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Categories"
+            android:text="@string/categories"
             android:layout_centerInParent="true"
             android:textSize="30sp"
+            android:textColor="@color/Black"
             android:textAllCaps="true"
             android:fontFamily="@font/cocogoose_black"/>
 
@@ -70,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/baloo"
-                        android:text="Hospital"
+                        android:text="@string/food"
                         android:textColor="@color/Black"
                         android:textSize="30sp" />
 
@@ -94,7 +87,7 @@
                     android:layout_margin="-30dp"
                     android:layout_marginRight="40dp"
                     android:elevation="8dp"
-                    android:src="@drawable/hospital_image" />
+                    android:src="@drawable/food_icon" />
 
 
             </RelativeLayout>
@@ -109,21 +102,21 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:background="@drawable/card_3"
+                    android:background="@drawable/card_2"
                     android:paddingRight="20dp">
 
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
-                        android:src="@drawable/restaurant_image" />
+                        android:src="@drawable/residence_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:fontFamily="@font/baloo"
-                        android:text="Restaurant"
+                        android:text="@string/residence"
                         android:textColor="@color/Black"
                         android:textSize="30sp" />
 
@@ -152,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_margin="20dp"
-                    android:background="@drawable/card_2"
+                    android:background="@drawable/card_3"
                     android:elevation="8dp"
                     android:paddingLeft="20dp">
 
@@ -160,7 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/baloo"
-                        android:text="Education"
+                        android:text="@string/transport"
                         android:textColor="@color/Black"
                         android:textSize="30sp" />
 
@@ -184,7 +177,7 @@
                     android:layout_margin="-30dp"
                     android:layout_marginRight="40dp"
                     android:elevation="8dp"
-                    android:src="@drawable/school_image" />
+                    android:src="@drawable/transport_icon" />
 
 
             </RelativeLayout>
@@ -206,14 +199,14 @@
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
-                        android:src="@drawable/shopping_image" />
+                        android:src="@drawable/entertainment_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:fontFamily="@font/baloo"
-                        android:text="Shopping"
+                        android:text="@string/entertain"
                         android:textColor="@color/Black"
                         android:textSize="30sp" />
 
@@ -242,7 +235,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_margin="20dp"
-                    android:background="@drawable/card_1"
+                    android:background="@drawable/card_5"
                     android:elevation="8dp"
                     android:paddingLeft="20dp">
 
@@ -250,7 +243,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/baloo"
-                        android:text="Hospital"
+                        android:text="@string/banks"
                         android:textColor="@color/Black"
                         android:textSize="30sp" />
 
@@ -274,7 +267,7 @@
                     android:layout_margin="-30dp"
                     android:layout_marginRight="40dp"
                     android:elevation="8dp"
-                    android:src="@drawable/hospital_image" />
+                    android:src="@drawable/bank_icon" />
 
 
             </RelativeLayout>
@@ -289,21 +282,21 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:background="@drawable/card_3"
+                    android:background="@drawable/card_6"
                     android:paddingRight="20dp">
 
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
-                        android:src="@drawable/restaurant_image" />
+                        android:src="@drawable/shops_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:fontFamily="@font/baloo"
-                        android:text="Restaurant"
+                        android:text="@string/shops"
                         android:textColor="@color/Black"
                         android:textSize="30sp" />
 
@@ -332,7 +325,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_margin="20dp"
-                    android:background="@drawable/card_2"
+                    android:background="@drawable/card_7"
                     android:elevation="8dp"
                     android:paddingLeft="20dp">
 
@@ -340,7 +333,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/baloo"
-                        android:text="Education"
+                        android:text="@string/education"
                         android:textColor="@color/Black"
                         android:textSize="30sp" />
 
@@ -364,7 +357,7 @@
                     android:layout_margin="-30dp"
                     android:layout_marginRight="40dp"
                     android:elevation="8dp"
-                    android:src="@drawable/school_image" />
+                    android:src="@drawable/education_icon" />
 
 
             </RelativeLayout>
@@ -379,21 +372,21 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:background="@drawable/card_4"
+                    android:background="@drawable/card_8"
                     android:paddingRight="20dp">
 
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
-                        android:src="@drawable/shopping_image" />
+                        android:src="@drawable/other_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:fontFamily="@font/baloo"
-                        android:text="Shopping"
+                        android:text="@string/other"
                         android:textColor="@color/Black"
                         android:textSize="30sp" />
 

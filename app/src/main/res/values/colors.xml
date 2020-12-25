@@ -20,9 +20,9 @@
     <color name="card1">#d4cbe5</color>
     <color name="card2">#7adccf</color>
     <color name="card3">#f7c59f</color>
-    <color name="card4">#d8d7f5</color>
-    <color name="card5">#ffb3ba</color>
-    <color name="card6">#bae1ff</color>
-    <color name="card7">#ffffba</color>
-    <color name="card8">#baffc9</color>
+    <color name="card4">#ffffba</color>
+    <color name="card5">#baffc9</color>
+    <color name="card6">#ffb3ba</color>
+    <color name="card7">#bae1ff</color>
+    <color name="card8">#d8d7f5</color>
 </resources>

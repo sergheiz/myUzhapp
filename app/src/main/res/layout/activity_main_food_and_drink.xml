@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Common.Categories.FoodAndDrink.MainFoodAndDrink"
+    android:padding="20dp"
+    android:background="@color/card1"
+    android:transitionName="transition_dashboard_food_and_drink">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/food_and_drink_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>
