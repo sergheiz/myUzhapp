@@ -1,18 +1,18 @@
 package com.example.cityguide.Common.Place;
 
+import android.widget.TextView;
+
 public class Place {
 
     private String PlaceTitle;
-    private String PlaceCategory ;
+    private String PlaceMapLink ;
     private String PlaceDescription ;
     private int PlaceThumbnail ;
 
-    public Place() {
-    }
 
-    public Place(String title, String category, String description, int thumbnail) {
+    public Place(String title, String maplink, String description, int thumbnail) {
         PlaceTitle = title;
-        PlaceCategory = category;
+        PlaceMapLink = maplink;
         PlaceDescription = description;
         PlaceThumbnail = thumbnail;
     }
@@ -22,8 +22,8 @@ public class Place {
         return PlaceTitle;
     }
 
-    public String getPlaceCategory() {
-        return PlaceCategory;
+    public String getPlaceMapLink() {
+        return PlaceMapLink;
     }
 
     public String getPlaceDescription() {
@@ -39,8 +39,8 @@ public class Place {
         PlaceTitle = title;
     }
 
-    public void setPlaceCategory(String category) {
-        PlaceCategory = category;
+    public void setPlaceMapLink(String maplink) {
+        PlaceMapLink = maplink;
     }
 
     public void setPlaceDescription(String description) {

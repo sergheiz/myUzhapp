@@ -193,6 +193,12 @@ public class VerifyOTP extends AppCompatActivity {
         String code = pinFromUser.getText().toString();
         if (!code.isEmpty()) {
             verifyCode(code);
+        } else {
+
+            Toast.makeText(VerifyOTP.this, getText(R.string.otp_not_completed), Toast.LENGTH_SHORT).show();
+
+
         }
+
     }
 }

@@ -3,8 +3,14 @@ package com.example.cityguide.Common.Place;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.text.LineBreaker;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.text.method.TransformationMethod;
 import android.transition.Fade;
+import android.transition.TransitionInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,7 +18,7 @@ import com.example.cityguide.R;
 
 public class Place_Activity extends AppCompatActivity {
 
-    private TextView tvtitle,tvdescription,tvcategory;
+    private TextView tvtitle, tvdescription, tvmaplink;
     private ImageView img;
 
     @Override
@@ -28,23 +34,35 @@ public class Place_Activity extends AppCompatActivity {
         getWindow().setExitTransition(fade);
 
 
-
-        tvtitle = (TextView) findViewById(R.id.txttitle);
-        tvdescription = (TextView) findViewById(R.id.txtDesc);
-        tvcategory = (TextView) findViewById(R.id.txtCat);
         img = (ImageView) findViewById(R.id.img_thumbnail);
+        tvtitle = (TextView) findViewById(R.id.txttitle);
+        tvmaplink = (TextView) findViewById(R.id.map_link);
+        tvdescription = (TextView) findViewById(R.id.txtDesc);
+        tvdescription.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Recieve data
         Intent intent = getIntent();
+        int image = intent.getExtras().getInt("Thumbnail");
         String Title = intent.getExtras().getString("Title");
+        String MapLink = intent.getExtras().getString("MapLink");
         String Description = intent.getExtras().getString("Description");
-        int image = intent.getExtras().getInt("Thumbnail") ;
 
         // Setting values
+        img.setImageResource(image);
+        //img.setClipToOutline(true);
 
         tvtitle.setText(Title);
+        tvtitle.setHorizontallyScrolling(true);
+        tvtitle.setSelected(true);
+
+
+        tvmaplink.setText(MapLink);
+        tvmaplink.setClickable(true);
+        tvmaplink.setMovementMethod(LinkMovementMethod.getInstance());
+        tvmaplink.setText(Html.fromHtml(MapLink));
+
         tvdescription.setText(Description);
-        img.setImageResource(image);
+
 
     }
 }

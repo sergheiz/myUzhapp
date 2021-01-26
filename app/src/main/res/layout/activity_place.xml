@@ -4,59 +4,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Common.Place.Place_Activity"
-    android:background="@color/White">
+    android:background="@color/White"
+    android:transitionName="place_transition"
+    tools:context=".Common.Place.Place_Activity">
 
-    <androidx.core.widget.NestedScrollView
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:padding="10dp">
+        android:background="@color/White"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/map_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/img_thumbnail"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/show_on_map_image" />
+
+
+        <ImageView
+            android:id="@+id/img_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:foreground="@drawable/place_img_foreground"
+            android:scaleType="centerCrop"
+            android:src="@drawable/uzh_castle_photo" />
+
+        <TextView
+            android:id="@+id/txttitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/img_thumbnail"
+            android:layout_marginHorizontal="10dp"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle"
+            android:textColor="@color/Black"
+            android:fontFamily="@font/baloo"
+            android:textSize="30sp" />
+
+
+        <TextView
+            android:id="@+id/map_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/map_icon"
+            android:layout_toRightOf="@id/map_icon"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="Show on Google maps"
+            android:textColor="#0000EE"
+            android:textSize="20sp" />
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/general_close_icon"
-                android:background="#2d2d2d"
-                android:id="@+id/img_thumbnail"
-                android:scaleType="centerCrop"/>
-
-            <TextView
-                android:id="@+id/txttitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Book Title"
-                android:layout_marginTop="10dp"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/txtCat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Category"
-                android:background="#edecec"
-                android:padding="8dp"
-                android:layout_marginTop="10dp"/>
+            android:layout_below="@id/map_link"
+            android:layout_margin="10dp">
 
             <TextView
                 android:id="@+id/txtDesc"
-                android:textSize="18sp"
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description"/>
+                android:text="@string/test_place_description"
+                android:textSize="16sp"
+                android:textAlignment="center"/>
+
+        </androidx.core.widget.NestedScrollView>
 
 
 
-        </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+
 
 </LinearLayout>

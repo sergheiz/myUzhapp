@@ -156,9 +156,9 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_margin="30dp"
                 android:background="@color/Black"
-                android:elevation="5dp"
+                android:elevation="8dp"
                 android:onClick="callOTPScreen"
                 android:text="@string/next_btn"
                 android:textColor="@color/White" />

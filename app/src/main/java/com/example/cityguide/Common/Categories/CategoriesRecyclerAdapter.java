@@ -1,7 +1,10 @@
 package com.example.cityguide.Common.Categories;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +12,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cityguide.Common.Categories.FoodAndDrink.MainFoodAndDrink;
+import com.example.cityguide.Common.LoginSignup.RetailerStartUpScreen;
 import com.example.cityguide.Common.Place.Place;
 import com.example.cityguide.Common.Place.Place_Activity;
 import com.example.cityguide.R;
+import com.example.cityguide.User.UserDashboard;
 
 import java.util.List;
 
-public class CategoriesRecyclerAdapter extends RecyclerView.Adapter<CategoriesRecyclerAdapter.MyViewHolder> {
+public class CategoriesRecyclerAdapter  extends RecyclerView.Adapter<CategoriesRecyclerAdapter.MyViewHolder> {
 
     private Context mContext ;
     private List<Place> mData ;
@@ -40,8 +47,8 @@ public class CategoriesRecyclerAdapter extends RecyclerView.Adapter<CategoriesRe
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 
-        holder.tv_book_title.setText(mData.get(position).getPlaceTitle());
-        holder.img_book_thumbnail.setImageResource(mData.get(position).getPlaceThumbnail());
+        holder.tv_place_title.setText(mData.get(position).getPlaceTitle());
+        holder.img_place_thumbnail.setImageResource(mData.get(position).getPlaceThumbnail());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,11 +56,18 @@ public class CategoriesRecyclerAdapter extends RecyclerView.Adapter<CategoriesRe
                 Intent intent = new Intent(mContext, Place_Activity.class);
 
                 // passing data to the book activity
-                intent.putExtra("Title",mData.get(position).getPlaceTitle());
-                intent.putExtra("Description",mData.get(position).getPlaceDescription());
                 intent.putExtra("Thumbnail",mData.get(position).getPlaceThumbnail());
+                intent.putExtra("Title",mData.get(position).getPlaceTitle());
+                intent.putExtra("MapLink",mData.get(position).getPlaceMapLink());
+                intent.putExtra("Description",mData.get(position).getPlaceDescription());
                 // start the activity
-                mContext.startActivity(intent);
+
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair(v.findViewById(R.id.cardview_place), "place_transition");
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, pairs);
+                mContext.startActivity(intent, options.toBundle());
+
+                //mContext.startActivity(intent);
 
             }
         });
@@ -69,15 +83,19 @@ public class CategoriesRecyclerAdapter extends RecyclerView.Adapter<CategoriesRe
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_book_title;
-        ImageView img_book_thumbnail;
+        TextView tv_place_title;
+        ImageView img_place_thumbnail;
         CardView cardView ;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            tv_book_title = (TextView) itemView.findViewById(R.id.place_title_id) ;
-            img_book_thumbnail = (ImageView) itemView.findViewById(R.id.place_img_id);
+            tv_place_title = (TextView) itemView.findViewById(R.id.place_title_id) ;
+            tv_place_title.setHorizontallyScrolling(true);
+            tv_place_title.setSelected(true);
+
+
+            img_place_thumbnail = (ImageView) itemView.findViewById(R.id.place_img_id);
             cardView = (CardView) itemView.findViewById(R.id.cardview_place);
 
 

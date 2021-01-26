@@ -11,12 +11,14 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.transition.Fade;
 import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.cityguide.Common.Categories.AllCategories;
 import com.example.cityguide.Common.Categories.FoodAndDrink.MainFoodAndDrink;
@@ -60,6 +62,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         getWindow().setEnterTransition(fade);
         getWindow().setExitTransition(fade);
+
 
 
 
@@ -140,8 +143,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         ArrayList<FeaturedHelperClass> featuredLocations = new ArrayList<>();
 
         featuredLocations.add(new FeaturedHelperClass(R.drawable.chicken_hut_photo, "Chicken Hut", "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on"));
-        featuredLocations.add(new FeaturedHelperClass(R.drawable.hodynka_photo, "Hodynka", "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good."));
-        featuredLocations.add(new FeaturedHelperClass(R.drawable.uzh_castle_photo, "Uzhhorod Castle", "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork."));
+        featuredLocations.add(new FeaturedHelperClass(R.drawable.hodynka_photo, "Hodynka", "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good"));
+        featuredLocations.add(new FeaturedHelperClass(R.drawable.uzh_castle_photo, "Uzhhorod Castle", "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork"));
 
         adapter = new FeaturedAdapter(featuredLocations);
         featuredRecycler.setAdapter(adapter);
@@ -159,8 +162,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         ArrayList<MostViewedHelperClass> mostViewedLocations = new ArrayList<>();
 
         mostViewedLocations.add(new MostViewedHelperClass(R.drawable.chicken_hut_photo, "Chicken Hut", "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on"));
-        mostViewedLocations.add(new MostViewedHelperClass(R.drawable.hodynka_photo, "Hodynka", "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good."));
-        mostViewedLocations.add(new MostViewedHelperClass(R.drawable.uzh_castle_photo, "Uzhhorod Castle", "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork."));
+        mostViewedLocations.add(new MostViewedHelperClass(R.drawable.hodynka_photo, "Hodynka", "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good"));
+        mostViewedLocations.add(new MostViewedHelperClass(R.drawable.uzh_castle_photo, "Uzhhorod Castle", "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork"));
 
         adapter = new MostViewedAdapter(mostViewedLocations);
         mostViewedRecycler.setAdapter(adapter);
@@ -178,16 +181,16 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         gradient5 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xffF1E9CE, 0xfffff});
 
 
-        ArrayList<CategoriesHelperClass> categoriesHelperClasses = new ArrayList<>();
-        categoriesHelperClasses.add(new CategoriesHelperClass(R.drawable.school_image, "Education", gradient1));
-        categoriesHelperClasses.add(new CategoriesHelperClass(R.drawable.hospital_image, "HOSPITAL", gradient2));
-        categoriesHelperClasses.add(new CategoriesHelperClass(R.drawable.restaurant_image, "Restaurant", gradient3));
-        categoriesHelperClasses.add(new CategoriesHelperClass(R.drawable.shopping_image, "Shopping", gradient4));
-        categoriesHelperClasses.add(new CategoriesHelperClass(R.drawable.transport_image, "Transport", gradient5));
+        ArrayList<CategoriesHelperClass> Categories = new ArrayList<>();
+        Categories.add(new CategoriesHelperClass(R.drawable.school_image, "Education", gradient1));
+        Categories.add(new CategoriesHelperClass(R.drawable.hospital_image, "HOSPITAL", gradient2));
+        Categories.add(new CategoriesHelperClass(R.drawable.restaurant_image, "Restaurant", gradient3));
+        Categories.add(new CategoriesHelperClass(R.drawable.shopping_image, "Shopping", gradient4));
+        Categories.add(new CategoriesHelperClass(R.drawable.transport_image, "Transport", gradient5));
 
 
         categoriesRecycler.setHasFixedSize(true);
-        adapter = new CategoriesAdapter(categoriesHelperClasses);
+        adapter = new CategoriesAdapter(Categories);
         categoriesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         categoriesRecycler.setAdapter(adapter);
 

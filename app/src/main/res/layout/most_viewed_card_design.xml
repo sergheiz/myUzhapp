@@ -24,9 +24,12 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/mv_image"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
             android:fontFamily="@font/baloo"
-            android:lines="1"
-            android:autoSizeTextType="uniform"
+            android:textColor="@color/Black"
             android:textSize="20sp"
             android:text="Chicken Hut" />
 

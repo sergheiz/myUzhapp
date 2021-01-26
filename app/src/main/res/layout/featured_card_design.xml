@@ -21,13 +21,15 @@
 
         <TextView
             android:id="@+id/featured_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/baloo"
             android:text="Chicken Hut"
             android:textColor="@color/colorAccent"
-            android:lines="1"
-            android:autoSizeTextType="uniform"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
             android:textSize="20sp" />
 
         <RatingBar
@@ -45,6 +47,7 @@
                 android:id="@+id/featured_desc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:textAlignment="center"
                 android:text="Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on" />
 
         </androidx.core.widget.NestedScrollView>

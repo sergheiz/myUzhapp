@@ -52,7 +52,11 @@ public class MostViewedAdapter extends RecyclerView.Adapter<MostViewedAdapter.Mo
             super(itemView);
 
             image = itemView.findViewById(R.id.mv_image);
+
             title = itemView.findViewById(R.id.mv_title);
+            title.setHorizontallyScrolling(true);
+            title.setSelected(true);
+
             desc = itemView.findViewById(R.id.mv_desc);
         }
     }
