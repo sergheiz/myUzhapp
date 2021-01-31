@@ -1,13 +1,13 @@
 package com.example.cityguide.Databases;
 
 
-public class UserHelperClass {
+public class User {
 
     String phoneNo, email, fullName, password;
 
-    public UserHelperClass(){}
+    public User(){}
 
-    public UserHelperClass(String phoneNo, String email,  String fullName, String password) {
+    public User(String phoneNo, String email, String fullName, String password) {
         this.phoneNo = phoneNo;
         this.email = email;
         this.fullName = fullName;

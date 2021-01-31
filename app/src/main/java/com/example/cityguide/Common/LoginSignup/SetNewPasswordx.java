@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.transition.Fade;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;

@@ -3,16 +3,9 @@ package com.example.cityguide.Common.Categories.Transport;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Fade;
-import android.util.Pair;
-import android.view.View;
 
-import com.example.cityguide.LocationOwner.RetailerDashboardFragment;
-import com.example.cityguide.LocationOwner.RetailerManageFragment;
-import com.example.cityguide.LocationOwner.RetailerProfileFragment;
 import com.example.cityguide.R;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 

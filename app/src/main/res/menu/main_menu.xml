@@ -16,6 +16,10 @@
             android:icon="@drawable/menu_categories_icon"
             android:title="@string/all_categories" />
         <item
+            android:id="@+id/nav_my_favorites"
+            android:icon="@drawable/favorite_shadow"
+            android:title="@string/my_favorites" />
+        <item
             android:id="@+id/nav_add_missing_place"
             android:icon="@drawable/add_missing_place_icon"
             android:title="@string/add_missing_place" />

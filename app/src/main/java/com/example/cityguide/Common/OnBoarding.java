@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.transition.Fade;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -27,7 +25,7 @@ public class OnBoarding extends AppCompatActivity {
     LinearLayout dotsLayout;
     SliderAdapter sliderAdapter;
     TextView[] dots;
-    Button letsGetStarted;
+    Button letsGetStarted, skip;
     Animation animation;
     Button next;
     int currentPos;
@@ -48,6 +46,7 @@ public class OnBoarding extends AppCompatActivity {
         viewPager = findViewById(R.id.slider);
         dotsLayout = findViewById(R.id.dots);
         letsGetStarted = findViewById(R.id.get_started_btn);
+        skip = findViewById(R.id.skip_btn);
         next = findViewById(R.id.next_btn);
 
         //Call adapter
@@ -81,7 +80,7 @@ public class OnBoarding extends AppCompatActivity {
         }
 
         if (dots.length > 0) {
-            dots[position].setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            dots[position].setTextColor(getResources().getColor(R.color.colorPrimary));
         }
 
     }
@@ -101,17 +100,25 @@ public class OnBoarding extends AppCompatActivity {
             if (position == 0) {
                 letsGetStarted.setVisibility(View.INVISIBLE);
                 next.setVisibility(View.VISIBLE);
+                dotsLayout.setVisibility(View.VISIBLE);
+                skip.setVisibility(View.VISIBLE);
             } else if (position == 1) {
                 letsGetStarted.setVisibility(View.INVISIBLE);
                 next.setVisibility(View.VISIBLE);
+                dotsLayout.setVisibility(View.VISIBLE);
+                skip.setVisibility(View.VISIBLE);
             } else if (position == 2) {
                 letsGetStarted.setVisibility(View.INVISIBLE);
                 next.setVisibility(View.VISIBLE);
+                dotsLayout.setVisibility(View.VISIBLE);
+                skip.setVisibility(View.VISIBLE);
             } else {
                 animation = AnimationUtils.loadAnimation(OnBoarding.this, R.anim.bottom_anim);
                 letsGetStarted.setAnimation(animation);
                 letsGetStarted.setVisibility(View.VISIBLE);
                 next.setVisibility(View.INVISIBLE);
+                dotsLayout.setVisibility(View.INVISIBLE);
+                skip.setVisibility(View.INVISIBLE);
 
             }
 

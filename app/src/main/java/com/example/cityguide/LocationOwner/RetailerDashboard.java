@@ -5,14 +5,9 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.transition.Fade;
-import android.view.WindowManager;
-import android.widget.TextView;
 
-import com.example.cityguide.Databases.SessionManager;
 import com.example.cityguide.R;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
-
-import java.util.HashMap;
 
 public class RetailerDashboard extends AppCompatActivity {
 

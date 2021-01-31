@@ -1,15 +1,13 @@
 package com.example.cityguide.Common.Categories.FoodAndDrink;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.transition.Fade;
 
-import com.example.cityguide.Common.Categories.CategoriesRecyclerAdapter;
+import com.example.cityguide.Common.Categories.CategoryRecyclerAdapter;
 import com.example.cityguide.Common.Place.Place;
 import com.example.cityguide.R;
 
@@ -35,23 +33,18 @@ public class MainFoodAndDrink extends AppCompatActivity {
 
 
         lstPlace = new ArrayList<>();
-        lstPlace.add(new Place("Uzhhorod CastleUzhhorod CastleUzhhorod CastleUzhhorod Castle ", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", getResources().getString(R.string.test_place_description), R.drawable.uzh_castle_photo));
-        lstPlace.add(new Place("Uzhhorod Castle ","<a href=\"https://www.google.com/maps/search/?api=1&query=48.6245158,22.2890745&query_place_id=ChIJH7EjCboZOUcRIZPfUl0PQIg\">Show on Google maps</a>", getResources().getString(R.string.test_place_description), R.drawable.uzh_castle_photo));
-        lstPlace.add(new Place("Uzhhorod CastleUzhhorod CastleUzhhorod CastleUzhhorod Castle ", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", getResources().getString(R.string.test_place_description), R.drawable.uzh_castle_photo));
-        lstPlace.add(new Place("Uzhhorod Castle ","<a href=\"https://www.google.com/maps/search/?api=1&query=48.6245158,22.2890745&query_place_id=ChIJH7EjCboZOUcRIZPfUl0PQIg\">Show on Google maps</a>", getResources().getString(R.string.test_place_description), R.drawable.uzh_castle_photo));
-        lstPlace.add(new Place("Uzhhorod CastleUzhhorod CastleUzhhorod CastleUzhhorod Castle ", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", getResources().getString(R.string.test_place_description), R.drawable.uzh_castle_photo));
-        lstPlace.add(new Place("Uzhhorod Castle ","<a href=\"https://www.google.com/maps/search/?api=1&query=48.6245158,22.2890745&query_place_id=ChIJH7EjCboZOUcRIZPfUl0PQIg\">Show on Google maps</a>", getResources().getString(R.string.test_place_description), R.drawable.uzh_castle_photo));
-        lstPlace.add(new Place("Uzhhorod CastleUzhhorod CastleUzhhorod CastleUzhhorod Castle ", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", getResources().getString(R.string.test_place_description), R.drawable.uzh_castle_photo));
-        lstPlace.add(new Place("Uzhhorod Castle ","<a href=\"https://www.google.com/maps/search/?api=1&query=48.6245158,22.2890745&query_place_id=ChIJH7EjCboZOUcRIZPfUl0PQIg\">Show on Google maps</a>", getResources().getString(R.string.test_place_description), R.drawable.uzh_castle_photo));
-        lstPlace.add(new Place("Uzhhorod CastleUzhhorod CastleUzhhorod CastleUzhhorod Castle ", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", getResources().getString(R.string.test_place_description), R.drawable.uzh_castle_photo));
-        lstPlace.add(new Place("Uzhhorod Castle ","<a href=\"https://www.google.com/maps/search/?api=1&query=48.6245158,22.2890745&query_place_id=ChIJH7EjCboZOUcRIZPfUl0PQIg\">Show on Google maps</a>", getResources().getString(R.string.test_place_description), R.drawable.uzh_castle_photo));
-        lstPlace.add(new Place("Uzhhorod CastleUzhhorod CastleUzhhorod CastleUzhhorod Castle ", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", getResources().getString(R.string.test_place_description), R.drawable.uzh_castle_photo));
-        lstPlace.add(new Place("Uzhhorod Castle ","<a href=\"https://www.google.com/maps/search/?api=1&query=48.6245158,22.2890745&query_place_id=ChIJH7EjCboZOUcRIZPfUl0PQIg\">Show on Google maps</a>", getResources().getString(R.string.test_place_description), R.drawable.uzh_castle_photo));
-
-        RecyclerView myrv = (RecyclerView) findViewById(R.id.food_and_drink_recycler);
-        CategoriesRecyclerAdapter myAdapter = new CategoriesRecyclerAdapter(this,lstPlace);
-        myrv.setLayoutManager(new LinearLayoutManager(this));
-        myrv.setAdapter(myAdapter);
+        lstPlace.add(new Place("a","Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("b","Hodynka Hodynka Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("c","Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("d","Hodynka Hodynka Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("4","Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("5","Hodynka Hodynka Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("6","Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("7","Hodynka Hodynka Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        RecyclerView fdRV = (RecyclerView) findViewById(R.id.food_and_drink_recycler);
+        CategoryRecyclerAdapter myAdapter = new CategoryRecyclerAdapter(this,lstPlace);
+        fdRV.setLayoutManager(new LinearLayoutManager(this));
+        fdRV.setAdapter(myAdapter);
 
     }
 }

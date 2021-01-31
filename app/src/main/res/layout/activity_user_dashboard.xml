@@ -318,6 +318,7 @@
                                 android:layout_toRightOf="@id/card1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:onClick="callResidence"
                                 android:orientation="vertical">
 
                                 <RelativeLayout
@@ -385,6 +386,7 @@
                                 android:layout_toRightOf="@id/card3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:onClick="callEntertainment"
                                 android:orientation="vertical">
 
                                 <RelativeLayout

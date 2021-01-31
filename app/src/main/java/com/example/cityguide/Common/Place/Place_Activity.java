@@ -3,14 +3,10 @@ package com.example.cityguide.Common.Place;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.text.LineBreaker;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.text.method.TransformationMethod;
 import android.transition.Fade;
-import android.transition.TransitionInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,7 +34,6 @@ public class Place_Activity extends AppCompatActivity {
         tvtitle = (TextView) findViewById(R.id.txttitle);
         tvmaplink = (TextView) findViewById(R.id.map_link);
         tvdescription = (TextView) findViewById(R.id.txtDesc);
-        tvdescription.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Recieve data
         Intent intent = getIntent();
@@ -46,6 +41,7 @@ public class Place_Activity extends AppCompatActivity {
         String Title = intent.getExtras().getString("Title");
         String MapLink = intent.getExtras().getString("MapLink");
         String Description = intent.getExtras().getString("Description");
+        String FavStatus = intent.getExtras().getString("FavStatus");
 
         // Setting values
         img.setImageResource(image);

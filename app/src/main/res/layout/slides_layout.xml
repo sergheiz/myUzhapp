@@ -1,47 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/slider_image"
-        android:layout_width="0dp"
-        android:layout_height="400dp"
-        android:padding="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/sit_back_and_enjoy" />
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:padding="50dp"
+        app:srcCompat="@drawable/add_missing_place" />
 
     <TextView
         android:id="@+id/slider_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginLeft="176dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="177dp"
-        android:layout_marginRight="177dp"
-        android:fontFamily="@font/cocogoose_black"
-        android:gravity="center"
-        android:text="TextView"
+        android:fontFamily="@font/baloo"
+        android:layout_marginHorizontal="15dp"
+        android:textAlignment="center"
+        android:text="@string/third_slide_title"
         android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slider_image" />
+        android:textColor="@color/Black" />
 
     <TextView
         android:id="@+id/slider_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/first_slide_desc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slider_heading" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textAlignment="center"
+        android:layout_marginHorizontal="15dp"
+        android:textColor="@color/Black"
+        android:fontFamily="@font/muli_semibold"
+        android:text="@string/third_slide_desc" />
+</LinearLayout>

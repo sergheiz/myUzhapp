@@ -2,26 +2,21 @@ package com.example.cityguide.Common.LoginSignup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaos.view.PinView;
-import com.example.cityguide.Databases.UserHelperClass;
+import com.example.cityguide.Databases.User;
 import com.example.cityguide.R;
-import com.example.cityguide.User.UserDashboard;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -178,7 +173,7 @@ public class VerifyOTP extends AppCompatActivity {
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         DatabaseReference reference = rootNode.getReference("Users");
 
-        UserHelperClass addNewUser = new UserHelperClass(phoneNo, email, fullName, password);
+        User addNewUser = new User(phoneNo, email, fullName, password);
 
         reference.child(phoneNo).setValue(addNewUser);
         progressbar.setVisibility(View.GONE);

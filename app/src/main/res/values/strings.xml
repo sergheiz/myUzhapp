@@ -22,7 +22,7 @@
     // buttons
     <string name="skip_btn">Skip</string>
     <string name="next_btn">Next</string>
-    <string name="let_get_started">Lets Get Started</string>
+    <string name="let_get_started">"Let's GO!"</string>
 
 
     // Dashboard
@@ -55,10 +55,11 @@
     <string name="search_text">Search...</string>
 
     <!--      Menu Names      -->
-    <string name="home">HOME</string>
-    <string name="search">SEARCH</string>
-    <string name="all_categories">ALL CATEGORIES</string>
-    <string name="add_missing_place">ADD MISSING PLACE</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="all_categories">All Categories</string>
+    <string name="add_missing_place">Add Missing Place</string>
+    <string name="my_favorites">My Favorites</string>
 
     <string name="login">Login</string>
     <string name="profile">Profile</string>

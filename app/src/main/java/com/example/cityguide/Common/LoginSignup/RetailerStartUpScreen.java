@@ -2,16 +2,12 @@ package com.example.cityguide.Common.LoginSignup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.transition.Fade;
-import android.transition.Transition;
 import android.util.Pair;
 import android.view.View;
-import android.view.WindowManager;
 
 import com.example.cityguide.R;
 

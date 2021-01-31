@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Common.Categories.FoodAndDrink.MainFoodAndDrink"
-    android:background="@color/card1"
-    android:transitionName="transition_dashboard_food_and_drink">
+    tools:context=".Common.Categories.Entertainment.MainEntertainment"
+    android:background="@color/card4"
+    android:transitionName="transition_entertainment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/food_and_drink_recycler"
+        android:id="@+id/entertainment_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
 

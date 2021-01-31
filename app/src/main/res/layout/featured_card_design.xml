@@ -5,7 +5,10 @@
     android:layout_height="300dp"
     android:layout_margin="10dp"
     app:cardCornerRadius="2dp"
-    app:cardElevation="8dp">
+    app:cardElevation="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:id="@+id/featured_card">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,6 +18,7 @@
 
         <ImageView
             android:id="@+id/featured_image"
+            android:src="@drawable/uzh_castle_photo"
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:scaleType="centerCrop" />
@@ -24,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/baloo"
-            android:text="Chicken Hut"
+            android:text="Uzhhorod Castle"
             android:textColor="@color/colorAccent"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
@@ -37,7 +41,7 @@
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:rating="2.5" />
+            android:rating="4.5" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
