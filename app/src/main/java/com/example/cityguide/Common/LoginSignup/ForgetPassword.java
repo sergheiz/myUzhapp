@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cityguide.Databases.CheckInternet;
 import com.example.cityguide.R;
@@ -78,18 +79,18 @@ public class ForgetPassword extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ForgetPassword.this);
         builder.setMessage(getText(R.string.no_internet))
-                .setCancelable(false)
+                .setCancelable(true)
                 .setPositiveButton(getText(R.string.connect), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity( new Intent(Settings.ACTION_WIFI_SETTINGS));
                     }
                 })
-                .setNegativeButton(getText(R.string.cancel), new DialogInterface.OnClickListener() {
+                .setNegativeButton(getText(R.string.home), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity(new Intent(getApplicationContext(), UserDashboard.class));
-                        finish();
+                        finishAffinity();
                     }
                 });
 
@@ -148,7 +149,7 @@ public class ForgetPassword extends AppCompatActivity {
 
                     Intent intent = new Intent(getApplicationContext(), VerifyOTP.class);
                     intent.putExtra("phoneNo", _completePhoneNumber);
-                    intent.putExtra("whatToDo", "updateData");
+                    intent.putExtra("whatToDo", "setNewPassword");
                     startActivity(intent);
                     finish();
 
@@ -163,6 +164,8 @@ public class ForgetPassword extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(ForgetPassword.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });

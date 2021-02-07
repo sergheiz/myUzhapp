@@ -14,9 +14,10 @@
     <style name="navigationTheme">
         
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
 
     </style>
+
 
 
 

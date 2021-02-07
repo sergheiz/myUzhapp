@@ -15,7 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaos.view.PinView;
+import com.example.cityguide.Databases.SessionManager;
 import com.example.cityguide.Databases.User;
+import com.example.cityguide.LocationOwner.RetailerDashboard;
 import com.example.cityguide.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,8 +28,12 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.TimeUnit;
 
@@ -75,12 +81,12 @@ public class VerifyOTP extends AppCompatActivity {
         password = getIntent().getStringExtra("password");
         whatToDo = getIntent().getStringExtra("whatToDo");
 
-        otpDescriptionText.setText(getText(R.string.otp_description_text)+"\n" + phoneNo);
+        otpDescriptionText.setText(getText(R.string.otp_description_text) + "\n" + phoneNo);
 
         sendVerificationCodeToUser(phoneNo);
 
     }
-    
+
 
     private void sendVerificationCodeToUser(String phoneNo) {
 
@@ -136,15 +142,24 @@ public class VerifyOTP extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-
-                            if (whatToDo.equals("updateData")) {
+                            if (whatToDo.equals("Login")) {
                                 Toast.makeText(VerifyOTP.this, getText(R.string.otp_complete), Toast.LENGTH_SHORT).show();
-                                updateOldUsersData();
-                            } else {
-                                Toast.makeText(VerifyOTP.this, getText(R.string.otp_complete), Toast.LENGTH_SHORT).show();
-                                storeNewUsersData();
+                                login();
                             }
 
+                            if (whatToDo.equals("setNewPassword")) {
+                                Toast.makeText(VerifyOTP.this, getText(R.string.otp_complete), Toast.LENGTH_SHORT).show();
+                                setNewPassword();
+                            }
+                            if (whatToDo.equals("createNewUser")) {
+                                Toast.makeText(VerifyOTP.this, getText(R.string.otp_complete), Toast.LENGTH_SHORT).show();
+                                createNewUser();
+                            }
+
+                            if (whatToDo.equals("updatePhone")) {
+                                Toast.makeText(VerifyOTP.this, getText(R.string.otp_complete), Toast.LENGTH_SHORT).show();
+                                updatePhone();
+                            }
 
 
                         } else {
@@ -157,8 +172,38 @@ public class VerifyOTP extends AppCompatActivity {
                 });
     }
 
-    public void updateOldUsersData() {
-        Intent intent = new Intent(getApplicationContext(),SetNewPasswordx.class);
+    private void updatePhone() {
+
+        //Get data from fields
+        String o_phoneNumber = getIntent().getStringExtra("OLDphoneNo");
+
+        //Update Data in firebase
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(phoneNo).child("phoneNo").setValue(phoneNo);
+        reference.child(phoneNo).child("fullName").setValue(fullName);
+        reference.child(phoneNo).child("email").setValue(email);
+        reference.child(phoneNo).child("password").setValue(password);
+
+        reference.child(o_phoneNumber).removeValue();
+
+        SessionManager sessionManager = new SessionManager(VerifyOTP.this, SessionManager.SESSION_USERSLOGIN);
+        sessionManager.createLoginSession(phoneNo, fullName, email, password);
+
+        Toast.makeText(VerifyOTP.this, "Phone number Updated", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(getApplicationContext(), RetailerDashboard.class);
+        startActivity(intent);
+
+        progressbar.setVisibility(View.GONE);
+
+
+
+        finish();
+
+    }
+
+    public void setNewPassword() {
+        Intent intent = new Intent(getApplicationContext(), SetNewPasswordx.class);
         intent.putExtra("phoneNo", phoneNo);
         startActivity(intent);
         progressbar.setVisibility(View.GONE);
@@ -167,18 +212,41 @@ public class VerifyOTP extends AppCompatActivity {
 
     }
 
+    public void login() {
 
-    private void storeNewUsersData() {
+        SessionManager sessionManager = new SessionManager(VerifyOTP.this, SessionManager.SESSION_USERSLOGIN);
+        sessionManager.createLoginSession(phoneNo, fullName, email, password);
+
+        Intent intent = new Intent(getApplicationContext(), RetailerDashboard.class);
+        startActivity(intent);
+
+        progressbar.setVisibility(View.GONE);
+
+
+
+        finish();
+
+
+    }
+
+
+    private void createNewUser() {
 
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         DatabaseReference reference = rootNode.getReference("Users");
 
         User addNewUser = new User(phoneNo, email, fullName, password);
-
         reference.child(phoneNo).setValue(addNewUser);
+
+        SessionManager sessionManager = new SessionManager(VerifyOTP.this, SessionManager.SESSION_USERSLOGIN);
+        sessionManager.createLoginSession(phoneNo, fullName, email, password);
+
         progressbar.setVisibility(View.GONE);
 
         startActivity(new Intent(getApplicationContext(), RegistrationSuccess.class));
+
+
+
         finish();
 
     }

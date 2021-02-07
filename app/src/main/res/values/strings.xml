@@ -104,7 +104,7 @@
     <string name="val_too_large">Too large!</string>
     <string name="val_no_whitespaces">No white spaces are allowed</string>
     <string name="val_invalid_email">Invalid Email</string>
-    <string name="val_password">Password is too short</string>
+    <string name="val_too_short">Too short</string>
     <string name="val_match_password">Passwords does not match</string>
     <string name="val_gender">Please select gender</string>
     <string name="val_age">You are not eligible to apply!</string>

@@ -13,10 +13,12 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.util.Pair;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.cityguide.Common.Categories.AllCategories;
 import com.example.cityguide.Common.Categories.Entertainment.MainEntertainment;
@@ -24,16 +26,22 @@ import com.example.cityguide.Common.Categories.FoodAndDrink.MainFoodAndDrink;
 import com.example.cityguide.Common.Categories.MyFavorites.MyFavorites;
 import com.example.cityguide.Common.Categories.Residence.MainResidence;
 import com.example.cityguide.Common.Categories.Transport.TransportCategory;
+import com.example.cityguide.Common.LoginSignup.Login;
 import com.example.cityguide.Common.LoginSignup.RetailerStartUpScreen;
+import com.example.cityguide.Common.LoginSignup.VerifyOTP;
 import com.example.cityguide.Common.Place.Place;
+import com.example.cityguide.Databases.SessionManager;
 import com.example.cityguide.HelperClasses.HomeAdapter.CategoriesAdapter;
 import com.example.cityguide.HelperClasses.HomeAdapter.CategoriesHelperClass;
 import com.example.cityguide.HelperClasses.HomeAdapter.FeaturedAdapter;
 import com.example.cityguide.HelperClasses.HomeAdapter.MostViewedAdapter;
+import com.example.cityguide.LocationOwner.RetailerDashboard;
 import com.example.cityguide.R;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,16 +50,19 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     static final float END_SCALE = 0.7f;
 
-    RecyclerView  categoriesRecycler;
+    RecyclerView categoriesRecycler;
     RecyclerView.Adapter adapter;
     private GradientDrawable gradient1, gradient2, gradient3, gradient4, gradient5;
     ImageView menuIcon, expandIcon;
     RelativeLayout moreCategories;
-    List<Place> lstPlace ;
+    List<Place> lstPlace;
+
 
     //Drawer Menu
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +75,6 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         getWindow().setEnterTransition(fade);
         getWindow().setExitTransition(fade);
-
-
 
 
         //Hooks
@@ -81,8 +90,9 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         navigationView = findViewById(R.id.navigation_view);
 
 
-
         navigationDrawer();
+
+
 
 
         // Recycler Function Calls
@@ -91,12 +101,19 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         categoriesRecycler();
     }
 
+
+
+
+
     //Navigation drawer Functions
     private void navigationDrawer() {
         //Navigation drawer
+
+
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_home);
+
+
 
         menuIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +125,10 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         });
 
     }
+
+
+
+
 
 
     @Override
@@ -122,18 +143,31 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
 
-            case R.id.nav_all_categories:
-                startActivity(new Intent(getApplicationContext(), AllCategories.class));
-                break;
+
+        if (item.getItemId() == R.id.nav_all_categories) {
+            startActivity(new Intent(getApplicationContext(), AllCategories.class));
         }
 
-        switch (item.getItemId()) {
+        if (item.getItemId() == R.id.nav_my_favorites) {
+            startActivity(new Intent(getApplicationContext(), MyFavorites.class));
+        }
 
-            case R.id.nav_my_favorites:
-                startActivity(new Intent(getApplicationContext(), MyFavorites.class));
-                break;
+        if (item.getItemId() == R.id.nav_login) {
+            startActivity(new Intent(getApplicationContext(), RetailerStartUpScreen.class));
+        }
+
+        if (item.getItemId() == R.id.nav_profile) {
+            startActivity(new Intent(getApplicationContext(), RetailerStartUpScreen.class));
+        }
+
+        if (item.getItemId() == R.id.nav_logout) {
+            SessionManager logout = new SessionManager(UserDashboard.this, SessionManager.SESSION_USERSLOGIN);
+            logout.logoutUserFromSession();
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(UserDashboard.this, "Logout Success ", Toast.LENGTH_SHORT).show();
+
+
         }
 
         return true;
@@ -145,22 +179,21 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     private void featuredRecycler() {
 
         lstPlace = new ArrayList<>();
-        lstPlace.add(new Place("0","Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>","0"));
-        lstPlace.add(new Place("1","Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("2","Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork","<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>","0" ));
-        lstPlace.add(new Place("3","Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>","0"));
-        lstPlace.add(new Place("4","Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("5","Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork","<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>","0" ));
-        lstPlace.add(new Place("6","Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>","0"));
-        lstPlace.add(new Place("7","Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("8","Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork","<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>","0" ));
+        lstPlace.add(new Place("0", "Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("1", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("2", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("3", "Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("4", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("5", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("6", "Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("7", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("8", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
 
         RecyclerView featRV = (RecyclerView) findViewById(R.id.featured_recycler);
-        adapter = new FeaturedAdapter(this,lstPlace);
+        adapter = new FeaturedAdapter(this, lstPlace);
         featRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         featRV.setAdapter(adapter);
         featRV.setHasFixedSize(true);
-
 
 
         GradientDrawable gradient1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{0xffeff400, 0xffaff600});
@@ -170,18 +203,18 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     private void mostViewedRecycler() {
 
         lstPlace = new ArrayList<>();
-        lstPlace.add(new Place("0","Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>","0"));
-        lstPlace.add(new Place("1","Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("2","Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork","<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>","0" ));
-        lstPlace.add(new Place("3","Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>","0"));
-        lstPlace.add(new Place("4","Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("5","Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork","<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>","0" ));
-        lstPlace.add(new Place("6","Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>","0"));
-        lstPlace.add(new Place("7","Hodynka",R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("8","Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork","<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>","0" ));
+        lstPlace.add(new Place("0", "Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("1", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("2", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("3", "Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("4", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("5", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("6", "Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("7", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://www.google.com/maps/search/?api=1&query=48.6223666,22.297354&query_place_id=ChIJ8-VCZrEZOUcRAUKb6_Ao6rM\">Show on Google maps</a>", "0"));
+        lstPlace.add(new Place("8", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
 
         RecyclerView mvRV = (RecyclerView) findViewById(R.id.most_viewed_recycler);
-        adapter = new MostViewedAdapter(this,lstPlace);
+        adapter = new MostViewedAdapter(this, lstPlace);
         mvRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mvRV.setAdapter(adapter);
         mvRV.setHasFixedSize(true);
@@ -214,7 +247,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     }
 
-    public void callRetailerScreens(View view){
+    public void callRetailerScreens(View view) {
 
 
         Intent intent = new Intent(getApplicationContext(), RetailerStartUpScreen.class);

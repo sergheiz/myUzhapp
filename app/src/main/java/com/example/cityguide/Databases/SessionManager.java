@@ -38,25 +38,26 @@ public class SessionManager {
     }
 
     // Users Login session
-    public void createLoginSession(String fullName, String email, String phoneNumber, String password) {
+    public void createLoginSession(String phoneNumber, String fullName, String email,  String password) {
 
         editor.putBoolean(IS_LOGIN, true);
 
+
+        editor.putString(KEY_PHONENUMBER, phoneNumber);
         editor.putString(KEY_FULLNAME, fullName);
         editor.putString(KEY_EMAIL, email);
-        editor.putString(KEY_PHONENUMBER, phoneNumber);
         editor.putString(KEY_PASSWORD, password);
 
-        editor.commit();
+        editor.apply();
 
     }
 
     public HashMap<String, String> getUsersDetailFromSession() {
         HashMap<String, String> userData = new HashMap<String, String>();
 
+        userData.put(KEY_PHONENUMBER, userSession.getString(KEY_PHONENUMBER, null));
         userData.put(KEY_FULLNAME, userSession.getString(KEY_FULLNAME, null));
         userData.put(KEY_EMAIL, userSession.getString(KEY_EMAIL, null));
-        userData.put(KEY_PHONENUMBER, userSession.getString(KEY_PHONENUMBER, null));
         userData.put(KEY_PASSWORD, userSession.getString(KEY_PASSWORD, null));
 
         return userData;
@@ -64,7 +65,7 @@ public class SessionManager {
 
 
     public boolean checkLogin() {
-        if (userSession.getBoolean(IS_LOGIN, true)) {
+        if (userSession.getBoolean(IS_LOGIN, false)) {
             return true;
         } else {
             return false;
@@ -72,6 +73,7 @@ public class SessionManager {
     }
 
     public void logoutUserFromSession() {
+
         editor.clear();
         editor.commit();
 
@@ -86,7 +88,7 @@ public class SessionManager {
         editor.putString(KEY_REMEMBERMEPHONENUMBER, phoneNo);
         editor.putString(KEY_REMEMBERMEPASSWORD, password);
 
-        editor.commit();
+        editor.apply();
 
     }
 

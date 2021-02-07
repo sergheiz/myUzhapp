@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.transition.Fade;
 import android.view.View;
 
+import com.example.cityguide.LocationOwner.RetailerDashboard;
 import com.example.cityguide.R;
+import com.example.cityguide.User.UserDashboard;
 
 public class ForgetPasswordSuccessMessage extends AppCompatActivity {
 
@@ -26,8 +28,8 @@ public class ForgetPasswordSuccessMessage extends AppCompatActivity {
 
     }
 
-    public void callLoginScreen(View view) {
-        startActivity(new Intent(getApplicationContext(), Login.class));
+    public void oK(View view) {
+        startActivity(new Intent(getApplicationContext(), RetailerDashboard.class));
         finish();
     }
 

@@ -5,9 +5,9 @@ public class User {
 
     String phoneNo, email, fullName, password;
 
-    public User(){}
 
-    public User(String phoneNo, String email, String fullName, String password) {
+
+    public User( String phoneNo, String email, String fullName, String password) {
         this.phoneNo = phoneNo;
         this.email = email;
         this.fullName = fullName;
@@ -29,6 +29,7 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
 
     public String getFullName() {
         return fullName;

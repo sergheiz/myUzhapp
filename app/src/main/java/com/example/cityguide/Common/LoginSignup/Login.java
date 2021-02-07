@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.transition.Fade;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -19,8 +21,12 @@ import com.example.cityguide.Databases.SessionManager;
 import com.example.cityguide.LocationOwner.RetailerDashboard;
 import com.example.cityguide.R;
 import com.example.cityguide.User.UserDashboard;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,11 +42,14 @@ public class Login extends AppCompatActivity {
     TextInputLayout phoneNumber, password;
     RelativeLayout progressbar;
     CheckBox rememberMe;
+    Button loginBtn;
     TextInputEditText phoneNumberEditText, passwordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_retailer_login);
 
         Fade fade = new Fade();
@@ -52,6 +61,7 @@ public class Login extends AppCompatActivity {
 
 
         //hooks
+        loginBtn = findViewById(R.id.letTheUserLogin);
         countryCodePicker = findViewById(R.id.login_country_code_picker);
         phoneNumber = findViewById(R.id.login_phone_number);
         password = findViewById(R.id.login_password);
@@ -60,14 +70,122 @@ public class Login extends AppCompatActivity {
         phoneNumberEditText = findViewById(R.id.login_phone_number_editText);
         passwordEditText = findViewById(R.id.login_password_editText);
 
+
         //Check if phone number and password is already saved in Shared preferences
         SessionManager sessionManager = new SessionManager(Login.this, SessionManager.SESSION_REMEMBERME);
-        if (sessionManager.checkRememberMe()){
-            HashMap<String,String> rememberMeDetails = sessionManager.getRememberMeDetailsFromSession();
+        if (sessionManager.checkRememberMe()) {
+            HashMap<String, String> rememberMeDetails = sessionManager.getRememberMeDetailsFromSession();
             phoneNumberEditText.setText(rememberMeDetails.get(SessionManager.KEY_REMEMBERMEPHONENUMBER));
             passwordEditText.setText(rememberMeDetails.get(SessionManager.KEY_REMEMBERMEPASSWORD));
+            rememberMe.setChecked(true);
+            // loginBtn.performClick();
         }
 
+    }
+
+
+    //Loggin
+    public void letTheUserLoggedIn(View view) {
+
+
+        CheckInternet checkInternet = new CheckInternet();
+        if (!checkInternet.isConnected(this)) {
+            showCustomDialog();
+            return;
+        }
+
+        if (!validateFields()) {
+            return;
+        }
+
+        progressbar.setVisibility(View.VISIBLE);
+
+        // get data
+        String _phoneNumber = phoneNumber.getEditText().getText().toString().trim();
+        final String _password = password.getEditText().getText().toString().trim();
+        if (_phoneNumber.charAt(0) == '0') {
+            _phoneNumber = _phoneNumber.substring(1);
+        }
+        final String _completePhoneNumber = "+" + countryCodePicker.getFullNumber() + _phoneNumber;
+
+
+        if (rememberMe.isChecked()) {
+            SessionManager sessionManager = new SessionManager(Login.this, SessionManager.SESSION_REMEMBERME);
+            sessionManager.createRememberMeSession(_phoneNumber, _password);
+
+        } else {
+            SessionManager sessionManager = new SessionManager(Login.this, SessionManager.SESSION_REMEMBERME);
+            sessionManager.createRememberMeSession("", "");
+
+        }
+
+
+        //Database
+        Query checkUser = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(_completePhoneNumber);
+        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                //if phone number exist - call OTP
+                if (snapshot.exists()) {
+                    phoneNumber.setError(null);
+                    phoneNumber.setErrorEnabled(false);
+
+                    String systemPassword = snapshot.child(_completePhoneNumber).child("password").getValue(String.class);
+                    if (systemPassword.equals(_password)) {
+                        password.setError(null);
+                        password.setErrorEnabled(false);
+
+                        //get data from Firebase
+                        String _fullname = snapshot.child(_completePhoneNumber).child("fullName").getValue(String.class);
+                        String _email = snapshot.child(_completePhoneNumber).child("email").getValue(String.class);
+                        String _password = snapshot.child(_completePhoneNumber).child("password").getValue(String.class);
+
+
+                        Intent intent = new Intent(getApplicationContext(), VerifyOTP.class);
+                        intent.putExtra("phoneNo", _completePhoneNumber);
+                        intent.putExtra("email", _email);
+                        intent.putExtra("fullName", _fullname);
+                        intent.putExtra("password", _password);
+                        intent.putExtra("whatToDo", "Login");
+                        startActivity(intent);
+                        finish();
+                        progressbar.setVisibility(View.GONE);
+                    } else {
+                        progressbar.setVisibility(View.GONE);
+                        Toast.makeText(Login.this, getText(R.string.wrong_password), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    progressbar.setVisibility(View.GONE);
+                    phoneNumber.setError(getText(R.string.val_user));
+                    phoneNumber.requestFocus();
+                }
+
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                progressbar.setVisibility(View.GONE);
+                Toast.makeText(Login.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }
+
+
+    //Forget Pass
+    public void callForgetPassword(View view) {
+        startActivity(new Intent(getApplicationContext(), ForgetPassword.class));
+        finish();
+    }
+
+    public void callSignUpfromLogin(View view) {
+        startActivity(new Intent(getApplicationContext(), SignUp.class));
+        finish();
     }
 
 
@@ -76,18 +194,18 @@ public class Login extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
         builder.setMessage(getText(R.string.no_internet))
-                .setCancelable(false)
+                .setCancelable(true)
                 .setPositiveButton(getText(R.string.connect), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
                     }
                 })
-                .setNegativeButton(getText(R.string.cancel), new DialogInterface.OnClickListener() {
+                .setNegativeButton(getText(R.string.home), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity(new Intent(getApplicationContext(), UserDashboard.class));
-                        finish();
+                        finishAffinity();
                     }
                 });
 
@@ -118,98 +236,6 @@ public class Login extends AppCompatActivity {
             password.setErrorEnabled(false);
             return true;
         }
-    }
-
-
-    //Loggin
-    public void letTheUserLoggedIn(View view) {
-
-        CheckInternet checkInternet = new CheckInternet();
-        if (!checkInternet.isConnected(this)) {
-            showCustomDialog();
-            return;
-        }
-
-        if (!validateFields()) {
-            return;
-        }
-
-        progressbar.setVisibility(View.VISIBLE);
-
-        // get data
-        String _phoneNumber = phoneNumber.getEditText().getText().toString().trim();
-        final String _password = password.getEditText().getText().toString().trim();
-        if (_phoneNumber.charAt(0) == '0') {
-            _phoneNumber = _phoneNumber.substring(1);
-        }
-        final String _completePhoneNumber = "+" + countryCodePicker.getFullNumber() + _phoneNumber;
-
-        if (rememberMe.isChecked()){
-            SessionManager sessionManager = new SessionManager(Login.this, SessionManager.SESSION_REMEMBERME);
-            sessionManager.createRememberMeSession(_phoneNumber, _password);
-        }
-
-        //Database
-        Query checkUser = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(_completePhoneNumber);
-        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    phoneNumber.setError(null);
-                    phoneNumber.setErrorEnabled(false);
-
-                    String systemPassword = snapshot.child(_completePhoneNumber).child("password").getValue(String.class);
-                    if (systemPassword.equals(_password)) {
-                        password.setError(null);
-                        password.setErrorEnabled(false);
-
-                        //get data from Firebase
-                        String _fullname = snapshot.child(_completePhoneNumber).child("fullName").getValue(String.class);
-                        String _email = snapshot.child(_completePhoneNumber).child("email").getValue(String.class);
-                        String _phoneNo = snapshot.child(_completePhoneNumber).child("phoneNo").getValue(String.class);
-                        String _password = snapshot.child(_completePhoneNumber).child("password").getValue(String.class);
-
-                        //Create a Session
-                        SessionManager sessionManager = new SessionManager(Login.this, SessionManager.SESSION_USERSLOGIN);
-                        sessionManager.createLoginSession(_fullname, _email, _phoneNo, _password);
-
-                        startActivity(new Intent(getApplicationContext(), RetailerDashboard.class));
-
-                        progressbar.setVisibility(View.GONE);
-                        Toast.makeText(Login.this,  getText(R.string.login_complete)+ "\n" + _fullname + "\n" + _email + "\n" + _phoneNo, Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        progressbar.setVisibility(View.GONE);
-                        Toast.makeText(Login.this, getText(R.string.wrong_password), Toast.LENGTH_SHORT).show();
-                    }
-
-                } else {
-                    progressbar.setVisibility(View.GONE);
-                    Toast.makeText(Login.this, getText(R.string.val_user), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                progressbar.setVisibility(View.GONE);
-                Toast.makeText(Login.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-    }
-
-
-    //Forget Pass
-    public void callForgetPassword(View view) {
-        startActivity(new Intent(getApplicationContext(), ForgetPassword.class));
-        finish();
-    }
-
-    public void callSignUpfromLogin(View view) {
-        startActivity(new Intent(getApplicationContext(), SignUp.class));
-        finish();
     }
 
 

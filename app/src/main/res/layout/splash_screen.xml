@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Common.SplashScreen"
+    android:id="@+id/splash_layout"
     android:background="@color/colorPrimaryDark">
 
 
     <ImageView
-        android:paddingStart="50dp"
         android:id="@+id/background_image"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintVertical_bias=".1"
-        android:src="@drawable/splascreen_winter_img"
+        android:src="@drawable/app_image_main"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,9 +27,9 @@
         android:elegantTextHeight="true"
         android:elevation="8dp"
         android:text="@string/app_name"
-        android:textSize="60sp"
+        android:textSize="50sp"
         android:textColor="@color/colorPrimary"
-        android:fontFamily="@font/cocogoose_black"
+        android:fontFamily="@font/cocogoose_bold_italic"
         android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@+id/background_image"/>
 
@@ -38,12 +38,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="124dp"
-        android:layout_marginLeft="124dp"
         android:layout_marginEnd="125dp"
-        android:layout_marginRight="125dp"
         android:layout_marginBottom="8dp"
         android:text="@string/powered_by"
-        android:textColor="@color/White"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/background_image"
         app:layout_constraintStart_toStartOf="@+id/background_image" />
@@ -53,7 +51,6 @@
         android:id="@+id/snow"
         android:layout_width="600dp"
         android:layout_height="1200dp"
-        app:lottie_rawRes="@raw/snow_santa"
         app:lottie_loop="true"
         app:lottie_autoPlay="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,16 +60,16 @@
         />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/snowman"
+        android:id="@+id/bottom_line_anim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/snowman"
-        app:lottie_loop="true"
-        app:lottie_autoPlay="true"
         app:layout_constraintBottom_toTopOf="@id/powered_by_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/app_name"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/campfire" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

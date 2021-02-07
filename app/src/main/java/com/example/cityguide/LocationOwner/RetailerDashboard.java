@@ -27,8 +27,8 @@ public class RetailerDashboard extends AppCompatActivity {
 
 
         chipNavigationBar = findViewById(R.id.bottom_nav_menu);
-        chipNavigationBar.setItemSelected(R.id.bottom_nav_dashboard,true);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new RetailerDashboardFragment()).commit();
+        chipNavigationBar.setItemSelected(R.id.bottom_nav_profile, true);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RetailerProfileFragment()).commit();
         bottomMenu();
 
 
@@ -40,18 +40,20 @@ public class RetailerDashboard extends AppCompatActivity {
             @Override
             public void onItemSelected(int i) {
                 Fragment fragment = null;
-                switch (i){
-                    case R.id.bottom_nav_dashboard:
-                    fragment = new RetailerDashboardFragment();
-                    break;
-                    case R.id.bottom_nav_manage:
-                        fragment = new RetailerManageFragment();
-                        break;
+                switch (i) {
+
                     case R.id.bottom_nav_profile:
                         fragment = new RetailerProfileFragment();
                         break;
+                    case R.id.bottom_nav_dashboard:
+                        fragment = new RetailerDashboardFragment();
+                        break;
+                    case R.id.bottom_nav_manage:
+                        fragment = new RetailerManageFragment();
+                        break;
+
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
             }
         });
 

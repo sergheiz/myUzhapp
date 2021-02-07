@@ -46,9 +46,9 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login"
+            android:text="oK"
             android:elevation="5dp"
-            android:onClick="callLoginScreen"
+            android:onClick="oK"
             android:background="@color/colorPrimary"
             android:textColor="@color/Black"
             android:layout_margin="20dp"/>

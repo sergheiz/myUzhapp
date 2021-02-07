@@ -13,8 +13,11 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/lightWhite"
+        android:background="@color/colorPrimaryDark"
+        android:transitionName="ud_layout_transition"
         android:theme="@style/navigationTheme"
+        app:itemTextColor="@color/colorPrimary"
+        app:itemIconTint="@color/colorPrimary"
         app:headerLayout="@layout/menu_header"
         app:menu="@menu/main_menu" />
 
@@ -27,13 +30,14 @@
             android:layout_height="wrap_content">
 
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/snow"
+                android:id="@+id/dashboard_background_anim"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:scaleType="centerCrop"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/snow_santa" />
+                app:lottie_rawRes="@raw/background_summer" />
 
         </LinearLayout>
 
@@ -68,18 +72,19 @@
 
                 <TextView
                     android:id="@+id/app_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="110dp"
+                    android:layout_height="50dp"
+                    android:gravity="center"
                     android:layout_centerHorizontal="true"
                     android:layout_marginHorizontal="10dp"
-                    android:fontFamily="@font/cocogoose_black"
-                    android:shadowColor="@color/colorPrimary"
+                    android:fontFamily="@font/muli_semibold"
+                    android:shadowColor="@color/colorPrimaryDark"
                     android:shadowDx="0.0"
                     android:shadowDy="0.0"
                     android:shadowRadius="10.0"
                     android:text="@string/app_name"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="28sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="25sp" />
 
                 <ImageView
                     android:layout_width="50dp"

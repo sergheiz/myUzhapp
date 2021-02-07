@@ -2,13 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
-        android:id="@+id/bottom_nav_dashboard"
-        android:title="Dashboard"
-        android:icon="@drawable/bottom_nav_dashboard_icon"
+        android:id="@+id/bottom_nav_profile"
+        android:title="Profile"
+        android:icon="@drawable/menu_profile_icon"
         app:cnb_backgroundColor="@color/colorPrimary">
 
     </item>
+
+
 
     <item
         android:id="@+id/bottom_nav_manage"
@@ -19,11 +22,13 @@
     </item>
 
     <item
-        android:id="@+id/bottom_nav_profile"
-        android:title="Profile"
-        android:icon="@drawable/menu_profile_icon"
+        android:id="@+id/bottom_nav_dashboard"
+        android:title="Dashboard"
+        android:icon="@drawable/bottom_nav_dashboard_icon"
         app:cnb_backgroundColor="@color/colorPrimary">
 
     </item>
+
+
 
 </menu>
