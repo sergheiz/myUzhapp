@@ -108,7 +108,7 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
 
         _currentUser = user.getPhoneNumber();
 
-        //Database
+        //Get data from Database
         Query checkUser = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(_currentUser);
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -153,6 +153,30 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
             return;
         }
 
+        //Get data from Database
+        Query checkUser = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(_currentUser);
+        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (snapshot.exists()) {
+                    assert _currentUser != null;
+                    phoneNoFromDB = snapshot.child(_currentUser).child("phoneNo").getValue(String.class);
+                    fullNameFromDB = snapshot.child(_currentUser).child("fullName").getValue(String.class);
+                    emailFromDB = snapshot.child(_currentUser).child("email").getValue(String.class);
+                    passwordFromDB = snapshot.child(_currentUser).child("password").getValue(String.class);
+
+                }
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
 
 
@@ -191,11 +215,13 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
         if (!fullNameFromDB.equals(n_fullName)) {
             reference.child(n_phoneNumber).child("fullName").setValue(n_fullName);
             Toast.makeText(getContext(), "Full Name Updated", Toast.LENGTH_SHORT).show();
+            fullnameTV.setText(n_fullName);
         }
 
         if (!emailFromDB.equals(n_email)) {
             reference.child(n_phoneNumber).child("email").setValue(n_email);
             Toast.makeText(getContext(), "Email Updated", Toast.LENGTH_SHORT).show();
+            emailTV.setText(n_email);
 
         }
 
@@ -204,6 +230,9 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
             Toast.makeText(getContext(), "Password Updated" + "\n" + n_password, Toast.LENGTH_LONG).show();
 
         }
+
+        SessionManager sessionManager = new SessionManager(getContext(), SessionManager.SESSION_USERSLOGIN);
+        sessionManager.createLoginSession(n_phoneNumber, n_fullName, n_email, n_password);
 
 
     }

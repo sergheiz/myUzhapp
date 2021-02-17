@@ -86,18 +86,25 @@
 
         <RelativeLayout
             android:id="@+id/verify_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_centerInParent="true"
-            android:visibility="invisible"
-            android:padding="20dp"
-            android:elevation="8dp"
-            android:background="@drawable/white_circle">
+            android:visibility="invisible">
 
-            <ProgressBar
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerInParent="true"/>
+            <ImageView
+                android:padding="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:src="@drawable/app_image_main"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading"/>
 
         </RelativeLayout>
 

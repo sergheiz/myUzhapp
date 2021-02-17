@@ -37,6 +37,7 @@ public class Place_Activity extends AppCompatActivity {
 
         // Recieve data
         Intent intent = getIntent();
+        String KeyID = intent.getExtras().getString("KeyID");
         int image = intent.getExtras().getInt("Thumbnail");
         String Title = intent.getExtras().getString("Title");
         String MapLink = intent.getExtras().getString("MapLink");

@@ -5,6 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:transitionName="ud_layout_transition"
     tools:context=".User.UserDashboard">
 
 
@@ -13,11 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/colorPrimaryDark"
-        android:transitionName="ud_layout_transition"
+        android:background="@color/colorPrimary"
         android:theme="@style/navigationTheme"
-        app:itemTextColor="@color/colorPrimary"
-        app:itemIconTint="@color/colorPrimary"
+        app:itemTextColor="@color/colorPrimaryDark"
+        app:itemIconTint="@color/colorPrimaryDark"
         app:headerLayout="@layout/menu_header"
         app:menu="@menu/main_menu" />
 
@@ -25,21 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/dashboard_background_anim"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/background_summer" />
 
-        </LinearLayout>
 
 
         <LinearLayout
@@ -52,6 +39,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
+                android:elevation="10dp"
+                android:background="@color/colorPrimaryDark"
                 android:padding="13dp">
 
                 <ImageView
@@ -63,21 +52,22 @@
 
                 <ImageView
                     android:id="@+id/retailer_startup"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:transitionName="app_logo"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:onClick="callRetailerScreens"
-                    android:src="@drawable/add_missing_place_icon" />
+                    android:src="@drawable/app_image_main" />
 
                 <TextView
                     android:id="@+id/app_name"
+                    android:transitionName="app_name"
                     android:layout_width="110dp"
                     android:layout_height="50dp"
                     android:gravity="center"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginHorizontal="10dp"
-                    android:fontFamily="@font/muli_semibold"
+                    android:layout_toLeftOf="@id/retailer_startup"
+                    android:fontFamily="@font/cocogoose_bold_italic"
                     android:shadowColor="@color/colorPrimaryDark"
                     android:shadowDx="0.0"
                     android:shadowDy="0.0"
@@ -85,18 +75,6 @@
                     android:text="@string/app_name"
                     android:textColor="@color/colorPrimary"
                     android:textSize="25sp" />
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_toRightOf="@id/app_name"
-                    android:src="@drawable/app_image_main" />
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_toLeftOf="@id/app_name"
-                    android:src="@drawable/app_image_main" />
 
 
             </RelativeLayout>
@@ -464,6 +442,8 @@
                                 android:layout_margin="10dp"
                                 android:gravity="right"
                                 android:text="@string/featured_locations_description" />
+
+
 
                         </LinearLayout>
 

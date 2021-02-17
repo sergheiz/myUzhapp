@@ -11,62 +11,67 @@
         android:roundIcon="@mipmap/uzh_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".Common.PlaySound"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
-            android:name="com.example.cityguide.Common.Categories.MyFavorites.MyFavorites"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name="com.example.cityguide.Common.Categories.Entertainment.MainEntertainment"
+            android:name=".Common.Categories.MyFavorites.MyFavorites"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.Categories.Residence.MainResidence"
+            android:name=".Common.Categories.Entertainment.MainEntertainment"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.Place.Place_Activity"
+            android:name=".Common.Categories.Residence.MainResidence"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.Categories.FoodAndDrink.MainFoodAndDrink"
+            android:name=".Common.Place.Place_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.Categories.Transport.TransportCategory"
+            android:name=".Common.Categories.FoodAndDrink.MainFoodAndDrink"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Common.Categories.Transport.TransportCategory"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name="com.example.cityguide.LocationOwner.RetailerDashboard"
+            android:name=".LocationOwner.RetailerDashboard"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.LoginSignup.RegistrationSuccess"
+            android:name=".Common.LoginSignup.RegistrationSuccess"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.LoginSignup.SetNewPasswordx"
+            android:name=".Common.LoginSignup.SetNewPasswordx"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.LoginSignup.VerifyOTP"
+            android:name=".Common.LoginSignup.VerifyOTP"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.LoginSignup.ForgetPasswordSuccessMessage"
+            android:name=".Common.LoginSignup.ForgetPasswordSuccessMessage"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.LoginSignup.ForgetPassword"
+            android:name=".Common.LoginSignup.ForgetPassword"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.LoginSignup.SignUp"
+            android:name=".Common.LoginSignup.SignUp"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.LoginSignup.Login"
+            android:name=".Common.LoginSignup.Login"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.LoginSignup.RetailerStartUpScreen"
+            android:name=".Common.LoginSignup.RetailerStartUpScreen"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.Categories.AllCategories"
+            android:name=".Common.Categories.AllCategories"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.OnBoarding"
+            android:name=".Common.OnBoarding"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.User.UserDashboard"
+            android:name=".User.UserDashboard"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.cityguide.Common.SplashScreen"
+            android:name=".Common.SplashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

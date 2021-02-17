@@ -22,10 +22,10 @@ import com.example.cityguide.User.UserDashboard;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private static int SPLASH_TIMER = 5000;
+    private static int SPLASH_TIMER = 4000;
 
     //Variabs
-    ImageView backgroundImage;
+    ImageView logoImage;
     TextView poweredByLine, appName;
     LottieAnimationView  bottom_line_anim;
 
@@ -46,9 +46,12 @@ public class SplashScreen extends AppCompatActivity {
         getWindow().setEnterTransition(fade);
         getWindow().setExitTransition(fade);
 
+        Intent playsound = new Intent(this,PlaySound.class);
+        startService(playsound);
+
 
         //Hooks
-        backgroundImage = findViewById(R.id.background_image);
+        logoImage = findViewById(R.id.logo_image);
         appName = findViewById(R.id.app_name);
         bottom_line_anim = findViewById(R.id.bottom_line_anim);
         poweredByLine = findViewById(R.id.powered_by_line);
@@ -57,7 +60,7 @@ public class SplashScreen extends AppCompatActivity {
         zoomIN = AnimationUtils.loadAnimation(SplashScreen.this, R.anim.zoom_in_anim);
 
 
-        backgroundImage.setAnimation(zoomIN);
+        logoImage.setAnimation(zoomIN);
         appName.setAnimation(zoomIN);
         poweredByLine.setAnimation(bottomLine);
         //bottom_line_anim.setAnimation(bottomLine);
@@ -83,17 +86,20 @@ public class SplashScreen extends AppCompatActivity {
                     pairs[0] = new Pair(findViewById(R.id.splash_layout), "Onborading");
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashScreen.this, pairs);
                     startActivity(intent, options.toBundle());
+                    stopService(playsound);
                     finish();
 
                 }
                 else {
                     Intent intent = new Intent(getApplicationContext(), UserDashboard.class);
 
-                    Pair[] pairs = new Pair[1];
+                    Pair[] pairs = new Pair[3];
                     pairs[0] = new Pair(findViewById(R.id.splash_layout), "ud_layout_transition");
+                    pairs[1] = new Pair(findViewById(R.id.logo_image), "app_logo");
+                    pairs[2] = new Pair(findViewById(R.id.app_name), "app_name");
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashScreen.this, pairs);
                     startActivity(intent, options.toBundle());
-
+                    stopService(playsound);
                     finish();
 
                 }
@@ -102,8 +108,16 @@ public class SplashScreen extends AppCompatActivity {
 
 
             }
-        },SPLASH_TIMER);
+        }
+
+        ,SPLASH_TIMER);
+
+
+
+
 
 
     }
+
+
 }

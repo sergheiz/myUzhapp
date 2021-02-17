@@ -58,7 +58,8 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
 
                 Intent intent = new Intent(mContext, Place_Activity.class);
 
-                // passing data to the book activity
+                // passing data to the Place activity
+                intent.putExtra("KeyID", mData.get(position).getKeyID());
                 intent.putExtra("Title", mData.get(position).getPlaceTitle());
                 intent.putExtra("Thumbnail", mData.get(position).getPlaceThumbnail());
                 intent.putExtra("Description", mData.get(position).getPlaceDescription());

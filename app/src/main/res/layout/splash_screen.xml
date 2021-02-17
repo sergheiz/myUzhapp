@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/background_image"
+        android:id="@+id/logo_image"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintVertical_bias=".1"
@@ -31,7 +31,7 @@
         android:textColor="@color/colorPrimary"
         android:fontFamily="@font/cocogoose_bold_italic"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/background_image"/>
+        app:layout_constraintTop_toBottomOf="@+id/logo_image"/>
 
     <TextView
         android:id="@+id/powered_by_line"
@@ -43,8 +43,8 @@
         android:text="@string/powered_by"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/background_image"
-        app:layout_constraintStart_toStartOf="@+id/background_image" />
+        app:layout_constraintEnd_toEndOf="@+id/logo_image"
+        app:layout_constraintStart_toStartOf="@+id/logo_image" />
 
 
     <com.airbnb.lottie.LottieAnimationView
