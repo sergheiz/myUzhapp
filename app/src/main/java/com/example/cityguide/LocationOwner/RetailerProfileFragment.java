@@ -48,9 +48,8 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
 
     TextView fullnameTV, emailTV;
 
-    EditText phoneNumberField;
 
-    TextInputEditText emailField, fullNameField, passwordField;
+    TextInputLayout emailField, fullNameField, passwordField, phoneNumberField;
 
     String phoneNoFromDB, fullNameFromDB, emailFromDB, passwordFromDB, _currentUser;
 
@@ -70,10 +69,10 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
 
         //Hooks
         countryCodePicker = (CountryCodePicker) v.findViewById(R.id.country_code_picker);
-        phoneNumberField = (EditText) v.findViewById(R.id.phone_number);
-        fullNameField = (TextInputEditText) v.findViewById(R.id.full_name);
-        emailField = (TextInputEditText) v.findViewById(R.id.email);
-        passwordField = (TextInputEditText) v.findViewById(R.id.password);
+        phoneNumberField = (TextInputLayout) v.findViewById(R.id.phone_number);
+        fullNameField = (TextInputLayout) v.findViewById(R.id.full_name);
+        emailField = (TextInputLayout) v.findViewById(R.id.email);
+        passwordField = (TextInputLayout) v.findViewById(R.id.password);
 
 
         fullnameTV = (TextView) v.findViewById(R.id.fullname_tv);
@@ -94,14 +93,14 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
             emailTV.setText(userDetails.get(SessionManager.KEY_EMAIL));
 
 
-            phoneNumberField.setText(userDetails.get(SessionManager.KEY_PHONENUMBER).substring(4));
-            phoneNumberField.addTextChangedListener(textWatcher);
-            fullNameField.setText(userDetails.get(SessionManager.KEY_FULLNAME));
-            fullNameField.addTextChangedListener(textWatcher);
-            emailField.setText(userDetails.get(SessionManager.KEY_EMAIL));
-            emailField.addTextChangedListener(textWatcher);
-            passwordField.setText(userDetails.get(SessionManager.KEY_PASSWORD));
-            passwordField.addTextChangedListener(textWatcher);
+            phoneNumberField.getEditText().setText(userDetails.get(SessionManager.KEY_PHONENUMBER));
+            phoneNumberField.getEditText().addTextChangedListener(textWatcher);
+            fullNameField.getEditText().setText(userDetails.get(SessionManager.KEY_FULLNAME));
+            fullNameField.getEditText().addTextChangedListener(textWatcher);
+            emailField.getEditText().setText(userDetails.get(SessionManager.KEY_EMAIL));
+            emailField.getEditText().addTextChangedListener(textWatcher);
+            passwordField.getEditText().setText(userDetails.get(SessionManager.KEY_PASSWORD));
+            passwordField.getEditText().addTextChangedListener(textWatcher);
         }
 
 
@@ -182,17 +181,11 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
 
 
 
-        //Get complete phone number
-        String _getUserEnteredPhoneNumber = phoneNumberField.getText().toString().trim();
-        if (_getUserEnteredPhoneNumber.charAt(0) == '0') {
-            _getUserEnteredPhoneNumber = _getUserEnteredPhoneNumber.substring(1);
-        }
-        final String n_phoneNumber = "+" + countryCodePicker.getFullNumber() + _getUserEnteredPhoneNumber;
 
-
-        String n_fullName = fullNameField.getText().toString().trim();
-        String n_email = emailField.getText().toString().trim();
-        String n_password = passwordField.getText().toString().trim();
+        String n_phoneNumber = phoneNumberField.getEditText().getText().toString().trim();
+        String n_fullName = fullNameField.getEditText().getText().toString();
+        String n_email = emailField.getEditText().getText().toString().trim();
+        String n_password = passwordField.getEditText().getText().toString().trim();
 
 
 
@@ -287,7 +280,7 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
     // validation Functions
 
     private boolean validatePhoneNumber() {
-        String val = phoneNumberField.getText().toString().trim();
+        String val = phoneNumberField.getEditText().getText().toString().trim();
 
         if (val.isEmpty()) {
             phoneNumberField.setError(getText(R.string.val_not_empty));
@@ -298,13 +291,13 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
             return false;
         } else {
             phoneNumberField.setError(null);
-
+            phoneNumberField.setErrorEnabled(false);
             return true;
         }
     }
 
     private boolean validateFullName() {
-        String val = fullNameField.getText().toString().trim();
+        String val = fullNameField.getEditText().getText().toString();
 
         if (val.isEmpty()) {
             fullNameField.setError(getText(R.string.val_not_empty));
@@ -315,12 +308,13 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
             return false;
         } else {
             fullNameField.setError(null);
+            fullNameField.setErrorEnabled(false);
             return true;
         }
     }
 
     private boolean validateEmail() {
-        String val = emailField.getText().toString().trim();
+        String val = emailField.getEditText().getText().toString().trim();
 
         if (val.isEmpty()) {
             emailField.setError(getText(R.string.val_not_empty));
@@ -331,12 +325,13 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
             return false;
         } else {
             emailField.setError(null);
+            emailField.setErrorEnabled(false);
             return true;
         }
     }
 
     private boolean validatePassword() {
-        String val = passwordField.getText().toString().trim();
+        String val = passwordField.getEditText().getText().toString().trim();
         String noWhiteSpaces = "\\A\\w{4,20}\\z";
 
         if (val.isEmpty()) {
@@ -354,6 +349,7 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
             return false;
         } else {
             passwordField.setError(null);
+            passwordField.setErrorEnabled(false);
             return true;
         }
     }

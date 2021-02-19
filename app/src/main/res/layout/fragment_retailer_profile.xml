@@ -132,49 +132,34 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:background="@drawable/black_border">
+                    android:hint="Phone Number">
 
-                    <com.hbb20.CountryCodePicker
-                        android:id="@+id/country_code_picker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:ccp_autoDetectCountry="true"
-                        app:ccp_showFlag="true"
-                        app:ccp_showFullName="false"
-                        app:ccp_showNameCode="false" />
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
+
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Phone Number"
-                        android:id="@+id/phone_number"
                         android:drawableLeft="@drawable/field_phone_number_icon"
                         android:drawablePadding="10dp"
-                        android:inputType="phone">
+                        android:inputType="phone" />
 
 
-
-
-                    </EditText>
-
-
-                </LinearLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
 
                 <com.google.android.material.textfield.TextInputLayout
-
+                    android:id="@+id/full_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Full Name">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/full_name"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/field_username_icon"
@@ -184,13 +169,13 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
-
+                    android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/email"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/field_email_icon"
@@ -200,7 +185,7 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
-
+                    android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/enter_password"
@@ -209,7 +194,7 @@
                     app:startIconDrawable="@drawable/field_password_icon">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/password"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/field_password_icon"
@@ -222,16 +207,16 @@
 
             <Button
                 android:id="@+id/update_btn"
-                android:enabled="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
                 android:background="@color/colorPrimary"
                 android:elevation="8dp"
+                android:enabled="false"
                 android:fontFamily="@font/baloo"
                 android:paddingHorizontal="50dp"
-                android:text="UPDATE"/>
+                android:text="UPDATE" />
 
             <ImageView
                 android:layout_width="match_parent"

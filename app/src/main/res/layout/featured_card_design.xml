@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="160dp"
-    android:layout_height="300dp"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="8dp"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview_featured_place"
+    android:layout_width="350dp"
+    android:layout_height="270dp"
+    android:layout_margin="5dp"
+    cardview:cardCornerRadius="10dp"
+    cardview:strokeWidth="4dp"
+    cardview:strokeColor="@color/colorPrimaryDark"
     android:clickable="true"
-    android:focusable="true"
-    android:id="@+id/featured_card">
+    android:focusable="true">
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="15dp">
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/anim_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"/>
 
         <ImageView
-            android:id="@+id/featured_image"
-            android:src="@drawable/uzh_castle_photo"
+            android:id="@+id/place_img_id"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:scaleType="centerCrop" />
+            android:layout_height="match_parent"
+            android:foreground="@drawable/place_img_foreground"
+            android:scaleType="centerCrop"
+            android:src="@drawable/hodynka_photo" />
 
         <TextView
-            android:id="@+id/featured_title"
+            android:id="@+id/place_title_id"
+            android:layout_marginHorizontal="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/baloo"
-            android:text="Uzhhorod Castle"
-            android:textColor="@color/colorAccent"
+            android:layout_alignParentBottom="true"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:textSize="20sp" />
+            android:fontFamily="@font/cocogoose_bold_italic"
+            android:text="Place Title"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp"/>
 
-        <RatingBar
-            android:id="@+id/featured_rating"
-            style="@style/Widget.AppCompat.RatingBar.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:rating="4.5" />
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/featured_desc"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAlignment="center"
-                android:text="Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on" />
-
-        </androidx.core.widget.NestedScrollView>
-
-    </LinearLayout>
+        <Button
+            android:id="@+id/favBtn"
+            android:layout_margin="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:elevation="8dp"
+            android:background="@drawable/favorite_shadow"/>
 
 
-</androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

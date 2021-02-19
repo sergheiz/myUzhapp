@@ -2,6 +2,7 @@ package com.example.cityguide.User;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,8 +17,12 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.cityguide.Common.Categories.AllCategories;
@@ -26,10 +31,12 @@ import com.example.cityguide.Common.Categories.FoodAndDrink.MainFoodAndDrink;
 import com.example.cityguide.Common.Categories.MyFavorites.MyFavorites;
 import com.example.cityguide.Common.Categories.Residence.MainResidence;
 import com.example.cityguide.Common.Categories.Transport.TransportCategory;
+import com.example.cityguide.Common.Categories.dbAdapter;
 import com.example.cityguide.Common.LoginSignup.Login;
 import com.example.cityguide.Common.LoginSignup.RetailerStartUpScreen;
 import com.example.cityguide.Common.LoginSignup.VerifyOTP;
 import com.example.cityguide.Common.Place.Place;
+import com.example.cityguide.Common.Place.dbPlace;
 import com.example.cityguide.Databases.SessionManager;
 import com.example.cityguide.HelperClasses.HomeAdapter.CategoriesAdapter;
 import com.example.cityguide.HelperClasses.HomeAdapter.CategoriesHelperClass;
@@ -37,8 +44,10 @@ import com.example.cityguide.HelperClasses.HomeAdapter.FeaturedAdapter;
 import com.example.cityguide.HelperClasses.HomeAdapter.MostViewedAdapter;
 import com.example.cityguide.LocationOwner.RetailerDashboard;
 import com.example.cityguide.R;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,18 +59,17 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     static final float END_SCALE = 0.7f;
 
-    RecyclerView categoriesRecycler;
-    RecyclerView.Adapter adapter;
+    dbAdapter fooddbAdapter, residdbAdapter, entertdbAdapter;
     private GradientDrawable gradient1, gradient2, gradient3, gradient4, gradient5;
-    ImageView menuIcon, expandIcon;
-    RelativeLayout moreCategories;
+    ImageView menuIcon;
     List<Place> lstPlace;
+    ScrollView scrollViewMain;
+    RelativeLayout card1, card1x, food_and_drink, card2, card2x, residence, card4, card4x, entertainment;
 
 
     //Drawer Menu
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-
 
 
     @Override
@@ -78,12 +86,24 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
 
         //Hooks
-        categoriesRecycler = findViewById(R.id.categories_recycler);
+
+        card1 = findViewById(R.id.card1);
+        card1x = findViewById(R.id.card1x);
+        food_and_drink = findViewById(R.id.food_drink);
+
+
+        card2 = findViewById(R.id.card2);
+        card2x = findViewById(R.id.card2x);
+        residence = findViewById(R.id.residence);
+
+
+        card4 = findViewById(R.id.card4);
+        card4x = findViewById(R.id.card4x);
+        entertainment = findViewById(R.id.entertainment);
+
         menuIcon = findViewById(R.id.menu_icon);
 
-        expandIcon = findViewById(R.id.expand_more_categories);
-        moreCategories = findViewById(R.id.more_lines);
-
+        scrollViewMain = findViewById(R.id.main_scroll);
 
         //Menu Hooks
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -93,16 +113,77 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         navigationDrawer();
 
 
-
-
         // Recycler Function Calls
         featuredRecycler();
         mostViewedRecycler();
         categoriesRecycler();
+
+        foodRecycler();
+        residenceRecycler();
+        entertainmentRecycler();
+
+    }
+
+    private void foodRecycler() {
+
+        RecyclerView foodRV = (RecyclerView) findViewById(R.id.food_and_drink_recycler);
+        foodRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        FirebaseRecyclerOptions<dbPlace> options =
+                new FirebaseRecyclerOptions.Builder<dbPlace>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Places").child("Food and Drink"), dbPlace.class)
+                        .build();
+
+        fooddbAdapter = new dbAdapter(this, options);
+        foodRV.setAdapter(fooddbAdapter);
     }
 
 
+    private void residenceRecycler() {
 
+        RecyclerView residRV = (RecyclerView) findViewById(R.id.residence_recycler);
+        residRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        FirebaseRecyclerOptions<dbPlace> options =
+                new FirebaseRecyclerOptions.Builder<dbPlace>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Places").child("Residence"), dbPlace.class)
+                        .build();
+
+        residdbAdapter = new dbAdapter(this, options);
+        residRV.setAdapter(residdbAdapter);
+
+    }
+
+    private void entertainmentRecycler() {
+
+        RecyclerView entertRV = (RecyclerView) findViewById(R.id.entertainment_recycler);
+        entertRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        FirebaseRecyclerOptions<dbPlace> options =
+                new FirebaseRecyclerOptions.Builder<dbPlace>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Places").child("Entertainment"), dbPlace.class)
+                        .build();
+
+        entertdbAdapter = new dbAdapter(this, options);
+        entertRV.setAdapter(entertdbAdapter);
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        fooddbAdapter.startListening();
+        residdbAdapter.startListening();
+        entertdbAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        fooddbAdapter.stopListening();
+        residdbAdapter.stopListening();
+        entertdbAdapter.stopListening();
+    }
 
 
     //Navigation drawer Functions
@@ -114,8 +195,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
-        menuIcon.setOnClickListener(new View.OnClickListener() {
+        menuIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (drawerLayout.isDrawerVisible(GravityCompat.START))
@@ -125,10 +205,6 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         });
 
     }
-
-
-
-
 
 
     @Override
@@ -142,7 +218,6 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
 
 
         if (item.getItemId() == R.id.nav_all_categories) {
@@ -175,7 +250,6 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     }
 
 
-    //Recycler functions
     private void featuredRecycler() {
 
         lstPlace = new ArrayList<>();
@@ -189,16 +263,24 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         lstPlace.add(new Place("7", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://g.page/Godynka?share\">Show on Google maps</a>", "0"));
         lstPlace.add(new Place("8", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
 
-        RecyclerView featRV = (RecyclerView) findViewById(R.id.featured_recycler);
-        adapter = new FeaturedAdapter(this, lstPlace);
-        featRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        featRV.setAdapter(adapter);
-        featRV.setHasFixedSize(true);
+        RecyclerView fRV = (RecyclerView) findViewById(R.id.featured_recycler);
+        FeaturedAdapter adapter = new FeaturedAdapter(this, lstPlace);
+        fRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        fRV.setAdapter(adapter);
+        fRV.setHasFixedSize(true);
 
-
-        GradientDrawable gradient1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{0xffeff400, 0xffaff600});
-
+//        RecyclerView fRV = (RecyclerView) findViewById(R.id.featured_recycler);
+//        fRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+//
+//        FirebaseRecyclerOptions<dbPlace> options =
+//                new FirebaseRecyclerOptions.Builder<dbPlace>()
+//                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Places").child("Food and Drink"), dbPlace.class)
+//                        .build();
+//
+//        dbAdapter = new dbAdapter(this, options);
+//        fRV.setAdapter(dbAdapter);
     }
+
 
     private void mostViewedRecycler() {
 
@@ -214,7 +296,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         lstPlace.add(new Place("8", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
 
         RecyclerView mvRV = (RecyclerView) findViewById(R.id.most_viewed_recycler);
-        adapter = new MostViewedAdapter(this, lstPlace);
+        MostViewedAdapter adapter = new MostViewedAdapter(this, lstPlace);
         mvRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mvRV.setAdapter(adapter);
         mvRV.setHasFixedSize(true);
@@ -240,8 +322,10 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         Categories.add(new CategoriesHelperClass(R.drawable.transport_image, "Transport", gradient5));
 
 
+        RecyclerView categoriesRecycler = (RecyclerView) findViewById(R.id.categories_recycler);
+
         categoriesRecycler.setHasFixedSize(true);
-        adapter = new CategoriesAdapter(Categories);
+        CategoriesAdapter adapter = new CategoriesAdapter(Categories);
         categoriesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         categoriesRecycler.setAdapter(adapter);
 
@@ -259,37 +343,55 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     }
 
 
-    public void moreCategories(View view) {
-        moreCategories.setVisibility(View.VISIBLE);
-        expandIcon.setVisibility(View.GONE);
-    }
-
-    public void lessCategories(View view) {
-        moreCategories.setVisibility(View.GONE);
-        expandIcon.setVisibility(View.VISIBLE);
-    }
-
-
     public void callFoodAndDrink(View view) {
 
-        Intent intent = new Intent(getApplicationContext(), MainFoodAndDrink.class);
+        scrollViewMain.setVisibility(View.GONE);
 
-        Pair[] pairs = new Pair[1];
-        pairs[0] = new Pair(findViewById(R.id.card1), "transition_dashboard_food_and_drink");
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
-        startActivity(intent, options.toBundle());
+        card1.setBackgroundColor(ContextCompat.getColor(this, R.color.card1));
+        card2.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card4.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        food_and_drink.setVisibility(View.VISIBLE);
+        residence.setVisibility(View.GONE);
+        entertainment.setVisibility(View.GONE);
+        card1x.setVisibility(View.VISIBLE);
+        card2x.setVisibility(View.INVISIBLE);
+        card4x.setVisibility(View.INVISIBLE);
+        card1x.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card1x.setVisibility(View.INVISIBLE);
+                card1.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.transparent));
+                food_and_drink.setVisibility(View.GONE);
+                scrollViewMain.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 
 
     public void callResidence(View view) {
 
-        Intent intent = new Intent(getApplicationContext(), MainResidence.class);
+        scrollViewMain.setVisibility(View.GONE);
 
-        Pair[] pairs = new Pair[1];
-        pairs[0] = new Pair(findViewById(R.id.card2), "transition_residence");
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
-        startActivity(intent, options.toBundle());
+        card1.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card2.setBackgroundColor(ContextCompat.getColor(this, R.color.card2));
+        card4.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        food_and_drink.setVisibility(View.GONE);
+        residence.setVisibility(View.VISIBLE);
+        entertainment.setVisibility(View.GONE);
+        card1x.setVisibility(View.INVISIBLE);
+        card2x.setVisibility(View.VISIBLE);
+        card4x.setVisibility(View.INVISIBLE);
+        card2x.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card2x.setVisibility(View.INVISIBLE);
+                card2.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.transparent));
+                residence.setVisibility(View.GONE);
+                scrollViewMain.setVisibility(View.VISIBLE);
+
+            }
+        });
 
 
     }
@@ -308,12 +410,27 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     public void callEntertainment(View view) {
 
-        Intent intent = new Intent(getApplicationContext(), MainEntertainment.class);
+        scrollViewMain.setVisibility(View.GONE);
 
-        Pair[] pairs = new Pair[1];
-        pairs[0] = new Pair(findViewById(R.id.card4), "transition_entertainment");
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
-        startActivity(intent, options.toBundle());
+        card1.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card2.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card4.setBackgroundColor(ContextCompat.getColor(this, R.color.card4));
+        food_and_drink.setVisibility(View.GONE);
+        residence.setVisibility(View.GONE);
+        entertainment.setVisibility(View.VISIBLE);
+        card1x.setVisibility(View.INVISIBLE);
+        card2x.setVisibility(View.INVISIBLE);
+        card4x.setVisibility(View.VISIBLE);
+        card4x.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card4x.setVisibility(View.INVISIBLE);
+                card4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.transparent));
+                entertainment.setVisibility(View.GONE);
+                scrollViewMain.setVisibility(View.VISIBLE);
+
+            }
+        });
 
     }
 }

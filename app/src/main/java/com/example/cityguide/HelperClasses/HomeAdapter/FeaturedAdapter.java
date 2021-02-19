@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cityguide.Common.Place.Place;
 import com.example.cityguide.Common.Place.Place_Activity;
 import com.example.cityguide.R;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
@@ -37,10 +38,10 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Featur
     @Override
     public FeaturedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view;
-        LayoutInflater mInflater = LayoutInflater.from(mContext);
-        view = mInflater.inflate(R.layout.featured_card_design, parent, false);
-        return new FeaturedAdapter.FeaturedViewHolder(view);
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.featured_card_design,
+                parent, false);
+        return new FeaturedViewHolder(view);
     }
 
     @Override
@@ -49,7 +50,6 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Featur
 
         holder.image.setImageResource(mData.get(position).getPlaceThumbnail());
         holder.title.setText(mData.get(position).getPlaceTitle());
-        holder.desc.setText(mData.get(position).getPlaceDescription());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +64,7 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Featur
                 // start the activity
 
                 Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair(v.findViewById(R.id.featured_card), "place_transition");
+                pairs[0] = new Pair(v.findViewById(R.id.cardview_featured_place), "place_transition");
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, pairs);
                 mContext.startActivity(intent, options.toBundle());
 
@@ -85,25 +85,24 @@ public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.Featur
 
 
         ImageView image;
-        TextView title, desc;
-        CardView cardView;
+        TextView title;
+        MaterialCardView cardView;
 
 
         public FeaturedViewHolder(@NonNull View itemView) {
             super(itemView);
 
             //hooks
-            image = itemView.findViewById(R.id.featured_image);
+            image = itemView.findViewById(R.id.place_img_id);
 
 
-            title = itemView.findViewById(R.id.featured_title);
+            title = itemView.findViewById(R.id.place_title_id);
             title.setHorizontallyScrolling(true);
             title.setSelected(true);
 
 
-            desc = itemView.findViewById(R.id.featured_desc);
 
-            cardView = (CardView) itemView.findViewById(R.id.featured_card);
+            cardView = (MaterialCardView) itemView.findViewById(R.id.cardview_featured_place);
 
         }
 

@@ -10,6 +10,7 @@ import android.transition.Fade;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.cityguide.R;
 
 public class Place_Activity extends AppCompatActivity {
@@ -38,15 +39,21 @@ public class Place_Activity extends AppCompatActivity {
         // Recieve data
         Intent intent = getIntent();
         String KeyID = intent.getExtras().getString("KeyID");
-        int image = intent.getExtras().getInt("Thumbnail");
+        int Thumbnail = intent.getExtras().getInt("Thumbnail");
+        String dbThumbnail = intent.getExtras().getString("dbThumbnail");
         String Title = intent.getExtras().getString("Title");
         String MapLink = intent.getExtras().getString("MapLink");
         String Description = intent.getExtras().getString("Description");
         String FavStatus = intent.getExtras().getString("FavStatus");
 
         // Setting values
-        img.setImageResource(image);
-        //img.setClipToOutline(true);
+        if (dbThumbnail != null){ Glide.with(this).load(dbThumbnail).into(img);}
+        else {
+            img.setImageResource(Thumbnail);
+        }
+
+
+
 
         tvtitle.setText(Title);
         tvtitle.setHorizontallyScrolling(true);

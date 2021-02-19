@@ -38,7 +38,6 @@ public class SetNewPasswordx extends AppCompatActivity {
     TextView title, description;
     Animation animation;
     Button setNewPasswordBtn;
-    String fullNameFromDB, emailFromDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +145,9 @@ public class SetNewPasswordx extends AppCompatActivity {
         String _phoneNumber = getIntent().getStringExtra("phoneNo");
 
 
+
+
+
         //Database
         Query checkUser = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(_phoneNumber);
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -154,9 +156,12 @@ public class SetNewPasswordx extends AppCompatActivity {
 
                 if (snapshot.exists()) {
                     assert _phoneNumber != null;
-                    fullNameFromDB = snapshot.child(_phoneNumber).child("fullName").getValue(String.class);
-                    emailFromDB = snapshot.child(_phoneNumber).child("email").getValue(String.class);
+                    String fullNameFromDB = snapshot.child(_phoneNumber).child("fullName").getValue(String.class);
+                    String emailFromDB = snapshot.child(_phoneNumber).child("email").getValue(String.class);
 
+                    SessionManager sessionManager = new SessionManager(SetNewPasswordx.this, SessionManager.SESSION_USERSLOGIN);
+                    sessionManager.createLoginSession(_phoneNumber, fullNameFromDB, emailFromDB, _newPassword);
+                    finish();
                 }
 
             }
@@ -176,9 +181,7 @@ public class SetNewPasswordx extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), ForgetPasswordSuccessMessage.class);
         startActivity(intent);
 
-        SessionManager sessionManager = new SessionManager(SetNewPasswordx.this, SessionManager.SESSION_USERSLOGIN);
-        sessionManager.createLoginSession(_phoneNumber, fullNameFromDB, emailFromDB, _newPassword);
-        finish();
+
 
 
     }

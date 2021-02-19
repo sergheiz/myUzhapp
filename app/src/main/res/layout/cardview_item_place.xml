@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardview_place"
-    android:foreground="?android:attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="170dp"
-    xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
-    android:elevation="5dp"
     cardview:cardCornerRadius="10dp"
     cardview:strokeWidth="2dp"
     cardview:strokeColor="@color/Black"
@@ -19,6 +17,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="170dp">
+
+        <View
+            android:id="@+id/anim_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"/>
 
         <ImageView
             android:id="@+id/place_img_id"

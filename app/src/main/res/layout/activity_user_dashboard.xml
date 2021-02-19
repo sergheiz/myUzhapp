@@ -16,529 +16,541 @@
         android:layout_gravity="start"
         android:background="@color/colorPrimary"
         android:theme="@style/navigationTheme"
-        app:itemTextColor="@color/colorPrimaryDark"
-        app:itemIconTint="@color/colorPrimaryDark"
         app:headerLayout="@layout/menu_header"
+        app:itemIconTint="@color/colorPrimaryDark"
+        app:itemTextColor="@color/colorPrimaryDark"
         app:menu="@menu/main_menu" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
 
-
-
-
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/top_navi"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#00000000"
-            android:orientation="vertical">
+            android:layout_height="75dp"
+            android:background="@color/colorPrimaryDark"
+            android:elevation="10dp"
+            android:padding="13dp">
 
+            <ImageView
+                android:id="@+id/menu_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/menu_icon" />
+
+            <ImageView
+                android:id="@+id/retailer_startup"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:onClick="callRetailerScreens"
+                android:src="@drawable/app_image_main"
+                android:transitionName="app_logo" />
+
+            <TextView
+                android:id="@+id/app_name"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_toLeftOf="@id/retailer_startup"
+                android:fontFamily="@font/cocogoose_bold_italic"
+                android:gravity="center"
+                android:shadowColor="@color/colorPrimaryDark"
+                android:shadowDx="0.0"
+                android:shadowDy="0.0"
+                android:shadowRadius="10.0"
+                android:text="@string/app_name"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp"
+                android:transitionName="app_name" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cat_scroll">
 
             <RelativeLayout
+                android:id="@+id/food_drink"
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
-                android:elevation="10dp"
-                android:background="@color/colorPrimaryDark"
-                android:padding="13dp">
-
-                <ImageView
-                    android:id="@+id/menu_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/menu_icon" />
-
-                <ImageView
-                    android:id="@+id/retailer_startup"
-                    android:transitionName="app_logo"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:onClick="callRetailerScreens"
-                    android:src="@drawable/app_image_main" />
+                android:layout_height="match_parent"
+                android:background="@color/card1"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/app_name"
-                    android:transitionName="app_name"
-                    android:layout_width="110dp"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:layout_toLeftOf="@id/retailer_startup"
-                    android:fontFamily="@font/cocogoose_bold_italic"
-                    android:shadowColor="@color/colorPrimaryDark"
-                    android:shadowDx="0.0"
-                    android:shadowDy="0.0"
-                    android:shadowRadius="10.0"
-                    android:text="@string/app_name"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="25sp" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cocogoose_black"
+                    android:gravity="center_horizontal"
+                    android:text="@string/food"
+                    android:textColor="@color/Black"
+                    android:textSize="20sp" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/food_and_drink_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="22dp" />
 
             </RelativeLayout>
 
-
-            <ScrollView
+            <RelativeLayout
+                android:id="@+id/residence"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/card2"
+                android:visibility="gone">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cocogoose_black"
+                    android:gravity="center_horizontal"
+                    android:text="@string/residence"
+                    android:textColor="@color/Black"
+                    android:textSize="20sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/residence_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="22dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/entertainment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/card4"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cocogoose_black"
+                    android:gravity="center_horizontal"
+                    android:text="@string/entertain"
+                    android:textColor="@color/Black"
+                    android:textSize="20sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/entertainment_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="22dp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/cat_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/top_navi"
+            android:layout_marginTop="10dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <RelativeLayout
+                    android:id="@+id/card1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="callFoodAndDrink">
+
+                    <RelativeLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/card_1"
+                        android:elevation="8dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/food_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/card1x"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:visibility="invisible" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/card2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/card1"
+                    android:onClick="callResidence">
+
+                    <RelativeLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/card_2"
+                        android:elevation="8dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/residence_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/card2x"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:visibility="invisible" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/card3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/card2"
+                    android:onClick="callTransport">
+
+                    <RelativeLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/card_3"
+                        android:elevation="8dp">
+
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/transport_icon" />
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/card3x"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:visibility="invisible" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/card4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/card3"
+                    android:onClick="callEntertainment">
+
+                    <RelativeLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/card_4"
+                        android:elevation="8dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/entertainment_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/card4x"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:visibility="invisible" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/card5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/card4">
+
+                    <RelativeLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/card_5"
+                        android:elevation="8dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/shops_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/card5x"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:visibility="invisible" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/card6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/card5">
+
+                    <RelativeLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/card_6"
+                        android:elevation="8dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/bank_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/card6x"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:visibility="invisible" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/card7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/card6">
+
+                    <RelativeLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/card_7"
+                        android:elevation="8dp">
+
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/education_icon" />
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/card7x"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:visibility="invisible" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/card8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/card7">
+
+                    <RelativeLayout
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/card_8"
+                        android:elevation="8dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/other_icon" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/card8x"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:visibility="invisible" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+        </HorizontalScrollView>
+
+        <ScrollView
+            android:id="@+id/main_scroll"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/container"
+            android:visibility="visible">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <RelativeLayout
+                    android:id="@+id/featured"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/featured_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_below="@id/featured_background"
+                        android:layout_marginTop="-10dp"
+                        android:background="@drawable/round_corners"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:paddingVertical="10dp" />
+
+                    <RelativeLayout
+                        android:id="@+id/featured_background"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/round_corners"
+                        android:backgroundTint="@color/colorPrimary">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:fontFamily="@font/cocogoose_bold_italic"
+                            android:text="Featured"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="25sp" />
+
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center">
+                        android:paddingHorizontal="20dp">
 
-
-                        <RelativeLayout
-                            android:id="@+id/more_lines"
-                            android:layout_below="@id/line1"
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            android:gravity="bottom">
+                            android:fontFamily="@font/cocogoose_black"
+                            android:text="@string/most_viewed_locations"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="20sp" />
 
-                            <ImageView
-                                android:layout_centerHorizontal="true"
-                                android:onClick="lessCategories"
-                                android:layout_below="@id/card8"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/expand_less_icon"/>
-
-
-
-                            <LinearLayout
-                                android:id="@+id/card5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <RelativeLayout
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_margin="10dp"
-                                    android:background="@drawable/card_5"
-                                    android:elevation="8dp">
-
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:layout_centerInParent="true"
-                                        android:src="@drawable/bank_icon" />
-
-                                </RelativeLayout>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:text="@string/banks"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/Black" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/card6"
-                                android:layout_toRightOf="@id/card5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <RelativeLayout
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_margin="10dp"
-                                    android:background="@drawable/card_6"
-                                    android:elevation="8dp">
-
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:layout_centerInParent="true"
-                                        android:src="@drawable/shops_icon" />
-
-                                </RelativeLayout>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:text="@string/shops"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/Black" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/card7"
-                                android:layout_toRightOf="@id/card6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <RelativeLayout
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_margin="10dp"
-                                    android:background="@drawable/card_7"
-                                    android:elevation="8dp">
-
-
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:layout_centerInParent="true"
-                                        android:src="@drawable/education_icon" />
-
-
-                                </RelativeLayout>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:text="@string/education"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/Black" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/card8"
-                                android:layout_toRightOf="@id/card7"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <RelativeLayout
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_margin="10dp"
-                                    android:background="@drawable/card_8"
-                                    android:elevation="8dp">
-
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:layout_centerInParent="true"
-                                        android:src="@drawable/other_icon" />
-
-                                </RelativeLayout>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:text="@string/other"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/Black" />
-
-                            </LinearLayout>
-
-
-
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:id="@+id/line1"
-                            android:gravity="center"
+                        <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:id="@+id/expand_more_categories"
-                                android:layout_below="@id/card2"
-                                android:layout_centerHorizontal="true"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:visibility="visible"
-                                android:onClick="moreCategories"
-                                android:src="@drawable/expand_more_icon"/>
-
-                            <LinearLayout
-                                android:id="@+id/card1"
-                                android:onClick="callFoodAndDrink"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <RelativeLayout
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_margin="10dp"
-                                    android:background="@drawable/card_1"
-                                    android:elevation="8dp">
-
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:layout_centerInParent="true"
-                                        android:src="@drawable/food_icon" />
-
-                                </RelativeLayout>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:text="@string/food"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/Black" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/card2"
-                                android:layout_toRightOf="@id/card1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:onClick="callResidence"
-                                android:orientation="vertical">
-
-                                <RelativeLayout
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_margin="10dp"
-                                    android:background="@drawable/card_2"
-                                    android:elevation="8dp">
-
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:layout_centerInParent="true"
-                                        android:src="@drawable/residence_icon" />
-
-                                </RelativeLayout>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:text="@string/residence"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/Black" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/card3"
-                                android:layout_toRightOf="@id/card2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:onClick="callTransport"
-                                android:orientation="vertical">
-
-                                <RelativeLayout
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_margin="10dp"
-                                    android:background="@drawable/card_3"
-                                    android:elevation="8dp">
-
-
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:layout_centerInParent="true"
-                                        android:src="@drawable/transport_icon" />
-
-
-                                </RelativeLayout>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:text="@string/transport"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/Black" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/card4"
-                                android:layout_toRightOf="@id/card3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:onClick="callEntertainment"
-                                android:orientation="vertical">
-
-                                <RelativeLayout
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_margin="10dp"
-                                    android:background="@drawable/card_4"
-                                    android:elevation="8dp">
-
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:layout_centerInParent="true"
-                                        android:src="@drawable/entertainment_icon" />
-
-                                </RelativeLayout>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:text="@string/entertain"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/Black" />
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-
-                    </RelativeLayout>
-
-
-
-
-                    <RelativeLayout
-                        android:id="@+id/featured"
-                        android:layout_width="match_parent"
-                        android:layout_height="340dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="20dp">
-
-                        <LinearLayout
-                            android:id="@+id/featured_background"
-                            android:layout_width="170dp"
-                            android:layout_height="390dp"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="15dp"
-                            android:background="@drawable/featured_shape"
-                            android:elevation="8dp"
-                            android:orientation="vertical">
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="92dp"
-                                android:layout_marginTop="50dp"
-                                android:layout_marginRight="10dp"
-                                android:fontFamily="@font/cocogoose_black"
-                                android:gravity="right"
-                                android:text="@string/featured_locations"
-                                android:textAllCaps="true"
-                                android:textColor="@color/colorAccent"
-                                android:textSize="25sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
-                                android:gravity="right"
-                                android:text="@string/featured_locations_description" />
-
-
-
-                        </LinearLayout>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/featured_recycler"
-                            android:layout_width="match_parent"
-                            android:layout_height="400dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_toRightOf="@id/featured_background" />
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/view_all" />
 
 
                     </RelativeLayout>
 
-                    <LinearLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/most_viewed_recycler"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:paddingBottom="10dp">
+                        android:layout_height="180dp" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="20dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/cocogoose_black"
-                                android:text="@string/most_viewed_locations"
-                                android:textAllCaps="true"
-                                android:textColor="@color/colorAccent"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:text="@string/view_all" />
-
-
-                        </RelativeLayout>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/most_viewed_recycler"
-                            android:layout_width="match_parent"
-                            android:layout_height="180dp" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:paddingBottom="10dp">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="20dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/cocogoose_black"
-                                android:text="@string/categories"
-                                android:textAllCaps="true"
-                                android:textColor="@color/colorAccent"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:text="@string/view_all" />
-                        </RelativeLayout>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/categories_recycler"
-                            android:layout_width="match_parent"
-                            android:layout_height="180dp" />
-
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
-            </ScrollView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/cocogoose_black"
+                            android:text="@string/categories"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/view_all" />
+                    </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/categories_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp" />
 
 
-        </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
 
 
     </RelativeLayout>
