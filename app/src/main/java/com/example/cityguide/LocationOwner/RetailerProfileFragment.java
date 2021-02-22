@@ -14,24 +14,18 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cityguide.Common.LoginSignup.Login;
-import com.example.cityguide.Common.LoginSignup.SetNewPasswordx;
 import com.example.cityguide.Common.LoginSignup.VerifyOTP;
-import com.example.cityguide.Databases.CheckInternet;
-import com.example.cityguide.Databases.SessionManager;
+import com.example.cityguide.HelperClasses.CheckInternet;
+import com.example.cityguide.HelperClasses.SessionManager;
 import com.example.cityguide.R;
 import com.example.cityguide.User.UserDashboard;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,7 +35,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.hbb20.CountryCodePicker;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 public class RetailerProfileFragment extends Fragment implements View.OnClickListener {
 
@@ -51,9 +44,8 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
 
     TextInputLayout emailField, fullNameField, passwordField, phoneNumberField;
 
-    String phoneNoFromDB, fullNameFromDB, emailFromDB, passwordFromDB, _currentUser;
+    String phoneNoFromDB, fullNameFromDB, emailFromDB, passwordFromDB, _currentUser, dbPhone;
 
-    CountryCodePicker countryCodePicker;
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference reference;
@@ -68,7 +60,6 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
 
 
         //Hooks
-        countryCodePicker = (CountryCodePicker) v.findViewById(R.id.country_code_picker);
         phoneNumberField = (TextInputLayout) v.findViewById(R.id.phone_number);
         fullNameField = (TextInputLayout) v.findViewById(R.id.full_name);
         emailField = (TextInputLayout) v.findViewById(R.id.email);
@@ -94,7 +85,7 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
 
 
             phoneNumberField.getEditText().setText(userDetails.get(SessionManager.KEY_PHONENUMBER));
-            phoneNumberField.getEditText().addTextChangedListener(textWatcher);
+            phoneNumberField.getEditText().addTextChangedListener(PhonetextWatcher);
             fullNameField.getEditText().setText(userDetails.get(SessionManager.KEY_FULLNAME));
             fullNameField.getEditText().addTextChangedListener(textWatcher);
             emailField.getEditText().setText(userDetails.get(SessionManager.KEY_EMAIL));
@@ -184,7 +175,7 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
 
         String n_phoneNumber = phoneNumberField.getEditText().getText().toString().trim();
         String n_fullName = fullNameField.getEditText().getText().toString();
-        String n_email = emailField.getEditText().getText().toString().trim();
+        String n_email = emailField.getEditText().getText().toString();
         String n_password = passwordField.getEditText().getText().toString().trim();
 
 
@@ -207,20 +198,20 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
 
         if (!fullNameFromDB.equals(n_fullName)) {
             reference.child(n_phoneNumber).child("fullName").setValue(n_fullName);
-            Toast.makeText(getContext(), "Full Name Updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Full Name Updated!", Toast.LENGTH_SHORT).show();
             fullnameTV.setText(n_fullName);
         }
 
         if (!emailFromDB.equals(n_email)) {
             reference.child(n_phoneNumber).child("email").setValue(n_email);
-            Toast.makeText(getContext(), "Email Updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Email Updated!", Toast.LENGTH_SHORT).show();
             emailTV.setText(n_email);
 
         }
 
         if (!passwordFromDB.equals(n_password)) {
             reference.child(n_phoneNumber).child("password").setValue(n_password);
-            Toast.makeText(getContext(), "Password Updated" + "\n" + n_password, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Password Updated!" + "\n"  + "New password:" + n_password, Toast.LENGTH_LONG).show();
 
         }
 
@@ -272,6 +263,53 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
         @Override
         public void afterTextChanged(Editable s) {
 
+
+
+            Update.setEnabled(true);
+        }
+    };
+
+    private TextWatcher PhonetextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            final String _phoneNo = phoneNumberField.getEditText().getText().toString().trim();
+
+            Query queryPhone = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(_phoneNo);
+            queryPhone.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+
+                        dbPhone = snapshot.child(_phoneNo).child("phoneNo").getValue(String.class);
+
+
+
+                    } else {
+
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
             Update.setEnabled(true);
         }
     };
@@ -288,6 +326,9 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
             return false;
         } else if (val.length() > 20) {
             phoneNumberField.setError(getText(R.string.val_too_large));
+            return false;
+        } else if (val.equals(dbPhone) && !phoneNoFromDB.equals(dbPhone)) {
+            phoneNumberField.setError(getText(R.string.already_exist));
             return false;
         } else {
             phoneNumberField.setError(null);
@@ -315,10 +356,14 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
 
     private boolean validateEmail() {
         String val = emailField.getEditText().getText().toString().trim();
+        String emailRegex = "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$";
 
         if (val.isEmpty()) {
             emailField.setError(getText(R.string.val_not_empty));
             emailField.requestFocus();
+            return false;
+        } else if (!val.matches(emailRegex)) {
+            emailField.setError(getText(R.string.val_invalid_email));
             return false;
         } else if (val.length() > 30) {
             emailField.setError(getText(R.string.val_too_large));
@@ -332,14 +377,10 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
 
     private boolean validatePassword() {
         String val = passwordField.getEditText().getText().toString().trim();
-        String noWhiteSpaces = "\\A\\w{4,20}\\z";
 
         if (val.isEmpty()) {
             passwordField.setError(getText(R.string.val_not_empty));
             passwordField.requestFocus();
-            return false;
-        } else if (!val.matches(noWhiteSpaces)) {
-            passwordField.setError(getText(R.string.val_no_whitespaces));
             return false;
         } else if (val.length() < 4) {
             passwordField.setError(getText(R.string.val_too_short));

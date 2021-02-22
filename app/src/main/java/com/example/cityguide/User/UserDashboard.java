@@ -14,57 +14,53 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.util.Pair;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.example.cityguide.Common.Categories.AllCategories;
-import com.example.cityguide.Common.Categories.Entertainment.MainEntertainment;
-import com.example.cityguide.Common.Categories.FoodAndDrink.MainFoodAndDrink;
-import com.example.cityguide.Common.Categories.MyFavorites.MyFavorites;
-import com.example.cityguide.Common.Categories.Residence.MainResidence;
-import com.example.cityguide.Common.Categories.Transport.TransportCategory;
-import com.example.cityguide.Common.Categories.dbAdapter;
-import com.example.cityguide.Common.LoginSignup.Login;
+import com.example.cityguide.Common.Transport.TransportActivityMain;
+import com.example.cityguide.HelperClasses.Adapters.dbAdapter;
 import com.example.cityguide.Common.LoginSignup.RetailerStartUpScreen;
-import com.example.cityguide.Common.LoginSignup.VerifyOTP;
-import com.example.cityguide.Common.Place.Place;
-import com.example.cityguide.Common.Place.dbPlace;
-import com.example.cityguide.Databases.SessionManager;
-import com.example.cityguide.HelperClasses.HomeAdapter.CategoriesAdapter;
-import com.example.cityguide.HelperClasses.HomeAdapter.CategoriesHelperClass;
-import com.example.cityguide.HelperClasses.HomeAdapter.FeaturedAdapter;
-import com.example.cityguide.HelperClasses.HomeAdapter.MostViewedAdapter;
-import com.example.cityguide.LocationOwner.RetailerDashboard;
+import com.example.cityguide.HelperClasses.Adapters.fsAdapter;
+import com.example.cityguide.HelperClasses.Models.Place;
+import com.example.cityguide.HelperClasses.Models.dbPlace;
+import com.example.cityguide.HelperClasses.Models.fsPlace;
+import com.example.cityguide.HelperClasses.SessionManager;
+import com.example.cityguide.HelperClasses.Adapters.CategoriesAdapter;
+import com.example.cityguide.HelperClasses.Models.Category;
+import com.example.cityguide.HelperClasses.Adapters.MostViewedAdapter;
 import com.example.cityguide.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class UserDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // Variables
 
-    static final float END_SCALE = 0.7f;
 
     dbAdapter fooddbAdapter, residdbAdapter, entertdbAdapter;
+    fsAdapter featuredAdapter;
+
     private GradientDrawable gradient1, gradient2, gradient3, gradient4, gradient5;
     ImageView menuIcon;
     List<Place> lstPlace;
     ScrollView scrollViewMain;
     RelativeLayout card1, card1x, food_and_drink, card2, card2x, residence, card4, card4x, entertainment;
+
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
 
     //Drawer Menu
@@ -109,7 +105,6 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
-
         navigationDrawer();
 
 
@@ -118,11 +113,35 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         mostViewedRecycler();
         categoriesRecycler();
 
+
         foodRecycler();
         residenceRecycler();
         entertainmentRecycler();
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        featuredAdapter.startListening();
+
+        fooddbAdapter.startListening();
+        residdbAdapter.startListening();
+        entertdbAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        featuredAdapter.stopListening();
+
+        fooddbAdapter.stopListening();
+        residdbAdapter.stopListening();
+        entertdbAdapter.stopListening();
+    }
+
 
     private void foodRecycler() {
 
@@ -169,23 +188,6 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        fooddbAdapter.startListening();
-        residdbAdapter.startListening();
-        entertdbAdapter.startListening();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        fooddbAdapter.stopListening();
-        residdbAdapter.stopListening();
-        entertdbAdapter.stopListening();
-    }
-
-
     //Navigation drawer Functions
     private void navigationDrawer() {
         //Navigation drawer
@@ -220,26 +222,19 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
 
-        if (item.getItemId() == R.id.nav_all_categories) {
-            startActivity(new Intent(getApplicationContext(), AllCategories.class));
-        }
-
-        if (item.getItemId() == R.id.nav_my_favorites) {
-            startActivity(new Intent(getApplicationContext(), MyFavorites.class));
-        }
-
-        if (item.getItemId() == R.id.nav_login) {
-            startActivity(new Intent(getApplicationContext(), RetailerStartUpScreen.class));
-        }
-
         if (item.getItemId() == R.id.nav_profile) {
             startActivity(new Intent(getApplicationContext(), RetailerStartUpScreen.class));
         }
+
 
         if (item.getItemId() == R.id.nav_logout) {
             SessionManager logout = new SessionManager(UserDashboard.this, SessionManager.SESSION_USERSLOGIN);
             logout.logoutUserFromSession();
             FirebaseAuth.getInstance().signOut();
+//            ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
+//            am.clearApplicationUserData();
+
+
             Toast.makeText(UserDashboard.this, "Logout Success ", Toast.LENGTH_SHORT).show();
 
 
@@ -252,33 +247,21 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     private void featuredRecycler() {
 
-        lstPlace = new ArrayList<>();
-        lstPlace.add(new Place("0", "Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("1", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://g.page/Godynka?share\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("2", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("3", "Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("4", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://g.page/Godynka?share\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("5", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("6", "Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("7", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://g.page/Godynka?share\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("8", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
+        RecyclerView featuredRV = (RecyclerView) findViewById(R.id.featured_recycler);
+        featuredRV.setLayoutManager(new LinearLayoutManager(this));
 
-        RecyclerView fRV = (RecyclerView) findViewById(R.id.featured_recycler);
-        FeaturedAdapter adapter = new FeaturedAdapter(this, lstPlace);
-        fRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        fRV.setAdapter(adapter);
-        fRV.setHasFixedSize(true);
 
-//        RecyclerView fRV = (RecyclerView) findViewById(R.id.featured_recycler);
-//        fRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-//
-//        FirebaseRecyclerOptions<dbPlace> options =
-//                new FirebaseRecyclerOptions.Builder<dbPlace>()
-//                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Places").child("Food and Drink"), dbPlace.class)
-//                        .build();
-//
-//        dbAdapter = new dbAdapter(this, options);
-//        fRV.setAdapter(dbAdapter);
+        Query query = firebaseFirestore.collection("Places").whereGreaterThan("name", "");
+
+        FirestoreRecyclerOptions<fsPlace> options =
+                new FirestoreRecyclerOptions.Builder<fsPlace>()
+                        .setQuery(query, fsPlace.class)
+                        .build();
+
+        featuredAdapter = new fsAdapter(this, options);
+        featuredRV.setAdapter(featuredAdapter);
+        featuredRV.setHasFixedSize(true);
+
     }
 
 
@@ -314,12 +297,12 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         gradient5 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xffF1E9CE, 0xfffff});
 
 
-        ArrayList<CategoriesHelperClass> Categories = new ArrayList<>();
-        Categories.add(new CategoriesHelperClass(R.drawable.school_image, "Education", gradient1));
-        Categories.add(new CategoriesHelperClass(R.drawable.hospital_image, "HOSPITAL", gradient2));
-        Categories.add(new CategoriesHelperClass(R.drawable.restaurant_image, "Restaurant", gradient3));
-        Categories.add(new CategoriesHelperClass(R.drawable.shopping_image, "Shopping", gradient4));
-        Categories.add(new CategoriesHelperClass(R.drawable.transport_image, "Transport", gradient5));
+        ArrayList<Category> Categories = new ArrayList<>();
+        Categories.add(new Category(R.drawable.school_image, "Education", gradient1));
+        Categories.add(new Category(R.drawable.hospital_image, "HOSPITAL", gradient2));
+        Categories.add(new Category(R.drawable.restaurant_image, "Restaurant", gradient3));
+        Categories.add(new Category(R.drawable.shopping_image, "Shopping", gradient4));
+        Categories.add(new Category(R.drawable.transport_image, "Transport", gradient5));
 
 
         RecyclerView categoriesRecycler = (RecyclerView) findViewById(R.id.categories_recycler);
@@ -398,7 +381,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     public void callTransport(View view) {
 
-        Intent intent = new Intent(getApplicationContext(), TransportCategory.class);
+        Intent intent = new Intent(getApplicationContext(), TransportActivityMain.class);
 
         Pair[] pairs = new Pair[1];
         pairs[0] = new Pair(findViewById(R.id.card3), "transition_dashboard_transport");

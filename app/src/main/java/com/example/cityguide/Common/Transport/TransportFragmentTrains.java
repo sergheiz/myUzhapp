@@ -1,4 +1,4 @@
-package com.example.cityguide.Common.Categories.Transport;
+package com.example.cityguide.Common.Transport;
 
 import android.os.Bundle;
 
@@ -13,7 +13,7 @@ import android.webkit.WebViewClient;
 
 import com.example.cityguide.R;
 
-public class TransportTrainsFragment extends Fragment {
+public class TransportFragmentTrains extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -1,4 +1,4 @@
-package com.example.cityguide.Databases;
+package com.example.cityguide.HelperClasses;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

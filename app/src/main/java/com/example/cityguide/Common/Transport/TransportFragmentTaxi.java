@@ -1,4 +1,4 @@
-package com.example.cityguide.Common.Categories.Transport;
+package com.example.cityguide.Common.Transport;
 
 import android.os.Bundle;
 
@@ -14,7 +14,7 @@ import android.webkit.WebViewClient;
 import com.example.cityguide.R;
 
 
-public class TransportTaxiFragment extends Fragment {
+public class TransportFragmentTaxi extends Fragment {
 
 
     @Override

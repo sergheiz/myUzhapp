@@ -2,38 +2,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cityguide">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".OfflineFirebase"
+        android:name=".Common.Services.OfflineFirebase"
         android:allowBackup="true"
         android:icon="@mipmap/uzh_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/uzh_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service
-            android:name=".Common.PlaySound"
-            android:enabled="true"
-            android:exported="true"></service>
 
-        <activity
-            android:name=".Common.Categories.MyFavorites.MyFavorites"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Common.Categories.Entertainment.MainEntertainment"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Common.Categories.Residence.MainResidence"
-            android:screenOrientation="portrait" />
+        <service
+            android:name=".Common.Services.PlaySound"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".Common.Place.Place_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Common.Categories.FoodAndDrink.MainFoodAndDrink"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Common.Categories.Transport.TransportCategory"
+            android:name=".Common.Transport.TransportActivityMain"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".LocationOwner.RetailerDashboard"
@@ -61,9 +51,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Common.LoginSignup.RetailerStartUpScreen"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Common.Categories.AllCategories"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Common.OnBoarding"

@@ -3,10 +3,12 @@ package com.example.cityguide.Common;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.transition.Fade;
+import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,7 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.cityguide.HelperClasses.SliderAdapter;
+import com.example.cityguide.HelperClasses.Adapters.SliderAdapter;
 import com.example.cityguide.R;
 import com.example.cityguide.User.UserDashboard;
 
@@ -58,7 +60,12 @@ public class OnBoarding extends AppCompatActivity {
     }
 
     public void skip(View view) {
-        startActivity(new Intent(this, UserDashboard.class));
+        Intent intent = new Intent(getApplicationContext(), UserDashboard.class);
+
+        Pair[] pairs = new Pair[1];
+        pairs[0] = new Pair(findViewById(R.id.slider), "app_logo");
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(OnBoarding.this, pairs);
+        startActivity(intent, options.toBundle());
         finish();
     }
 
@@ -113,7 +120,7 @@ public class OnBoarding extends AppCompatActivity {
                 dotsLayout.setVisibility(View.VISIBLE);
                 skip.setVisibility(View.VISIBLE);
             } else {
-                animation = AnimationUtils.loadAnimation(OnBoarding.this, R.anim.bottom_anim);
+                animation = AnimationUtils.loadAnimation(OnBoarding.this, R.anim.slid_animation);
                 letsGetStarted.setAnimation(animation);
                 letsGetStarted.setVisibility(View.VISIBLE);
                 next.setVisibility(View.INVISIBLE);

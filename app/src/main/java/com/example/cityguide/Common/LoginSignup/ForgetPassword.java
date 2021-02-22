@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cityguide.Databases.CheckInternet;
+import com.example.cityguide.HelperClasses.CheckInternet;
 import com.example.cityguide.R;
 import com.example.cityguide.User.UserDashboard;
 import com.google.android.material.textfield.TextInputLayout;

@@ -1,4 +1,4 @@
-package com.example.cityguide;
+package com.example.cityguide.Common.Services;
 
 import android.app.Application;
 

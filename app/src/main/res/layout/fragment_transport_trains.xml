@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/card3"
     android:padding="20dp"
-    tools:context=".Common.Categories.Transport.TransportTrainsFragment">
+    tools:context=".Common.Transport.TransportFragmentTrains">
 
     <WebView
         android:id="@+id/trains_webView"

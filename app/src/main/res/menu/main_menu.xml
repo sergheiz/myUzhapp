@@ -13,10 +13,6 @@
             android:icon="@drawable/search_icon"
             android:title="@string/search" />
         <item
-            android:id="@+id/nav_all_categories"
-            android:icon="@drawable/menu_categories_icon"
-            android:title="@string/all_categories" />
-        <item
             android:id="@+id/nav_my_favorites"
             android:icon="@drawable/favorite_shadow"
             android:title="@string/my_favorites" />
@@ -32,10 +28,6 @@
 
             <group android:checkableBehavior="none">
 
-                <item
-                    android:id="@+id/nav_login"
-                    android:icon="@drawable/menu_login_icon"
-                    android:title="@string/login"/>
                 <item
                     android:id="@+id/nav_profile"
                     android:icon="@drawable/menu_profile_icon"

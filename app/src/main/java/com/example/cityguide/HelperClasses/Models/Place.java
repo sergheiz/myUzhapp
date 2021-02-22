@@ -1,4 +1,4 @@
-package com.example.cityguide.Common.Place;
+package com.example.cityguide.HelperClasses.Models;
 
 public class Place {
 

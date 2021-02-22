@@ -1,4 +1,4 @@
-package com.example.cityguide.HelperClasses;
+package com.example.cityguide.HelperClasses.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

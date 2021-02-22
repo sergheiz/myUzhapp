@@ -10,12 +10,9 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.cityguide.Databases.SessionManager;
 import com.example.cityguide.LocationOwner.RetailerDashboard;
 import com.example.cityguide.R;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.HashMap;
 
 
 public class RetailerStartUpScreen extends AppCompatActivity {

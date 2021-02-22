@@ -154,12 +154,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
+                android:id="@+id/next_btn"
+                android:enabled="false"
+                android:onClick="callOTPScreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
                 android:background="@color/Black"
                 android:elevation="8dp"
-                android:onClick="callOTPScreen"
                 android:text="@string/next_btn"
                 android:textColor="@color/White" />
 

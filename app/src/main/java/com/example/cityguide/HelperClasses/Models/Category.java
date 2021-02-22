@@ -1,14 +1,14 @@
-package com.example.cityguide.HelperClasses.HomeAdapter;
+package com.example.cityguide.HelperClasses.Models;
 
 import android.graphics.drawable.Drawable;
 
-public class CategoriesHelperClass {
+public class Category {
 
     int image;
     String title;
     Drawable gradient;
 
-    public CategoriesHelperClass(int image, String title, Drawable gradient) {
+    public Category(int image, String title, Drawable gradient) {
         this.image = image;
         this.title = title;
         this.gradient = gradient;

@@ -1,4 +1,4 @@
-package com.example.cityguide.Common;
+package com.example.cityguide.Common.Services;
 
 import android.app.Service;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.example.cityguide.Databases;
+package com.example.cityguide.HelperClasses;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,6 +14,7 @@ public class SessionManager {
     //Session names
     public static final String SESSION_USERSLOGIN = "userLoginSession";
     public static final String SESSION_REMEMBERME = "rememberMe";
+    public static final String SESSION_EXISTENCE = "existence";
 
     //User session vars
     private static final String IS_LOGIN = "IsLoggedIn";
@@ -27,6 +28,12 @@ public class SessionManager {
 
     public static final String KEY_REMEMBERMEPHONENUMBER = "phoneNumber";
     public static final String KEY_REMEMBERMEPASSWORD = "password";
+
+
+    //Existence vars
+    private static final String IS_EXISTENCE = "IsExistence";
+
+    public static final String KEY_EXISTENCE = "existence";
 
 
     //Constructor
@@ -107,6 +114,42 @@ public class SessionManager {
         } else {
             return false;
         }
+    }
+
+
+    // Existence session
+    public void createExistenceSession(String existence) {
+
+        editor.putBoolean(IS_EXISTENCE, true);
+
+
+        editor.putString(KEY_EXISTENCE, existence);
+        editor.apply();
+
+    }
+
+    public HashMap<String, String> getDatafromExistence() {
+        HashMap<String, String> data = new HashMap<String, String>();
+
+        data.put(KEY_EXISTENCE, userSession.getString(KEY_EXISTENCE, null));
+
+        return data;
+    }
+
+
+    public boolean checkExistence() {
+        if (userSession.getBoolean(IS_EXISTENCE, false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void clearExistence() {
+
+        editor.clear();
+        editor.commit();
+
     }
 
 

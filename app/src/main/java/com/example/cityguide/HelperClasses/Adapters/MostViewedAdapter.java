@@ -1,4 +1,4 @@
-package com.example.cityguide.HelperClasses.HomeAdapter;
+package com.example.cityguide.HelperClasses.Adapters;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cityguide.Common.Place.Place;
+import com.example.cityguide.HelperClasses.Models.Place;
 import com.example.cityguide.Common.Place.Place_Activity;
 import com.example.cityguide.R;
 

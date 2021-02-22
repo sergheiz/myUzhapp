@@ -1,4 +1,4 @@
-package com.example.cityguide.HelperClasses.HomeAdapter;
+package com.example.cityguide.HelperClasses.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +10,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cityguide.HelperClasses.Models.Category;
 import com.example.cityguide.R;
 
 import java.util.ArrayList;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.AdapterAllCategoriesViewHolder> {
 
-    ArrayList<CategoriesHelperClass> Categories;
+    ArrayList<Category> Categories;
 
-    public CategoriesAdapter(ArrayList<CategoriesHelperClass> mostViewedLocations) {
+    public CategoriesAdapter(ArrayList<Category> mostViewedLocations) {
         this.Categories = mostViewedLocations;
     }
 
@@ -33,7 +34,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ad
     @Override
     public void onBindViewHolder(@NonNull AdapterAllCategoriesViewHolder holder, int position) {
 
-        CategoriesHelperClass helperClass = Categories.get(position);
+        Category helperClass = Categories.get(position);
         holder.imageView.setImageResource(helperClass.getImage());
         holder.textView.setText(helperClass.getTitile());
         holder.relativeLayout.setBackground(helperClass.getGradient());

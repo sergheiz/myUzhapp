@@ -122,12 +122,15 @@
     <string name="login_complete">Logged in Success!</string>
     <string name="wrong_password">Wrong password!</string>
     <string name="val_user">No such user exist</string>
+    <string name="already_exist">Already exist</string>
 
 
     //custom dialog internet
     <string name="no_internet">No internet connection!</string>
+    <string name="no_internet_first_start">Internet connection is required, for first time launch</string>
     <string name="connect">Connect</string>
     <string name="cancel">Cancel</string>
+    <string name="finish">Close app</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

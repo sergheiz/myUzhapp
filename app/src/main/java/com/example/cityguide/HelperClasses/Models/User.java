@@ -1,4 +1,4 @@
-package com.example.cityguide.Databases;
+package com.example.cityguide.HelperClasses.Models;
 
 
 public class User {

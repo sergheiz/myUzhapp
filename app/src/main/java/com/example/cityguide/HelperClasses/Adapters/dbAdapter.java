@@ -1,4 +1,4 @@
-package com.example.cityguide.Common.Categories;
+package com.example.cityguide.HelperClasses.Adapters;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -13,19 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.cityguide.Common.Place.Place;
 import com.example.cityguide.Common.Place.Place_Activity;
-import com.example.cityguide.Common.Place.dbPlace;
+import com.example.cityguide.HelperClasses.Models.dbPlace;
 import com.example.cityguide.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.card.MaterialCardView;
-
-import java.util.List;
 
 public class dbAdapter extends FirebaseRecyclerAdapter<dbPlace, dbAdapter.myviewholder> {
 
