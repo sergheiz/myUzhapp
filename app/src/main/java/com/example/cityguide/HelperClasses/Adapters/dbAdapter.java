@@ -52,7 +52,7 @@ public class dbAdapter extends FirebaseRecyclerAdapter<dbPlace, dbAdapter.myview
                 // start the activity
 
                 Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair(v.findViewById(R.id.anim_view), "place_transition");
+                pairs[0] = new Pair(v.findViewById(R.id.list_anim_view), "place_transition");
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, pairs);
                 mContext.startActivity(intent, options.toBundle());
 
@@ -76,13 +76,13 @@ public class dbAdapter extends FirebaseRecyclerAdapter<dbPlace, dbAdapter.myview
 
         public myviewholder(@NonNull View itemView) {
             super(itemView);
-            tv_place_title = (TextView) itemView.findViewById(R.id.place_title_id);
+            tv_place_title = (TextView) itemView.findViewById(R.id.list_place_title);
             tv_place_title.setHorizontallyScrolling(true);
             tv_place_title.setSelected(true);
 
 
-            img_place_thumbnail = (ImageView) itemView.findViewById(R.id.place_img_id);
-            cardView = (MaterialCardView) itemView.findViewById(R.id.cardview_place);
+            img_place_thumbnail = (ImageView) itemView.findViewById(R.id.list_place_img);
+            cardView = (MaterialCardView) itemView.findViewById(R.id.list_cardview);
         }
     }
 }

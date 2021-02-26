@@ -1,19 +1,24 @@
 package com.example.cityguide.Common.LoginSignup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.Fade;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.cityguide.HelperClasses.CheckInternet;
@@ -42,6 +47,7 @@ public class SignUp extends AppCompatActivity {
 
     Button nextBtn;
 
+
      String dbPhone;
 
     @Override
@@ -59,15 +65,26 @@ public class SignUp extends AppCompatActivity {
 
 
         //Hooks
+
+
         countryCodePicker = findViewById(R.id.country_code_picker);
         phoneNumber = findViewById(R.id.signup_phone_number);
-        phoneNumber.getEditText().addTextChangedListener(textWatcher);
+        phoneNumber.getEditText().addTextChangedListener(PhonetextWatcher);
+
 
         fullName = findViewById(R.id.signup_fullname);
+
+
         email = findViewById(R.id.signup_email);
         password = findViewById(R.id.signup_password);
 
         nextBtn = findViewById(R.id.next_btn);
+
+
+
+    }
+
+    private void Reading() {
 
 
 
@@ -141,15 +158,17 @@ public class SignUp extends AppCompatActivity {
     }
 
 
-    private TextWatcher textWatcher = new TextWatcher() {
+    private TextWatcher PhonetextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
 
 
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+
 
 
 
@@ -187,7 +206,11 @@ public class SignUp extends AppCompatActivity {
                 }
             });
 
+            Toast.makeText(SignUp.this, "reading", Toast.LENGTH_SHORT).show();
+
+
             nextBtn.setEnabled(true);
+
         }
     };
 
@@ -211,7 +234,6 @@ public class SignUp extends AppCompatActivity {
 
         if (val.isEmpty()) {
             phoneNumber.setError(getText(R.string.val_not_empty));
-            phoneNumber.requestFocus();
             return false;
         } else if (val.length() > 9) {
             phoneNumber.setError(getText(R.string.val_too_large));

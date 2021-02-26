@@ -39,6 +39,7 @@
 
 
         <LinearLayout
+            android:id="@+id/fields"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
@@ -55,6 +56,7 @@
                 app:ccp_showFlag="true"
                 app:ccp_showFullName="true"
                 app:ccp_showNameCode="true" />
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/signup_phone_number"
@@ -155,7 +157,7 @@
 
             <Button
                 android:id="@+id/next_btn"
-                android:enabled="false"
+                android:enabled="true"
                 android:onClick="callOTPScreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

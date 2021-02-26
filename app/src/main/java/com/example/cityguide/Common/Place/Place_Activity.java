@@ -43,6 +43,7 @@ public class Place_Activity extends AppCompatActivity {
         String dbThumbnail = intent.getExtras().getString("dbThumbnail");
         String Title = intent.getExtras().getString("Title");
         String MapLink = intent.getExtras().getString("MapLink");
+        String Category = intent.getExtras().getString("Category");
         String Description = intent.getExtras().getString("Description");
         String FavStatus = intent.getExtras().getString("FavStatus");
 
@@ -51,9 +52,6 @@ public class Place_Activity extends AppCompatActivity {
         else {
             img.setImageResource(Thumbnail);
         }
-
-
-
 
         tvtitle.setText(Title);
         tvtitle.setHorizontallyScrolling(true);

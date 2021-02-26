@@ -7,6 +7,7 @@ public class fsPlace {
     String maplink;
     String imgurl;
     String category;
+    String documentId;
 
     fsPlace()
     {
@@ -36,6 +37,7 @@ public class fsPlace {
         this.description = description;
     }
 
+
     public String getMaplink() {
         return maplink;
     }
@@ -61,6 +63,13 @@ public class fsPlace {
     }
 
 
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
 
 
 

@@ -37,9 +37,11 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
 
     @Override
     protected void onBindViewHolder(@NonNull fsAdapter.myviewholder holder, int position, @NonNull fsPlace fsPlace) {
-        holder.tv_place_title.setText(fsPlace.getName());
-        Glide.with(holder.img_place_thumbnail.getContext()).load(fsPlace.getImgurl()).into(holder.img_place_thumbnail);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.list_place_title.setText(fsPlace.getName());
+        holder.list_category.setText(fsPlace.getCategory());
+
+        Glide.with(holder.list_place_img.getContext()).load(fsPlace.getImgurl()).into(holder.list_place_img);
+        holder.list_cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -49,11 +51,12 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
                 intent.putExtra("Title", fsPlace.getName());
                 intent.putExtra("Description", fsPlace.getDescription());
                 intent.putExtra("MapLink", fsPlace.getMaplink());
+                intent.putExtra("Category", fsPlace.getCategory());
                 intent.putExtra("dbThumbnail", fsPlace.getImgurl());
                 // start the activity
 
                 Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair(v.findViewById(R.id.anim_view), "place_transition");
+                pairs[0] = new Pair(v.findViewById(R.id.list_anim_view), "place_transition");
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, pairs);
                 mContext.startActivity(intent, options.toBundle());
 
@@ -66,24 +69,27 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
     @Override
     public fsAdapter.myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_item_place, parent, false);
-        return new fsAdapter.myviewholder(view);
+        return new myviewholder(view);
     }
 
-    class myviewholder extends RecyclerView.ViewHolder {
-        TextView tv_place_title;
-        ImageView img_place_thumbnail;
+    static class myviewholder extends RecyclerView.ViewHolder {
+        TextView list_place_title, list_category;
+        ImageView list_place_img;
         Button favBtn;
-        MaterialCardView cardView;
+        MaterialCardView list_cardView;
 
         public myviewholder(@NonNull View itemView) {
             super(itemView);
-            tv_place_title = (TextView) itemView.findViewById(R.id.place_title_id);
-            tv_place_title.setHorizontallyScrolling(true);
-            tv_place_title.setSelected(true);
+            list_category = (TextView) itemView.findViewById(R.id.list_place_category);
 
 
-            img_place_thumbnail = (ImageView) itemView.findViewById(R.id.place_img_id);
-            cardView = (MaterialCardView) itemView.findViewById(R.id.cardview_place);
+            list_place_title = (TextView) itemView.findViewById(R.id.list_place_title);
+            list_place_title.setHorizontallyScrolling(true);
+            list_place_title.setSelected(true);
+
+
+            list_place_img = (ImageView) itemView.findViewById(R.id.list_place_img);
+            list_cardView = (MaterialCardView) itemView.findViewById(R.id.list_cardview);
         }
     }
 }

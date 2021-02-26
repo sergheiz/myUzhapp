@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardview_place"
+    android:id="@+id/list_cardview"
     android:layout_width="400dp"
     android:layout_height="170dp"
     android:layout_margin="5dp"
@@ -19,13 +19,20 @@
         android:layout_height="170dp">
 
         <View
-            android:id="@+id/anim_view"
+            android:id="@+id/list_anim_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_centerInParent="true"/>
 
+        <TextView
+            android:id="@+id/list_place_category"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"/>
+
+
         <ImageView
-            android:id="@+id/place_img_id"
+            android:id="@+id/list_place_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:foreground="@drawable/place_img_foreground"
@@ -33,7 +40,7 @@
             android:src="@drawable/uzh_castle_photo" />
 
         <TextView
-            android:id="@+id/place_title_id"
+            android:id="@+id/list_place_title"
             android:layout_marginHorizontal="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +55,7 @@
             android:textSize="30sp"/>
 
         <Button
-            android:id="@+id/favBtn"
+            android:id="@+id/list_favBtn"
             android:layout_margin="10dp"
             android:layout_alignParentEnd="true"
             android:layout_width="40dp"

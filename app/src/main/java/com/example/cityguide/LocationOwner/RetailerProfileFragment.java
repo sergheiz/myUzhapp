@@ -324,7 +324,7 @@ public class RetailerProfileFragment extends Fragment implements View.OnClickLis
             phoneNumberField.setError(getText(R.string.val_not_empty));
             phoneNumberField.requestFocus();
             return false;
-        } else if (val.length() > 20) {
+        } else if (val.length() > 13) {
             phoneNumberField.setError(getText(R.string.val_too_large));
             return false;
         } else if (val.equals(dbPhone) && !phoneNoFromDB.equals(dbPhone)) {

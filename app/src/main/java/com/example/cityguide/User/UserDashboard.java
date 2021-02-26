@@ -23,6 +23,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.cityguide.Common.Transport.TransportActivityMain;
+import com.example.cityguide.HelperClasses.Adapters.FeaturedAdapter;
 import com.example.cityguide.HelperClasses.Adapters.dbAdapter;
 import com.example.cityguide.Common.LoginSignup.RetailerStartUpScreen;
 import com.example.cityguide.HelperClasses.Adapters.fsAdapter;
@@ -35,12 +36,19 @@ import com.example.cityguide.HelperClasses.Models.Category;
 import com.example.cityguide.HelperClasses.Adapters.MostViewedAdapter;
 import com.example.cityguide.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +58,10 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     // Variables
 
 
-    dbAdapter fooddbAdapter, residdbAdapter, entertdbAdapter;
-    fsAdapter featuredAdapter;
+    dbAdapter  residdbAdapter, entertdbAdapter;
+    FeaturedAdapter featuredAdapter;
+
+    fsAdapter foodAdapter;
 
     private GradientDrawable gradient1, gradient2, gradient3, gradient4, gradient5;
     ImageView menuIcon;
@@ -61,6 +71,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private CollectionReference placesRef = firebaseFirestore.collection("Places");
 
 
     //Drawer Menu
@@ -115,8 +126,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
 
         foodRecycler();
-        residenceRecycler();
-        entertainmentRecycler();
+//        residenceRecycler();
+//        entertainmentRecycler();
 
     }
 
@@ -126,9 +137,9 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         featuredAdapter.startListening();
 
-        fooddbAdapter.startListening();
-        residdbAdapter.startListening();
-        entertdbAdapter.startListening();
+        foodAdapter.startListening();
+//        residdbAdapter.startListening();
+//        entertdbAdapter.startListening();
     }
 
     @Override
@@ -137,9 +148,29 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         featuredAdapter.stopListening();
 
-        fooddbAdapter.stopListening();
-        residdbAdapter.stopListening();
-        entertdbAdapter.stopListening();
+        foodAdapter.stopListening();
+//        residdbAdapter.stopListening();
+//        entertdbAdapter.stopListening();
+    }
+
+
+    private void featuredRecycler() {
+
+        RecyclerView featuredRV = (RecyclerView) findViewById(R.id.featured_recycler);
+        featuredRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+
+        Query query = placesRef.whereEqualTo("name", "Hodynka");
+
+        FirestoreRecyclerOptions<fsPlace> options =
+                new FirestoreRecyclerOptions.Builder<fsPlace>()
+                        .setQuery(query, fsPlace.class)
+                        .build();
+
+        featuredAdapter = new FeaturedAdapter(this, options);
+        featuredRV.setAdapter(featuredAdapter);
+        featuredRV.setHasFixedSize(true);
+
     }
 
 
@@ -148,13 +179,29 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         RecyclerView foodRV = (RecyclerView) findViewById(R.id.food_and_drink_recycler);
         foodRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        FirebaseRecyclerOptions<dbPlace> options =
-                new FirebaseRecyclerOptions.Builder<dbPlace>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Places").child("Food and Drink"), dbPlace.class)
+
+        Query query = placesRef.whereGreaterThan("category", "residence");
+
+        FirestoreRecyclerOptions<fsPlace> options =
+                new FirestoreRecyclerOptions.Builder<fsPlace>()
+                        .setQuery(query, fsPlace.class)
                         .build();
 
-        fooddbAdapter = new dbAdapter(this, options);
-        foodRV.setAdapter(fooddbAdapter);
+        foodAdapter = new fsAdapter(this, options);
+        foodRV.setAdapter(foodAdapter);
+
+
+
+//        RecyclerView foodRV = (RecyclerView) findViewById(R.id.food_and_drink_recycler);
+//        foodRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+//
+//        FirebaseRecyclerOptions<dbPlace> options =
+//                new FirebaseRecyclerOptions.Builder<dbPlace>()
+//                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Places").child("Food and Drink"), dbPlace.class)
+//                        .build();
+//
+//        foodAdapter = new fsAdapter(this, options);
+//        foodRV.setAdapter(foodAdapter);
     }
 
 
@@ -245,24 +292,6 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     }
 
 
-    private void featuredRecycler() {
-
-        RecyclerView featuredRV = (RecyclerView) findViewById(R.id.featured_recycler);
-        featuredRV.setLayoutManager(new LinearLayoutManager(this));
-
-
-        Query query = firebaseFirestore.collection("Places").whereGreaterThan("name", "");
-
-        FirestoreRecyclerOptions<fsPlace> options =
-                new FirestoreRecyclerOptions.Builder<fsPlace>()
-                        .setQuery(query, fsPlace.class)
-                        .build();
-
-        featuredAdapter = new fsAdapter(this, options);
-        featuredRV.setAdapter(featuredAdapter);
-        featuredRV.setHasFixedSize(true);
-
-    }
 
 
     private void mostViewedRecycler() {
