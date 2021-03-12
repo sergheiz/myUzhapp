@@ -9,86 +9,246 @@
     tools:context=".Common.Place.Place_Activity">
 
 
-
-
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/White">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/map_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_below="@id/img_thumbnail"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/show_on_map_image" />
-
-
-        <ImageView
-            android:id="@+id/img_thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:foreground="@drawable/place_img_foreground"
-            android:scaleType="centerCrop"
-            android:src="@drawable/uzh_castle_photo" />
-
-        <TextView
-            android:id="@+id/txttitle"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/img_thumbnail"
-            android:layout_marginHorizontal="10dp"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle"
-            android:textColor="@color/Black"
-            android:fontFamily="@font/baloo"
-            android:textSize="30sp" />
+            android:background="@color/White">
 
 
-        <TextView
-            android:id="@+id/map_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/map_icon"
-            android:layout_toRightOf="@id/map_icon"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="Show on Google maps"
-            android:textColor="#0000EE"
-            android:textSize="20sp" />
+            <ImageView
+                android:id="@+id/map_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/img_thumbnail"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/show_on_map_image" />
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/map_link"
-            android:layout_margin="10dp">
 
-            <TextView
-                android:id="@+id/txtDesc"
+            <ImageView
+                android:id="@+id/img_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:foreground="@drawable/place_img_foreground"
+                android:scaleType="centerCrop"
+                android:src="@drawable/uzh_castle_photo" />
+
+            <EditText
+                android:id="@+id/edit_imgurl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/test_place_description"
+                android:layout_alignLeft="@id/img_thumbnail"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="100dp"
+                android:hint="Place Image Link"
+                android:singleLine="true"
+                android:textSize="30sp"
+                android:visibility="invisible" />
+
+            <LinearLayout
+                android:id="@+id/group_layout"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/edit_txttitle"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/muli_semibold"
+                    android:text="Choose Group:"
+                    android:textColor="@color/Black"
+                    android:textSize="18sp" />
+
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:background="@drawable/black_border"
+                        android:padding="5dp"
+                        android:id="@+id/food"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/food" />
+
+                    <RadioButton
+                        android:background="@drawable/black_border"
+                        android:padding="5dp"
+                        android:id="@+id/resid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/residence" />
+
+                    <RadioButton
+                        android:background="@drawable/black_border"
+                        android:padding="5dp"
+                        android:id="@+id/entert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/entertain" />
+
+                </RadioGroup>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/Black" />
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/txttitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/img_thumbnail"
+                android:layout_marginHorizontal="10dp"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/baloo"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle"
+                android:textColor="@color/Black"
+                android:textSize="30sp" />
+
+            <EditText
+                android:id="@+id/edit_txttitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/img_thumbnail"
+                android:layout_marginHorizontal="10dp"
+                android:fontFamily="@font/baloo"
+                android:hint="Place Title"
+                android:singleLine="true"
+                android:textSize="30sp"
+                android:visibility="invisible" />
+
+
+            <TextView
+                android:id="@+id/map_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/map_icon"
+                android:layout_toRightOf="@id/map_icon"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Show on Google maps"
+                android:textColor="#0000EE"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/edit_map_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/map_icon"
+                android:layout_toRightOf="@id/map_icon"
+                android:hint="Place Map Link"
+                android:singleLine="true"
+                android:textColor="#0000EE"
+                android:textSize="20sp"
+                android:visibility="invisible" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/map_link"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/txtDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Placeholder Description text"
+                    android:textAlignment="center"
+                    android:textIsSelectable="true"
+                    android:textSize="16sp" />
+
+            </androidx.core.widget.NestedScrollView>
+
+            <EditText
+                android:id="@+id/edit_txtDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/map_link"
+                android:hint="Place Description"
+                android:textAlignment="center"
                 android:textSize="16sp"
-                android:textAlignment="center"/>
-
-        </androidx.core.widget.NestedScrollView>
+                android:visibility="invisible" />
 
 
+        </RelativeLayout>
 
+    </ScrollView>
 
-    </RelativeLayout>
-
-    <ImageView
-        android:layout_margin="10dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:elevation="8dp"
-        android:src="@drawable/favorite_shadow"/>
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/like"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:elevation="8dp"
+            android:src="@drawable/favorite_shadow" />
+
+        <ImageView
+            android:id="@+id/edit"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:elevation="8dp"
+            android:foreground="@drawable/black_border"
+            android:onClick="EditPlace"
+            android:src="@drawable/edit_icon"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/cancel_edit"
+            android:onClick="CancelEdit"
+            app:tint="@color/Black"
+            android:background="@color/colorPrimary"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:elevation="8dp"
+            android:foreground="@drawable/black_border"
+            android:src="@drawable/general_close_icon"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/save_edit"
+            android:onClick="SaveData"
+            app:tint="@color/Black"
+            android:background="@color/colorPrimary"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:elevation="8dp"
+            android:foreground="@drawable/black_border"
+            android:src="@drawable/skip_icon"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

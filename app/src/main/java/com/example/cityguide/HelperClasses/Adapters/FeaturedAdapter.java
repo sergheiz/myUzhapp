@@ -51,12 +51,13 @@ public class FeaturedAdapter extends FirestoreRecyclerAdapter<fsPlace, FeaturedA
                 intent.putExtra("Title", fsPlace.getName());
                 intent.putExtra("Description", fsPlace.getDescription());
                 intent.putExtra("MapLink", fsPlace.getMaplink());
-                intent.putExtra("Category", fsPlace.getCategory());
-                intent.putExtra("dbThumbnail", fsPlace.getImgurl());
+                intent.putExtra("Group", fsPlace.getGroup());
+                intent.putExtra("Imgurl", fsPlace.getImgurl());
+                intent.putExtra("DocumentID", fsPlace.getDocumentId());
                 // start the activity
 
                 Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair(v.findViewById(R.id.f_anim_view), "place_transition");
+                pairs[0] = new Pair(v.findViewById(R.id.f_anim_id), "place_transition");
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, pairs);
                 mContext.startActivity(intent, options.toBundle());
 
@@ -73,14 +74,15 @@ public class FeaturedAdapter extends FirestoreRecyclerAdapter<fsPlace, FeaturedA
     }
 
     class featuredviewholder extends RecyclerView.ViewHolder {
-        TextView feat_title, feat_category;
+        TextView feat_title, feat_group;
         ImageView feat_img;
         Button feat_favBtn;
         MaterialCardView feat_card;
 
         public featuredviewholder(@NonNull View itemView) {
             super(itemView);
-            feat_category = (TextView) itemView.findViewById(R.id.feat_category);
+
+            feat_group = (TextView) itemView.findViewById(R.id.feat_group_id);
 
 
             feat_title = (TextView) itemView.findViewById(R.id.feat_place_title_id);

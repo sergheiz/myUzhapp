@@ -106,9 +106,10 @@
     <string name="val_invalid_email">Invalid Email</string>
     <string name="val_too_short">Too short</string>
     <string name="val_match_password">Passwords does not match</string>
-    <string name="val_gender">Please select gender</string>
+    <string name="val_select">Please select one</string>
     <string name="val_age">You are not eligible to apply!</string>
     <string name="val_phone">Enter valid phone number</string>
+    <string name="val_maplink">Invalid Google maps link</string>
 
     //OTP
     <string name="otp_code_text">Code</string>

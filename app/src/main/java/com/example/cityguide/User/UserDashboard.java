@@ -8,7 +8,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -22,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.example.cityguide.Common.Place.Place_Activity;
 import com.example.cityguide.Common.Transport.TransportActivityMain;
 import com.example.cityguide.HelperClasses.Adapters.FeaturedAdapter;
 import com.example.cityguide.HelperClasses.Adapters.dbAdapter;
@@ -34,6 +38,7 @@ import com.example.cityguide.HelperClasses.SessionManager;
 import com.example.cityguide.HelperClasses.Adapters.CategoriesAdapter;
 import com.example.cityguide.HelperClasses.Models.Category;
 import com.example.cityguide.HelperClasses.Adapters.MostViewedAdapter;
+import com.example.cityguide.LocationOwner.RetailerDashboard;
 import com.example.cityguide.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -58,10 +63,9 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     // Variables
 
 
-    dbAdapter  residdbAdapter, entertdbAdapter;
     FeaturedAdapter featuredAdapter;
 
-    fsAdapter foodAdapter;
+    fsAdapter foodAdapter, residAdapter, entertAdapter;
 
     private GradientDrawable gradient1, gradient2, gradient3, gradient4, gradient5;
     ImageView menuIcon;
@@ -126,8 +130,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
 
         foodRecycler();
-//        residenceRecycler();
-//        entertainmentRecycler();
+        residenceRecycler();
+        entertainmentRecycler();
 
     }
 
@@ -138,8 +142,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         featuredAdapter.startListening();
 
         foodAdapter.startListening();
-//        residdbAdapter.startListening();
-//        entertdbAdapter.startListening();
+        residAdapter.startListening();
+        entertAdapter.startListening();
     }
 
     @Override
@@ -149,8 +153,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         featuredAdapter.stopListening();
 
         foodAdapter.stopListening();
-//        residdbAdapter.stopListening();
-//        entertdbAdapter.stopListening();
+        residAdapter.stopListening();
+        entertAdapter.stopListening();
     }
 
 
@@ -160,7 +164,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         featuredRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
 
-        Query query = placesRef.whereEqualTo("name", "Hodynka");
+        Query query = placesRef.whereNotEqualTo("name",null).orderBy("name", Query.Direction.ASCENDING).limit(3);
 
         FirestoreRecyclerOptions<fsPlace> options =
                 new FirestoreRecyclerOptions.Builder<fsPlace>()
@@ -180,7 +184,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         foodRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
 
-        Query query = placesRef.whereGreaterThan("category", "residence");
+        Query query = placesRef.whereEqualTo("group", "Food and Drink");
 
         FirestoreRecyclerOptions<fsPlace> options =
                 new FirestoreRecyclerOptions.Builder<fsPlace>()
@@ -190,18 +194,6 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         foodAdapter = new fsAdapter(this, options);
         foodRV.setAdapter(foodAdapter);
 
-
-
-//        RecyclerView foodRV = (RecyclerView) findViewById(R.id.food_and_drink_recycler);
-//        foodRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-//
-//        FirebaseRecyclerOptions<dbPlace> options =
-//                new FirebaseRecyclerOptions.Builder<dbPlace>()
-//                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Places").child("Food and Drink"), dbPlace.class)
-//                        .build();
-//
-//        foodAdapter = new fsAdapter(this, options);
-//        foodRV.setAdapter(foodAdapter);
     }
 
 
@@ -210,13 +202,16 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         RecyclerView residRV = (RecyclerView) findViewById(R.id.residence_recycler);
         residRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        FirebaseRecyclerOptions<dbPlace> options =
-                new FirebaseRecyclerOptions.Builder<dbPlace>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Places").child("Residence"), dbPlace.class)
+
+        Query query = placesRef.whereEqualTo("group", "Residence");
+
+        FirestoreRecyclerOptions<fsPlace> options =
+                new FirestoreRecyclerOptions.Builder<fsPlace>()
+                        .setQuery(query, fsPlace.class)
                         .build();
 
-        residdbAdapter = new dbAdapter(this, options);
-        residRV.setAdapter(residdbAdapter);
+        residAdapter = new fsAdapter(this, options);
+        residRV.setAdapter(residAdapter);
 
     }
 
@@ -225,13 +220,16 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         RecyclerView entertRV = (RecyclerView) findViewById(R.id.entertainment_recycler);
         entertRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        FirebaseRecyclerOptions<dbPlace> options =
-                new FirebaseRecyclerOptions.Builder<dbPlace>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Places").child("Entertainment"), dbPlace.class)
+
+        Query query = placesRef.whereEqualTo("group", "Entertainment");
+
+        FirestoreRecyclerOptions<fsPlace> options =
+                new FirestoreRecyclerOptions.Builder<fsPlace>()
+                        .setQuery(query, fsPlace.class)
                         .build();
 
-        entertdbAdapter = new dbAdapter(this, options);
-        entertRV.setAdapter(entertdbAdapter);
+        entertAdapter = new fsAdapter(this, options);
+        entertRV.setAdapter(entertAdapter);
     }
 
 
@@ -268,6 +266,40 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+
+        if (item.getItemId() == R.id.nav_add_missing_place) {
+
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            if (mAuth.getCurrentUser() != null) {
+
+                Intent intent = new Intent(getApplicationContext(), Place_Activity.class);
+
+                // passing data to the Place activity
+                intent.putExtra("WhatToDo", "Create New Place");
+
+                intent.putExtra("Title", "");
+                intent.putExtra("Description", "");
+                intent.putExtra("MapLink", "");
+                intent.putExtra("Group", "");
+                intent.putExtra("DocumentID", "");
+                intent.putExtra("Imgurl", "");
+                // start the activity
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair(findViewById(R.id.nav_add_missing_place), "place_transition");
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
+                startActivity(intent, options.toBundle());
+            } else {
+                Intent intent = new Intent(getApplicationContext(), RetailerStartUpScreen.class);
+
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair(findViewById(R.id.nav_add_missing_place), "transition_retailer");
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
+                startActivity(intent, options.toBundle());
+            }
+
+
+
+        }
 
         if (item.getItemId() == R.id.nav_profile) {
             startActivity(new Intent(getApplicationContext(), RetailerStartUpScreen.class));

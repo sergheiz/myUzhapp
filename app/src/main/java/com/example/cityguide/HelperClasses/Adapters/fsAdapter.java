@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,8 +39,6 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
     @Override
     protected void onBindViewHolder(@NonNull fsAdapter.myviewholder holder, int position, @NonNull fsPlace fsPlace) {
         holder.list_place_title.setText(fsPlace.getName());
-        holder.list_category.setText(fsPlace.getCategory());
-
         Glide.with(holder.list_place_img.getContext()).load(fsPlace.getImgurl()).into(holder.list_place_img);
         holder.list_cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,8 +50,10 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
                 intent.putExtra("Title", fsPlace.getName());
                 intent.putExtra("Description", fsPlace.getDescription());
                 intent.putExtra("MapLink", fsPlace.getMaplink());
-                intent.putExtra("Category", fsPlace.getCategory());
-                intent.putExtra("dbThumbnail", fsPlace.getImgurl());
+                intent.putExtra("Group", fsPlace.getGroup());
+                intent.putExtra("DocumentID", fsPlace.getDocumentId());
+
+                intent.putExtra("Imgurl", fsPlace.getImgurl());
                 // start the activity
 
                 Pair[] pairs = new Pair[1];
@@ -73,14 +74,16 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
     }
 
     static class myviewholder extends RecyclerView.ViewHolder {
-        TextView list_place_title, list_category;
+        TextView list_place_title, list_group;
         ImageView list_place_img;
         Button favBtn;
         MaterialCardView list_cardView;
 
         public myviewholder(@NonNull View itemView) {
             super(itemView);
-            list_category = (TextView) itemView.findViewById(R.id.list_place_category);
+
+
+            list_group = (TextView) itemView.findViewById(R.id.list_group_id);
 
 
             list_place_title = (TextView) itemView.findViewById(R.id.list_place_title);
