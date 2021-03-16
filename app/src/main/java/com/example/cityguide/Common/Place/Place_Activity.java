@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -47,7 +48,7 @@ import java.util.List;
 public class Place_Activity extends AppCompatActivity {
 
     private TextView tvtitle, tvdescription, tvmaplink;
-    private EditText edititle, editdescription, editmaplink, editImgUrl;
+    private TextInputLayout edititle, editdescription, editmaplink, editImgUrl;
     private ImageView img;
     private ImageView cancel, save, edit, like;
     private RadioGroup radioGroup;
@@ -89,10 +90,10 @@ public class Place_Activity extends AppCompatActivity {
         entert = (RadioButton) findViewById(R.id.entert);
 
 
-        editImgUrl = (EditText) findViewById(R.id.edit_imgurl);
-        edititle = (EditText) findViewById(R.id.edit_txttitle);
-        editmaplink = (EditText) findViewById(R.id.edit_map_link);
-        editdescription = (EditText) findViewById(R.id.edit_txtDesc);
+        editImgUrl = findViewById(R.id.edit_imgurl);
+        edititle =  findViewById(R.id.edit_txttitle);
+        editmaplink =  findViewById(R.id.edit_map_link);
+        editdescription = findViewById(R.id.edit_txtDesc);
 
 
         // Recieve data
@@ -101,7 +102,6 @@ public class Place_Activity extends AppCompatActivity {
         Imgurl = intent.getExtras().getString("Imgurl");
 
         WhatToDo = intent.getExtras().getString("WhatToDo");
-
 
 
         Title = intent.getExtras().getString("Title");
@@ -143,13 +143,13 @@ public class Place_Activity extends AppCompatActivity {
 
         //Edit fields
 
-        edititle.setText(Title);
+        edititle.getEditText().setText(Title);
 
-        editImgUrl.setText(Imgurl);
+        editImgUrl.getEditText().setText(Imgurl);
 
-        editmaplink.setText(MapLink);
+        editmaplink.getEditText().setText(MapLink);
 
-        editdescription.setText(Description);
+        editdescription.getEditText().setText(Description);
 
         /**
          //Chech if user is the owner!!!!!!
@@ -260,18 +260,19 @@ public class Place_Activity extends AppCompatActivity {
             return;
         }
 
-        selectedGroup= findViewById(radioGroup.getCheckedRadioButtonId());
-        String n_group = selectedGroup.getText().toString();
-
-
-        String n_imgUrl = editImgUrl.getText().toString();
-        String n_title = edititle.getText().toString();
-        String n_maplink = editmaplink.getText().toString();
-        String n_description = editdescription.getText().toString();
 
         if (!validateTitle() | !validateDescription() | !validateImgUrl() | !validateMapLink() | !validateGroup()) {
             return;
         }
+
+        selectedGroup = findViewById(radioGroup.getCheckedRadioButtonId());
+        String n_group = selectedGroup.getText().toString();
+
+
+        String n_imgUrl = editImgUrl.getEditText().getText().toString();
+        String n_title = edititle.getEditText().getText().toString();
+        String n_maplink = editmaplink.getEditText().getText().toString();
+        String n_description = editdescription.getEditText().getText().toString();
 
         Query query = FirebaseFirestore.getInstance()
                 .collection("Places").whereEqualTo("name", Title);
@@ -292,7 +293,7 @@ public class Place_Activity extends AppCompatActivity {
                                     public void onSuccess(Void aVoid) {
                                         Imgurl = n_imgUrl;
                                         Glide.with(img.getContext()).load(Imgurl).placeholder(R.drawable.image_placeholder).into(img);
-                                        editImgUrl.setText(Imgurl);
+                                        editImgUrl.getEditText().setText(Imgurl);
                                         Toast.makeText(getApplicationContext(), "Image Updated", Toast.LENGTH_SHORT).show();
 
                                     }
@@ -333,7 +334,7 @@ public class Place_Activity extends AppCompatActivity {
                                     public void onSuccess(Void aVoid) {
                                         Title = n_title;
                                         tvtitle.setText(Title);
-                                        edititle.setText(Title);
+                                        edititle.getEditText().setText(Title);
                                         Toast.makeText(getApplicationContext(), "Title Updated", Toast.LENGTH_SHORT).show();
 
                                     }
@@ -373,7 +374,7 @@ public class Place_Activity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         MapLink = n_maplink;
-                                        editmaplink.setText(MapLink);
+                                        editmaplink.getEditText().setText(MapLink);
                                         fullMapLink = "<a href=" + MapLink + ">Show on Google maps</a>";
                                         tvmaplink.setText(fullMapLink);
                                         tvmaplink.setClickable(true);
@@ -420,7 +421,7 @@ public class Place_Activity extends AppCompatActivity {
                                     public void onSuccess(Void aVoid) {
                                         Description = n_description;
                                         tvdescription.setText(Description);
-                                        editdescription.setText(Description);
+                                        editdescription.getEditText().setText(Description);
                                         Toast.makeText(getApplicationContext(), "Description Updated", Toast.LENGTH_SHORT).show();
 
                                     }
@@ -513,7 +514,7 @@ public class Place_Activity extends AppCompatActivity {
     private boolean validateTitle() {
 
 
-        String val = edititle.getText().toString();
+        String val = edititle.getEditText().getText().toString();
 
         if (val.isEmpty()) {
             edititle.setError(getText(R.string.val_not_empty));
@@ -523,6 +524,7 @@ public class Place_Activity extends AppCompatActivity {
             return false;
         } else {
             edititle.setError(null);
+            edititle.setErrorEnabled(false);
             return true;
         }
     }
@@ -530,7 +532,7 @@ public class Place_Activity extends AppCompatActivity {
     private boolean validateDescription() {
 
 
-        String val = editdescription.getText().toString();
+        String val = editdescription.getEditText().getText().toString();
 
         if (val.isEmpty()) {
             editdescription.setError(getText(R.string.val_not_empty));
@@ -540,6 +542,7 @@ public class Place_Activity extends AppCompatActivity {
             return false;
         } else {
             editdescription.setError(null);
+            editdescription.setErrorEnabled(false);
             return true;
         }
     }
@@ -547,13 +550,14 @@ public class Place_Activity extends AppCompatActivity {
     private boolean validateImgUrl() {
 
 
-        String val = editImgUrl.getText().toString().trim();
+        String val = editImgUrl.getEditText().getText().toString().trim();
 
         if (val.isEmpty()) {
             editImgUrl.setError(getText(R.string.val_not_empty));
             return false;
         } else {
             editImgUrl.setError(null);
+            editImgUrl.setErrorEnabled(false);
             return true;
         }
     }
@@ -561,17 +565,18 @@ public class Place_Activity extends AppCompatActivity {
     private boolean validateMapLink() {
 
 
-        String val = editmaplink.getText().toString().trim();
-        String start = val.substring(0, Math.min(val.length(), 18));
+        String val = editmaplink.getEditText().getText().toString().trim();
+        String start = val.substring(0, Math.min(val.length(), 8));
 
         if (val.isEmpty()) {
             editmaplink.setError(getText(R.string.val_not_empty));
             return false;
-        } else if (!start.equals("https://goo.gl/map")) {
+        } else if (!start.equals("https://")) {
             editdescription.setError(getText(R.string.val_maplink));
             return false;
         } else {
             editmaplink.setError(null);
+            editmaplink.setErrorEnabled(false);
             return true;
         }
     }

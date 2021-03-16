@@ -48,7 +48,7 @@ public class SignUp extends AppCompatActivity {
     Button nextBtn;
 
 
-     String dbPhone;
+     String dbPhone, n_phoneNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,15 +80,12 @@ public class SignUp extends AppCompatActivity {
 
         nextBtn = findViewById(R.id.next_btn);
 
+//
+//        nextBtn.setEnabled(false);
 
 
     }
 
-    private void Reading() {
-
-
-
-    }
 
 
     public void callOTPScreen(View view) {
@@ -99,6 +96,14 @@ public class SignUp extends AppCompatActivity {
             showCustomDialog();
             return;
         }
+
+
+
+        if (!validateFullName() | !validatePhoneNumber() | !validateEmail() | !validatePassword()) {
+            return;
+        }
+
+
 
 
         String _fullName = fullName.getEditText().getText().toString();
@@ -114,16 +119,17 @@ public class SignUp extends AppCompatActivity {
 
 
 
-        if (!validateFullName() | !validatePhoneNumber() | !validateEmail() | !validatePassword()) {
-            return;
-        }
+
+        Toast.makeText(SignUp.this, "reading", Toast.LENGTH_SHORT).show();
+
+
 
         Intent intent = new Intent(getApplicationContext(), VerifyOTP.class);
 
         intent.putExtra("fullName", _fullName);
         intent.putExtra("email", _email);
         intent.putExtra("password", _password);
-        intent.putExtra("phoneNo", _phoneNo);
+        intent.putExtra("phoneNo", n_phoneNo);
         intent.putExtra("whatToDo", "createNewUser"); // This is to identify that which action should OTP perform after verification.
 
 
@@ -170,6 +176,7 @@ public class SignUp extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
+            nextBtn.setEnabled(true);
 
 
         }
@@ -177,23 +184,21 @@ public class SignUp extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable s) {
 
+            //Get complete phone number
             String _getUserEnteredPhoneNumber = phoneNumber.getEditText().getText().toString().trim();
             if (_getUserEnteredPhoneNumber.charAt(0) == '0') {
                 _getUserEnteredPhoneNumber = _getUserEnteredPhoneNumber.substring(1);
             }
-            final String _phoneNo = "+" + countryCodePicker.getFullNumber() + _getUserEnteredPhoneNumber;
+            n_phoneNo = "+" + countryCodePicker.getFullNumber() + _getUserEnteredPhoneNumber;
 
-            Query queryPhone = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(_phoneNo);
+            Query queryPhone = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(n_phoneNo);
             queryPhone.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
 
-                        dbPhone = snapshot.child(_phoneNo).child("phoneNo").getValue(String.class);
-
-
-
-                    } else {
+                        dbPhone = snapshot.child(n_phoneNo).child("phoneNo").getValue(String.class);
+                        n_phoneNo = dbPhone;
 
 
                     }
@@ -206,10 +211,7 @@ public class SignUp extends AppCompatActivity {
                 }
             });
 
-            Toast.makeText(SignUp.this, "reading", Toast.LENGTH_SHORT).show();
 
-
-            nextBtn.setEnabled(true);
 
         }
     };
@@ -218,16 +220,6 @@ public class SignUp extends AppCompatActivity {
     // validation Functions
 
     private boolean validatePhoneNumber() {
-
-          //Get complete phone number
-        String _getUserEnteredPhoneNumber = phoneNumber.getEditText().getText().toString().trim();
-        if (_getUserEnteredPhoneNumber.charAt(0) == '0') {
-            _getUserEnteredPhoneNumber = _getUserEnteredPhoneNumber.substring(1);
-        }
-        String _phoneNo = "+" + countryCodePicker.getFullNumber() + _getUserEnteredPhoneNumber;
-
-
-
 
 
         String val = phoneNumber.getEditText().getText().toString().trim();
@@ -238,7 +230,7 @@ public class SignUp extends AppCompatActivity {
         } else if (val.length() > 9) {
             phoneNumber.setError(getText(R.string.val_too_large));
             return false;
-        } else if (_phoneNo.equals(dbPhone)) {
+        } else if (n_phoneNo.equals(dbPhone)) {
             phoneNumber.setError(getText(R.string.already_exist));
             return false;
         } else {
@@ -247,6 +239,7 @@ public class SignUp extends AppCompatActivity {
             return true;
         }
     }
+
 
     private boolean validateFullName() {
 

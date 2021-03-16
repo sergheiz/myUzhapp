@@ -36,17 +36,27 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/uzh_castle_photo" />
 
-            <EditText
-                android:id="@+id/edit_imgurl"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/img_thumbnail"
-                android:layout_marginHorizontal="10dp"
+                android:layout_alignStart="@id/img_thumbnail"
                 android:layout_marginTop="100dp"
-                android:hint="Place Image Link"
-                android:singleLine="true"
-                android:textSize="30sp"
-                android:visibility="invisible" />
+                android:layout_marginHorizontal="10dp"
+                android:id="@+id/edit_imgurl"
+                android:visibility="invisible"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Place Image Link"
+                    android:singleLine="true"
+                    android:textSize="30sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
             <LinearLayout
                 android:id="@+id/group_layout"
@@ -65,41 +75,49 @@
                     android:textColor="@color/Black"
                     android:textSize="18sp" />
 
-                <RadioGroup
-                    android:id="@+id/radio_group"
+                <HorizontalScrollView
+                    android:padding="5dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
-                    <RadioButton
-                        android:background="@drawable/black_border"
-                        android:padding="5dp"
-                        android:id="@+id/food"
+                    <RadioGroup
+                        android:id="@+id/radio_group"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/food" />
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                    <RadioButton
-                        android:background="@drawable/black_border"
-                        android:padding="5dp"
-                        android:id="@+id/resid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="@string/residence" />
+                        <RadioButton
+                            android:background="@drawable/black_border"
+                            android:padding="5dp"
+                            android:id="@+id/food"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/food" />
 
-                    <RadioButton
-                        android:background="@drawable/black_border"
-                        android:padding="5dp"
-                        android:id="@+id/entert"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="@string/entertain" />
+                        <RadioButton
+                            android:background="@drawable/black_border"
+                            android:padding="5dp"
+                            android:id="@+id/resid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/residence" />
 
-                </RadioGroup>
+                        <RadioButton
+                            android:background="@drawable/black_border"
+                            android:padding="5dp"
+                            android:id="@+id/entert"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/entertain" />
+
+
+                    </RadioGroup>
+
+                </HorizontalScrollView>
+
+
 
                 <View
                     android:layout_width="match_parent"
@@ -127,17 +145,28 @@
                 android:textColor="@color/Black"
                 android:textSize="30sp" />
 
-            <EditText
-                android:id="@+id/edit_txttitle"
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignStart="@id/img_thumbnail"
                 android:layout_alignBottom="@id/img_thumbnail"
                 android:layout_marginHorizontal="10dp"
-                android:fontFamily="@font/baloo"
-                android:hint="Place Title"
-                android:singleLine="true"
-                android:textSize="30sp"
-                android:visibility="invisible" />
+                android:id="@+id/edit_txttitle"
+                android:visibility="invisible"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/baloo"
+                    android:hint="Place Title"
+                    android:singleLine="true"
+                    android:textSize="30sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
 
 
             <TextView
@@ -152,17 +181,28 @@
                 android:textColor="#0000EE"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/edit_map_link"
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/map_icon"
                 android:layout_toRightOf="@id/map_icon"
-                android:hint="Place Map Link"
-                android:singleLine="true"
-                android:textColor="#0000EE"
-                android:textSize="20sp"
-                android:visibility="invisible" />
+                android:id="@+id/edit_map_link"
+                android:visibility="invisible"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Place Map Link"
+                    android:singleLine="true"
+                    android:textColor="#0000EE"
+                    android:textSize="20sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -181,15 +221,26 @@
 
             </androidx.core.widget.NestedScrollView>
 
-            <EditText
-                android:id="@+id/edit_txtDesc"
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/map_link"
-                android:hint="Place Description"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                android:visibility="invisible" />
+                android:layout_marginHorizontal="10dp"
+                android:id="@+id/edit_txtDesc"
+                android:visibility="invisible"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Place Description"
+                    android:textAlignment="center"
+                    android:textSize="16sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
 
 
         </RelativeLayout>
