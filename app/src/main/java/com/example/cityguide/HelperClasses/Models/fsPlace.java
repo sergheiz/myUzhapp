@@ -6,6 +6,7 @@ public class fsPlace {
 
     String documentId;
     String name;
+    String owner;
     String description;
     String maplink;
     String imgurl;
@@ -15,8 +16,9 @@ public class fsPlace {
 
     }
 
-    public fsPlace(String name, String description, String maplink, String imgurl, String group) {
+    public fsPlace(String name, String owner, String description, String maplink, String imgurl, String group) {
         this.name = name;
+        this.owner = owner;
         this.description = description;
         this.maplink = maplink;
         this.imgurl = imgurl;
@@ -29,6 +31,14 @@ public class fsPlace {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getDescription() {

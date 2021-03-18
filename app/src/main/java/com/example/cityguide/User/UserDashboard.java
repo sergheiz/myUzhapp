@@ -65,11 +65,10 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     FeaturedAdapter featuredAdapter;
 
-    fsAdapter foodAdapter, residAdapter, entertAdapter;
+    fsAdapter foodAdapter, residAdapter, entertAdapter, mvAdapter;
 
     private GradientDrawable gradient1, gradient2, gradient3, gradient4, gradient5;
     ImageView menuIcon;
-    List<Place> lstPlace;
     ScrollView scrollViewMain;
     RelativeLayout card1, card1x, food_and_drink, card2, card2x, residence, card4, card4x, entertainment;
 
@@ -140,6 +139,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         super.onStart();
 
         featuredAdapter.startListening();
+        mvAdapter.startListening();
 
         foodAdapter.startListening();
         residAdapter.startListening();
@@ -151,6 +151,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         super.onStop();
 
         featuredAdapter.stopListening();
+        mvAdapter.stopListening();
 
         foodAdapter.stopListening();
         residAdapter.stopListening();
@@ -174,6 +175,25 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         featuredAdapter = new FeaturedAdapter(this, options);
         featuredRV.setAdapter(featuredAdapter);
         featuredRV.setHasFixedSize(true);
+
+    }
+
+
+    private void mostViewedRecycler() {
+
+        RecyclerView mvRV = (RecyclerView) findViewById(R.id.most_viewed_recycler);
+        mvRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+
+        Query query = placesRef.whereNotEqualTo("name",null).orderBy("name", Query.Direction.DESCENDING).limit(5);
+
+        FirestoreRecyclerOptions<fsPlace> options =
+                new FirestoreRecyclerOptions.Builder<fsPlace>()
+                        .setQuery(query, fsPlace.class)
+                        .build();
+
+        mvAdapter = new fsAdapter(this, options);
+        mvRV.setAdapter(mvAdapter);
 
     }
 
@@ -233,120 +253,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     }
 
 
-    //Navigation drawer Functions
-    private void navigationDrawer() {
-        //Navigation drawer
 
 
-        navigationView.bringToFront();
-        navigationView.setNavigationItemSelectedListener(this);
-
-
-        menuIcon.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (drawerLayout.isDrawerVisible(GravityCompat.START))
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                else drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
-
-    }
-
-
-    @Override
-    public void onBackPressed() {
-
-        if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else super.onBackPressed();
-    }
-
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-
-        if (item.getItemId() == R.id.nav_add_missing_place) {
-
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            if (mAuth.getCurrentUser() != null) {
-
-                Intent intent = new Intent(getApplicationContext(), Place_Activity.class);
-
-                // passing data to the Place activity
-                intent.putExtra("WhatToDo", "Create New Place");
-
-                intent.putExtra("Title", "");
-                intent.putExtra("Description", "");
-                intent.putExtra("MapLink", "");
-                intent.putExtra("Group", "");
-                intent.putExtra("DocumentID", "");
-                intent.putExtra("Imgurl", "");
-                // start the activity
-                Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair(findViewById(R.id.nav_add_missing_place), "place_transition");
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
-                startActivity(intent, options.toBundle());
-            } else {
-                Intent intent = new Intent(getApplicationContext(), RetailerStartUpScreen.class);
-
-                Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair(findViewById(R.id.nav_add_missing_place), "transition_retailer");
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
-                startActivity(intent, options.toBundle());
-            }
-
-
-
-        }
-
-        if (item.getItemId() == R.id.nav_profile) {
-            startActivity(new Intent(getApplicationContext(), RetailerStartUpScreen.class));
-        }
-
-
-        if (item.getItemId() == R.id.nav_logout) {
-            SessionManager logout = new SessionManager(UserDashboard.this, SessionManager.SESSION_USERSLOGIN);
-            logout.logoutUserFromSession();
-            FirebaseAuth.getInstance().signOut();
-//            ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
-//            am.clearApplicationUserData();
-
-
-            Toast.makeText(UserDashboard.this, "Logout Success ", Toast.LENGTH_SHORT).show();
-
-
-        }
-
-        return true;
-
-    }
-
-
-
-
-    private void mostViewedRecycler() {
-
-        lstPlace = new ArrayList<>();
-        lstPlace.add(new Place("0", "Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("1", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://g.page/Godynka?share\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("2", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("3", "Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("4", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://g.page/Godynka?share\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("5", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("6", "Chicken Hut", R.drawable.chicken_hut_photo, "Yummy fast foods. In uzhhorod city there is no KFC or McDonald... So this this the only fast food chain shop to rely on", "<a href=\"https://goo.gl/maps/zUaAC1J9KnFrCXtbA\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("7", "Hodynka", R.drawable.hodynka_photo, "Amazing selection of beers, good place to chill out and with great service. Also you will have a great view on River and city centre. Prices reasonable, service very good", "<a href=\"https://g.page/Godynka?share\">Show on Google maps</a>", "0"));
-        lstPlace.add(new Place("8", "Uzhhorod Castle", R.drawable.uzh_castle_photo, "Landmark stone castle housing multiple museums with collections of instruments, clothing & artwork", "<a href=\"https://goo.gl/maps/Y6Q7Vqh8Z1TS1ctZ8\">Show on Google maps</a>", "0"));
-
-        RecyclerView mvRV = (RecyclerView) findViewById(R.id.most_viewed_recycler);
-        MostViewedAdapter adapter = new MostViewedAdapter(this, lstPlace);
-        mvRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mvRV.setAdapter(adapter);
-        mvRV.setHasFixedSize(true);
-
-
-    }
 
     private void categoriesRecycler() {
 
@@ -477,4 +385,102 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         });
 
     }
+
+
+    //Navigation drawer Functions
+    private void navigationDrawer() {
+        //Navigation drawer
+
+
+        navigationView.bringToFront();
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+        menuIcon.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (drawerLayout.isDrawerVisible(GravityCompat.START))
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                else drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else super.onBackPressed();
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
+        if (item.getItemId() == R.id.nav_add_missing_place) {
+
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+            if (mAuth.getCurrentUser() != null) {
+
+                String owner = mAuth.getCurrentUser().getPhoneNumber();
+
+                Intent intent = new Intent(getApplicationContext(), Place_Activity.class);
+
+                // passing data to the Place activity
+                intent.putExtra("WhatToDo", "Create New Place");
+
+                intent.putExtra("Title", "");
+                intent.putExtra("Owner", owner);
+                intent.putExtra("Description", "");
+                intent.putExtra("MapLink", "");
+                intent.putExtra("Group", "");
+                intent.putExtra("DocumentID", "");
+                intent.putExtra("Imgurl", "");
+                // start the activity
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair(findViewById(R.id.nav_add_missing_place), "place_transition");
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
+                startActivity(intent, options.toBundle());
+            } else {
+                Intent intent = new Intent(getApplicationContext(), RetailerStartUpScreen.class);
+
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair(findViewById(R.id.nav_add_missing_place), "transition_retailer");
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserDashboard.this, pairs);
+                startActivity(intent, options.toBundle());
+            }
+
+
+
+        }
+
+        if (item.getItemId() == R.id.nav_profile) {
+            startActivity(new Intent(getApplicationContext(), RetailerStartUpScreen.class));
+        }
+
+
+        if (item.getItemId() == R.id.nav_logout) {
+            SessionManager logout = new SessionManager(UserDashboard.this, SessionManager.SESSION_USERSLOGIN);
+            logout.logoutUserFromSession();
+            FirebaseAuth.getInstance().signOut();
+//            ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
+//            am.clearApplicationUserData();
+
+
+            Toast.makeText(UserDashboard.this, "Logout Success ", Toast.LENGTH_SHORT).show();
+
+
+        }
+
+        return true;
+
+    }
+
+
+
 }

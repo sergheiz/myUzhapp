@@ -91,6 +91,7 @@
     <string name="registration_success_message">Your account has been created!</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="show_on_map">Show on Google maps</string>
+    <string name="manage_my_places">Manage my Places</string>
 
 
     <string name="enter_username">Username</string>

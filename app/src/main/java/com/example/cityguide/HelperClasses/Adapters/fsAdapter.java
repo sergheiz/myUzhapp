@@ -48,6 +48,7 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
 
                 // passing data to the Place activity
                 intent.putExtra("Title", fsPlace.getName());
+                intent.putExtra("Owner", fsPlace.getOwner());
                 intent.putExtra("Description", fsPlace.getDescription());
                 intent.putExtra("MapLink", fsPlace.getMaplink());
                 intent.putExtra("Group", fsPlace.getGroup());

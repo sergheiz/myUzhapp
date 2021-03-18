@@ -84,6 +84,8 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/food_title"
+                    android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/cocogoose_black"
@@ -93,10 +95,14 @@
                     android:textSize="20sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:layout_below="@id/food_title"
                     android:id="@+id/food_and_drink_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="22dp" />
+                    android:layout_height="match_parent"/>
+
+
+
+
 
             </RelativeLayout>
 
@@ -108,6 +114,8 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/resid_title"
+                    android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/cocogoose_black"
@@ -120,7 +128,7 @@
                     android:id="@+id/residence_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="22dp" />
+                    android:layout_below="@id/resid_title"/>
 
             </RelativeLayout>
 
@@ -132,6 +140,8 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/enter_title"
+                    android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/cocogoose_black"
@@ -144,7 +154,7 @@
                     android:id="@+id/entertainment_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="22dp" />
+                    android:layout_below="@id/enter_title"/>
 
             </RelativeLayout>
 
@@ -505,6 +515,7 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/most_viewed_recycler"
+                        android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="180dp" />
 

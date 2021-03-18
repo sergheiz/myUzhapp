@@ -48,7 +48,7 @@ public class SignUp extends AppCompatActivity {
     Button nextBtn;
 
 
-     String dbPhone, n_phoneNo;
+    String dbPhone, n_phoneNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,6 @@ public class SignUp extends AppCompatActivity {
 
         getWindow().setEnterTransition(fade);
         getWindow().setExitTransition(fade);
-
 
 
         //Hooks
@@ -87,7 +86,6 @@ public class SignUp extends AppCompatActivity {
     }
 
 
-
     public void callOTPScreen(View view) {
 
 
@@ -96,14 +94,6 @@ public class SignUp extends AppCompatActivity {
             showCustomDialog();
             return;
         }
-
-
-
-        if (!validateFullName() | !validatePhoneNumber() | !validateEmail() | !validatePassword()) {
-            return;
-        }
-
-
 
 
         String _fullName = fullName.getEditText().getText().toString();
@@ -115,13 +105,14 @@ public class SignUp extends AppCompatActivity {
         if (_getUserEnteredPhoneNumber.charAt(0) == '0') {
             _getUserEnteredPhoneNumber = _getUserEnteredPhoneNumber.substring(1);
         }
-        final String _phoneNo = "+" + countryCodePicker.getFullNumber() + _getUserEnteredPhoneNumber;
+        n_phoneNo = "+" + countryCodePicker.getFullNumber() + _getUserEnteredPhoneNumber;
 
-
+        if (!validateFullName() | !validatePhoneNumber() | !validateEmail() | !validatePassword()) {
+            return;
+        }
 
 
         Toast.makeText(SignUp.this, "reading", Toast.LENGTH_SHORT).show();
-
 
 
         Intent intent = new Intent(getApplicationContext(), VerifyOTP.class);
@@ -139,35 +130,9 @@ public class SignUp extends AppCompatActivity {
     }
 
 
-    //Custom Dialog for internet check
-    private void showCustomDialog() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(SignUp.this);
-        builder.setMessage(getText(R.string.no_internet))
-                .setCancelable(true)
-                .setPositiveButton(getText(R.string.connect), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                    }
-                })
-                .setNegativeButton(getText(R.string.home), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(getApplicationContext(), UserDashboard.class));
-                        finishAffinity();
-                    }
-                });
-
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-
     private TextWatcher PhonetextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
 
 
         }
@@ -178,18 +143,13 @@ public class SignUp extends AppCompatActivity {
 
             nextBtn.setEnabled(true);
 
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
             //Get complete phone number
             String _getUserEnteredPhoneNumber = phoneNumber.getEditText().getText().toString().trim();
             if (_getUserEnteredPhoneNumber.charAt(0) == '0') {
                 _getUserEnteredPhoneNumber = _getUserEnteredPhoneNumber.substring(1);
             }
             n_phoneNo = "+" + countryCodePicker.getFullNumber() + _getUserEnteredPhoneNumber;
+
 
             Query queryPhone = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(n_phoneNo);
             queryPhone.addValueEventListener(new ValueEventListener() {
@@ -199,7 +159,6 @@ public class SignUp extends AppCompatActivity {
 
                         dbPhone = snapshot.child(n_phoneNo).child("phoneNo").getValue(String.class);
                         n_phoneNo = dbPhone;
-
 
                     }
 
@@ -211,6 +170,10 @@ public class SignUp extends AppCompatActivity {
                 }
             });
 
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
 
 
         }
@@ -222,16 +185,20 @@ public class SignUp extends AppCompatActivity {
     private boolean validatePhoneNumber() {
 
 
+
+
+
         String val = phoneNumber.getEditText().getText().toString().trim();
 
-        if (val.isEmpty()) {
-            phoneNumber.setError(getText(R.string.val_not_empty));
+        if (n_phoneNo.equals(dbPhone)) {
+            phoneNumber.setError(getText(R.string.already_exist));
             return false;
+
         } else if (val.length() > 9) {
             phoneNumber.setError(getText(R.string.val_too_large));
             return false;
-        } else if (n_phoneNo.equals(dbPhone)) {
-            phoneNumber.setError(getText(R.string.already_exist));
+        } else if (val.length() == 0) {
+            phoneNumber.setError(getText(R.string.val_not_empty));
             return false;
         } else {
             phoneNumber.setError(null);
@@ -260,7 +227,6 @@ public class SignUp extends AppCompatActivity {
     }
 
     private boolean validateEmail() {
-
 
 
         String val = email.getEditText().getText().toString().trim();
@@ -302,6 +268,29 @@ public class SignUp extends AppCompatActivity {
         }
     }
 
+    //Custom Dialog for internet check
+    private void showCustomDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignUp.this);
+        builder.setMessage(getText(R.string.no_internet))
+                .setCancelable(true)
+                .setPositiveButton(getText(R.string.connect), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                    }
+                })
+                .setNegativeButton(getText(R.string.home), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getApplicationContext(), UserDashboard.class));
+                        finishAffinity();
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
     public void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
