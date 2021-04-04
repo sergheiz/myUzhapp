@@ -20,6 +20,7 @@ import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -46,6 +47,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -65,12 +67,12 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     FeaturedAdapter featuredAdapter;
 
-    fsAdapter foodAdapter, residAdapter, entertAdapter, mvAdapter;
+    fsAdapter foodAdapter, residAdapter, entertAdapter, mvAdapter, updatedAdapter;
 
-    private GradientDrawable gradient1, gradient2, gradient3, gradient4, gradient5;
     ImageView menuIcon;
     ScrollView scrollViewMain;
     RelativeLayout card1, card1x, food_and_drink, card2, card2x, residence, card4, card4x, entertainment;
+    Button likefeat, dlikefeat;
 
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -80,6 +82,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     //Drawer Menu
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+
+
 
 
     @Override
@@ -96,6 +100,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
 
         //Hooks
+        likefeat = findViewById(R.id.like_btn_feat);
+        dlikefeat = findViewById(R.id.dlike_btn_feat);
 
         card1 = findViewById(R.id.card1);
         card1x = findViewById(R.id.card1x);
@@ -119,13 +125,17 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
+
+
+
+
         navigationDrawer();
 
 
         // Recycler Function Calls
         featuredRecycler();
         mostViewedRecycler();
-        categoriesRecycler();
+        updatedRecycler();
 
 
         foodRecycler();
@@ -140,6 +150,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         featuredAdapter.startListening();
         mvAdapter.startListening();
+        updatedAdapter.startListening();
 
         foodAdapter.startListening();
         residAdapter.startListening();
@@ -152,6 +163,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         featuredAdapter.stopListening();
         mvAdapter.stopListening();
+        updatedAdapter.stopListening();
 
         foodAdapter.stopListening();
         residAdapter.stopListening();
@@ -185,7 +197,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         mvRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
 
-        Query query = placesRef.whereNotEqualTo("name",null).orderBy("name", Query.Direction.DESCENDING).limit(5);
+        Query query = placesRef.orderBy("name", Query.Direction.DESCENDING).limit(5);
 
         FirestoreRecyclerOptions<fsPlace> options =
                 new FirestoreRecyclerOptions.Builder<fsPlace>()
@@ -194,6 +206,24 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         mvAdapter = new fsAdapter(this, options);
         mvRV.setAdapter(mvAdapter);
+
+    }
+
+    private void updatedRecycler() {
+
+        RecyclerView updRV = (RecyclerView) findViewById(R.id.updated_recycler);
+        updRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+
+        Query query = placesRef.orderBy("updated", Query.Direction.DESCENDING).limit(5);
+
+        FirestoreRecyclerOptions<fsPlace> options =
+                new FirestoreRecyclerOptions.Builder<fsPlace>()
+                        .setQuery(query, fsPlace.class)
+                        .build();
+
+        updatedAdapter = new fsAdapter(this, options);
+        updRV.setAdapter(updatedAdapter);
 
     }
 
@@ -256,32 +286,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
 
 
-    private void categoriesRecycler() {
 
-        //All Gradients
-        gradient1 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xffd4cbe5, 0xfffff});
-        gradient2 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xff7adccf, 0xfffff});
-        gradient3 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xfff7c59f, 0xfffff});
-        gradient4 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xffb8d7f5, 0xfffff});
-        gradient5 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0xffF1E9CE, 0xfffff});
-
-
-        ArrayList<Category> Categories = new ArrayList<>();
-        Categories.add(new Category(R.drawable.school_image, "Education", gradient1));
-        Categories.add(new Category(R.drawable.hospital_image, "HOSPITAL", gradient2));
-        Categories.add(new Category(R.drawable.restaurant_image, "Restaurant", gradient3));
-        Categories.add(new Category(R.drawable.shopping_image, "Shopping", gradient4));
-        Categories.add(new Category(R.drawable.transport_image, "Transport", gradient5));
-
-
-        RecyclerView categoriesRecycler = (RecyclerView) findViewById(R.id.categories_recycler);
-
-        categoriesRecycler.setHasFixedSize(true);
-        CategoriesAdapter adapter = new CategoriesAdapter(Categories);
-        categoriesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        categoriesRecycler.setAdapter(adapter);
-
-    }
 
     public void callRetailerScreens(View view) {
 
@@ -427,20 +432,21 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
             if (mAuth.getCurrentUser() != null) {
 
-                String owner = mAuth.getCurrentUser().getPhoneNumber();
-
                 Intent intent = new Intent(getApplicationContext(), Place_Activity.class);
 
                 // passing data to the Place activity
                 intent.putExtra("WhatToDo", "Create New Place");
 
                 intent.putExtra("Title", "");
-                intent.putExtra("Owner", owner);
+                intent.putExtra("Owner", "");
                 intent.putExtra("Description", "");
+                intent.putExtra("Phone", "");
                 intent.putExtra("MapLink", "");
                 intent.putExtra("Group", "");
-                intent.putExtra("DocumentID", "");
                 intent.putExtra("Imgurl", "");
+                intent.putExtra("Likers", "");
+                intent.putExtra("LikesNum", 0);
+
                 // start the activity
                 Pair[] pairs = new Pair[1];
                 pairs[0] = new Pair(findViewById(R.id.nav_add_missing_place), "place_transition");

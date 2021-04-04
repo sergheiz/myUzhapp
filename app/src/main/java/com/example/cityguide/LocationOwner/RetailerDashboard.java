@@ -45,8 +45,8 @@ public class RetailerDashboard extends AppCompatActivity {
                     case R.id.bottom_nav_profile:
                         fragment = new RetailerProfileFragment();
                         break;
-                    case R.id.bottom_nav_dashboard:
-                        fragment = new RetailerDashboardFragment();
+                    case R.id.bottom_nav_likes:
+                        fragment = new RetailerLikesFragment();
                         break;
                     case R.id.bottom_nav_manage:
                         fragment = new RetailerManageFragment();

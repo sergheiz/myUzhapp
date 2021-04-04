@@ -9,10 +9,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.transition.Fade;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,31 +38,55 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Place_Activity extends AppCompatActivity {
 
-    private TextView tvtitle, tvdescription, tvmaplink;
-    private TextInputLayout edititle, editdescription, editmaplink, editImgUrl;
+    private TextView tvtitle, tvdescription, tvcall, tvmaplink, likes_count;
+    private TextInputLayout edititle, editdescription, editcall, editmaplink, editImgUrl;
     private ImageView img;
-    private ImageView cancel, save, edit, like, delete;
+    private ImageView cancel, save, like, dlike, delete;
+    private Button edit;
     private RadioGroup radioGroup;
     private RadioButton selectedGroup, food, resid, entert;
     private LinearLayout groupView;
 
-    String Title, Owner, Group, MapLink, fullMapLink, Description, Imgurl, WhatToDo;
+    String Title;
+    String Owner;
+    String Group;
+    String Phone;
+    String MapLink;
+    String fullMapLink;
+    String Description;
+    String Imgurl;
+    String WhatToDo;
+    String Likers;
+    String currentUserPhone;
+    int LikesNum, n_LikesNum;
 
+    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,22 +102,17 @@ public class Place_Activity extends AppCompatActivity {
 
 
         like = (ImageView) findViewById(R.id.like);
-        edit = (ImageView) findViewById(R.id.edit);
+        dlike = (ImageView) findViewById(R.id.dlike);
+        edit = (Button) findViewById(R.id.edit);
         cancel = (ImageView) findViewById(R.id.cancel_edit);
         save = (ImageView) findViewById(R.id.save_edit);
         delete = (ImageView) findViewById(R.id.delete_place);
 
 
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DeletePlacedata();
-            }
-        });
-
-
         img = (ImageView) findViewById(R.id.img_thumbnail);
         tvtitle = (TextView) findViewById(R.id.txttitle);
+        likes_count = (TextView) findViewById(R.id.likes_count);
+        tvcall = (TextView) findViewById(R.id.call_number);
         tvmaplink = (TextView) findViewById(R.id.map_link);
         tvdescription = (TextView) findViewById(R.id.txtDesc);
 
@@ -102,8 +125,9 @@ public class Place_Activity extends AppCompatActivity {
 
 
         editImgUrl = findViewById(R.id.edit_imgurl);
-        edititle =  findViewById(R.id.edit_txttitle);
-        editmaplink =  findViewById(R.id.edit_map_link);
+        edititle = findViewById(R.id.edit_txttitle);
+        editcall = findViewById(R.id.edit_call_number);
+        editmaplink = findViewById(R.id.edit_map_link);
         editdescription = findViewById(R.id.edit_txtDesc);
 
 
@@ -111,18 +135,19 @@ public class Place_Activity extends AppCompatActivity {
         Intent intent = getIntent();
         int Thumbnail = intent.getExtras().getInt("Thumbnail");
         Imgurl = intent.getExtras().getString("Imgurl");
-
         WhatToDo = intent.getExtras().getString("WhatToDo");
-
-
         Title = intent.getExtras().getString("Title");
         Owner = intent.getExtras().getString("Owner");
         MapLink = intent.getExtras().getString("MapLink");
+        Phone = intent.getExtras().getString("Phone");
         fullMapLink = "<a href=" + MapLink + ">Show on Google maps</a>";
         Description = intent.getExtras().getString("Description");
         Group = intent.getExtras().getString("Group");
 
         String FavStatus = intent.getExtras().getString("FavStatus");
+        Likers = intent.getExtras().getString("Likers");
+        LikesNum = intent.getExtras().getInt("LikesNum");
+
 
         // Setting values
         if (Imgurl != null) {
@@ -131,6 +156,7 @@ public class Place_Activity extends AppCompatActivity {
             img.setImageResource(Thumbnail);
 
         }
+
 
         if (Group.equals("Food and Drink")) {
             food.setChecked(true);
@@ -144,11 +170,19 @@ public class Place_Activity extends AppCompatActivity {
         tvtitle.setHorizontallyScrolling(true);
         tvtitle.setSelected(true);
 
+        likes_count.setText(String.valueOf(LikesNum));
+
+
+        tvcall.setText(Phone);
+//        Linkify.addLinks(tvcall, Linkify.ALL);
+        tvcall.setMovementMethod(LinkMovementMethod.getInstance());
 
         tvmaplink.setText(fullMapLink);
+//        Linkify.addLinks(tvmaplink, Linkify.ALL);
         tvmaplink.setClickable(true);
         tvmaplink.setMovementMethod(LinkMovementMethod.getInstance());
         tvmaplink.setText(Html.fromHtml(fullMapLink));
+
 
         tvdescription.setText(Description);
 
@@ -161,51 +195,56 @@ public class Place_Activity extends AppCompatActivity {
 
         editmaplink.getEditText().setText(MapLink);
 
+        editcall.getEditText().setText(Phone);
+
         editdescription.getEditText().setText(Description);
+
+
+
+        if (currentUser == null) {
+            currentUserPhone = "null";
+        } else {
+            currentUserPhone = currentUser.getPhoneNumber();
+            if (Likers.contains(currentUserPhone)) {
+                like.setVisibility(View.INVISIBLE);
+                dlike.setVisibility(View.VISIBLE);
+            } else {
+                like.setVisibility(View.VISIBLE);
+                dlike.setVisibility(View.INVISIBLE);
+            }
+        }
 
         /**
          //Chech if user is the owner!!!!!!
          */
+        if (currentUserPhone != "null") {
 
+            if (currentUserPhone.equals(Owner)) {
 
-
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
-        if (mAuth.getCurrentUser() != null){
-
-            if (mAuth.getCurrentUser().getPhoneNumber().equals(Owner)) {
-
+                delete.setVisibility(View.VISIBLE);
                 edit.setVisibility(View.VISIBLE);
 
             }
+        } else {
+            like.setClickable(false);
+            dlike.setClickable(false);
         }
 
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DeletePlacedata();
+            }
+        });
 
-
-//        if (WhatToDo.equals("Create New Place")) {
-//
-//            edit.setVisibility(View.GONE);
-//            like.setVisibility(View.GONE);
-//            cancel.setVisibility(View.VISIBLE);
-//            save.setVisibility(View.VISIBLE);
-//
-//            tvtitle.setVisibility(View.INVISIBLE);
-//            tvmaplink.setVisibility(View.INVISIBLE);
-//            tvdescription.setVisibility(View.INVISIBLE);
-//
-//
-//            editImgUrl.setVisibility(View.VISIBLE);
-//            edititle.setVisibility(View.VISIBLE);
-//            editmaplink.setVisibility(View.VISIBLE);
-//            editdescription.setVisibility(View.VISIBLE);
-//
-//        }
+        if (Title.equals("")) {
+            edit.performClick();
+        }
 
 
     }
 
-    private void DeletePlacedata() {
-
+    public void LikeHit(View view) {
 
         Query query = FirebaseFirestore.getInstance()
                 .collection("Places").whereEqualTo("name", Title);
@@ -216,36 +255,168 @@ public class Place_Activity extends AppCompatActivity {
 
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
+
                     FirebaseFirestore.getInstance()
                             .collection("Places").document(documentSnapshot.getId())
-                            .delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getApplicationContext(), "Place " +Title+ " Deleted!", Toast.LENGTH_LONG).show();
+                            .update("likes", FieldValue.arrayUnion(currentUserPhone));
+
+                    FirebaseFirestore.getInstance()
+                            .collection("Places").document(documentSnapshot.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    ArrayList<String> likes_list = (ArrayList<String>) document.get("likes");
+
+                                    like.setVisibility(View.INVISIBLE);
+                                    dlike.setVisibility(View.VISIBLE);
+
+                                    n_LikesNum = likes_list.size();
+                                    likes_count.setText(String.valueOf(n_LikesNum));
 
                                 }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), Title+" Delete Failed" + e, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
 
-                                }
-                            });
+
                 }
 
             }
-        })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Not found" + e, Toast.LENGTH_LONG).show();
+        });
 
+
+    }
+
+    public void dLikeHit(View view) {
+        Query query = FirebaseFirestore.getInstance()
+                .collection("Places").whereEqualTo("name", Title);
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+
+
+                    FirebaseFirestore.getInstance()
+                            .collection("Places").document(documentSnapshot.getId())
+                            .update("likes", FieldValue.arrayRemove(currentUserPhone));
+
+                    FirebaseFirestore.getInstance()
+                            .collection("Places").document(documentSnapshot.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    ArrayList<String> likes_list = (ArrayList<String>) document.get("likes");
+
+                                    like.setVisibility(View.VISIBLE);
+                                    dlike.setVisibility(View.INVISIBLE);
+
+                                    n_LikesNum = likes_list.size();
+                                    likes_count.setText(String.valueOf(n_LikesNum));
+
+                                }
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+
+
+    }
+
+
+    public void EditPlace(View view) {
+
+
+        edit.setVisibility(View.GONE);
+        like.setVisibility(View.INVISIBLE);
+        dlike.setVisibility(View.INVISIBLE);
+        cancel.setVisibility(View.VISIBLE);
+        save.setVisibility(View.VISIBLE);
+        delete.setVisibility(View.GONE);
+
+        tvtitle.setVisibility(View.INVISIBLE);
+        tvmaplink.setVisibility(View.INVISIBLE);
+        tvcall.setVisibility(View.INVISIBLE);
+        likes_count.setVisibility(View.INVISIBLE);
+        tvdescription.setVisibility(View.INVISIBLE);
+
+
+        editImgUrl.setVisibility(View.VISIBLE);
+        edititle.setVisibility(View.VISIBLE);
+        editmaplink.setVisibility(View.VISIBLE);
+        editcall.setVisibility(View.VISIBLE);
+        editdescription.setVisibility(View.VISIBLE);
+        groupView.setVisibility(View.VISIBLE);
+
+
+    }
+
+    private void DeletePlacedata() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getText(R.string.delete_place) + Title + " ?")
+                .setCancelable(true)
+                .setPositiveButton(getText(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Query query = FirebaseFirestore.getInstance()
+                                .collection("Places").whereEqualTo("name", Title);
+
+                        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+
+                                    FirebaseFirestore.getInstance()
+                                            .collection("Places").document(documentSnapshot.getId())
+                                            .delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(getApplicationContext(), "Place " + Title + " Deleted!", Toast.LENGTH_LONG).show();
+
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(getApplicationContext(), Title + " Delete Failed" + e, Toast.LENGTH_LONG).show();
+
+                                                }
+                                            });
+                                }
+
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Not found" + e, Toast.LENGTH_LONG).show();
+
+                                    }
+                                });
+
+                        finish();
+                    }
+                })
+                .setNegativeButton(getText(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 });
 
-        finish();
+        AlertDialog alert = builder.create();
+        alert.show();
+
 
     }
 
@@ -260,7 +431,7 @@ public class Place_Activity extends AppCompatActivity {
         }
 
 
-        if (!validateTitle() | !validateDescription() | !validateImgUrl() | !validateMapLink() | !validateGroup()) {
+        if (!validateTitle() | !validateDescription() | !validateImgUrl() | !validatePhone() | !validateMapLink() | !validateGroup()) {
             return;
         }
 
@@ -271,13 +442,17 @@ public class Place_Activity extends AppCompatActivity {
         String n_imgUrl = editImgUrl.getEditText().getText().toString();
         String n_title = edititle.getEditText().getText().toString();
         String n_maplink = editmaplink.getEditText().getText().toString();
+        String n_phone = editcall.getEditText().getText().toString();
         String n_description = editdescription.getEditText().getText().toString();
 
-        if (WhatToDo != null){
-            if (WhatToDo.equals("Create New Place")){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        Date date = new Date(System.currentTimeMillis());
+        String curdate = formatter.format(date);
+        Toast.makeText(getApplicationContext(), curdate, Toast.LENGTH_SHORT).show();
 
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                String uid = mAuth.getCurrentUser().getPhoneNumber();
+        if (WhatToDo != null) {
+            if (WhatToDo.equals("Create New Place")) {
+
 
                 // Create a Map to store the data we want to set
                 Map<String, Object> docData = new HashMap<>();
@@ -286,8 +461,12 @@ public class Place_Activity extends AppCompatActivity {
                 docData.put("description", n_description);
                 docData.put("imgurl", n_imgUrl);
                 docData.put("maplink", n_maplink);
-                docData.put("owner", uid);
-// Add a new document (asynchronously) in collection "cities" with id "LA"
+                docData.put("phone", n_phone);
+                docData.put("owner", currentUserPhone);
+                docData.put("updated", curdate);
+                docData.put("likes", Arrays.asList());
+
+                //add new document
                 FirebaseFirestore.getInstance()
                         .collection("Places").document().set(docData);
 
@@ -297,13 +476,10 @@ public class Place_Activity extends AppCompatActivity {
 
 
             }
-        }
-        else
-            {
+        } else {
 
             Query query = FirebaseFirestore.getInstance()
                     .collection("Places").whereEqualTo("name", Title);
-
 
 
             if (!Imgurl.equals(n_imgUrl)) {
@@ -334,6 +510,10 @@ public class Place_Activity extends AppCompatActivity {
 
                                         }
                                     });
+
+                            FirebaseFirestore.getInstance()
+                                    .collection("Places").document(documentSnapshot.getId())
+                                    .update("updated", curdate);
                         }
 
                     }
@@ -341,7 +521,7 @@ public class Place_Activity extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), "Not found" + e, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), Title + e, Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -354,6 +534,7 @@ public class Place_Activity extends AppCompatActivity {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+
 
                             FirebaseFirestore.getInstance()
                                     .collection("Places").document(documentSnapshot.getId())
@@ -375,6 +556,11 @@ public class Place_Activity extends AppCompatActivity {
 
                                         }
                                     });
+
+                            FirebaseFirestore.getInstance()
+                                    .collection("Places").document(documentSnapshot.getId())
+                                    .update("updated", curdate);
+
                         }
 
                     }
@@ -382,7 +568,55 @@ public class Place_Activity extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), "Not found" + e, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), Title + e, Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+            }
+
+            if (!Phone.equals(n_phone)) {
+
+                query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+
+                            FirebaseFirestore.getInstance()
+                                    .collection("Places").document(documentSnapshot.getId())
+                                    .update("phone", n_phone)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Phone = n_phone;
+                                            editcall.getEditText().setText(Phone);
+                                            tvcall.setText(Phone);
+                                            tvcall.setMovementMethod(LinkMovementMethod.getInstance());
+//                                            Linkify.addLinks(tvcall, Linkify.ALL);
+                                            Toast.makeText(getApplicationContext(), "Phone Updated", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getApplicationContext(), "Phone Update Failed" + e, Toast.LENGTH_LONG).show();
+
+                                        }
+                                    });
+
+                            FirebaseFirestore.getInstance()
+                                    .collection("Places").document(documentSnapshot.getId())
+                                    .update("updated", curdate);
+
+                        }
+
+                    }
+                })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(), Title + e, Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -406,8 +640,9 @@ public class Place_Activity extends AppCompatActivity {
                                             editmaplink.getEditText().setText(MapLink);
                                             fullMapLink = "<a href=" + MapLink + ">Show on Google maps</a>";
                                             tvmaplink.setText(fullMapLink);
-                                            tvmaplink.setClickable(true);
-                                            tvmaplink.setMovementMethod(LinkMovementMethod.getInstance());
+                                            Linkify.addLinks(tvmaplink, Linkify.ALL);
+//                                            tvmaplink.setClickable(true);
+//                                            tvmaplink.setMovementMethod(LinkMovementMethod.getInstance());
                                             tvmaplink.setText(Html.fromHtml(fullMapLink));
                                             Toast.makeText(getApplicationContext(), "MapLink Updated", Toast.LENGTH_SHORT).show();
 
@@ -420,6 +655,11 @@ public class Place_Activity extends AppCompatActivity {
 
                                         }
                                     });
+
+                            FirebaseFirestore.getInstance()
+                                    .collection("Places").document(documentSnapshot.getId())
+                                    .update("updated", curdate);
+
                         }
 
                     }
@@ -427,7 +667,7 @@ public class Place_Activity extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), "Not found" + e, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), Title + e, Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -462,6 +702,11 @@ public class Place_Activity extends AppCompatActivity {
 
                                         }
                                     });
+
+                            FirebaseFirestore.getInstance()
+                                    .collection("Places").document(documentSnapshot.getId())
+                                    .update("updated", curdate);
+
                         }
 
                     }
@@ -469,7 +714,7 @@ public class Place_Activity extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), "Not found" + e, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), Title + e, Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -505,10 +750,15 @@ public class Place_Activity extends AppCompatActivity {
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), "Description Update Failed" + e, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Group Update Failed" + e, Toast.LENGTH_LONG).show();
 
                                         }
                                     });
+
+                            FirebaseFirestore.getInstance()
+                                    .collection("Places").document(documentSnapshot.getId())
+                                    .update("updated", curdate);
+
                         }
 
                     }
@@ -516,7 +766,7 @@ public class Place_Activity extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), "Not found" + e, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), Title + e, Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -528,15 +778,17 @@ public class Place_Activity extends AppCompatActivity {
         like.setVisibility(View.VISIBLE);
         cancel.setVisibility(View.GONE);
         save.setVisibility(View.GONE);
-        delete.setVisibility(View.GONE);
+        delete.setVisibility(View.VISIBLE);
 
         tvtitle.setVisibility(View.VISIBLE);
         tvmaplink.setVisibility(View.VISIBLE);
+        tvcall.setVisibility(View.VISIBLE);
         tvdescription.setVisibility(View.VISIBLE);
 
         editImgUrl.setVisibility(View.INVISIBLE);
         edititle.setVisibility(View.INVISIBLE);
         editmaplink.setVisibility(View.INVISIBLE);
+        editcall.setVisibility(View.INVISIBLE);
         editdescription.setVisibility(View.INVISIBLE);
         groupView.setVisibility(View.INVISIBLE);
 
@@ -576,6 +828,23 @@ public class Place_Activity extends AppCompatActivity {
         } else {
             editdescription.setError(null);
             editdescription.setErrorEnabled(false);
+            return true;
+        }
+    }
+
+    private boolean validatePhone() {
+
+
+        String val = editcall.getEditText().getText().toString().trim();
+
+        if (val.isEmpty()) {
+            useOwnerPhoneDialog();
+            editcall.setError(getText(R.string.val_not_empty));
+            return false;
+
+        } else {
+            editcall.setError(null);
+            editcall.setErrorEnabled(false);
             return true;
         }
     }
@@ -628,34 +897,10 @@ public class Place_Activity extends AppCompatActivity {
     }
 
 
-
-    public void EditPlace(View view) {
-
-
-        edit.setVisibility(View.GONE);
-        like.setVisibility(View.GONE);
-        cancel.setVisibility(View.VISIBLE);
-        save.setVisibility(View.VISIBLE);
-        delete.setVisibility(View.VISIBLE);
-
-        tvtitle.setVisibility(View.INVISIBLE);
-        tvmaplink.setVisibility(View.INVISIBLE);
-        tvdescription.setVisibility(View.INVISIBLE);
-
-
-        editImgUrl.setVisibility(View.VISIBLE);
-        edititle.setVisibility(View.VISIBLE);
-        editmaplink.setVisibility(View.VISIBLE);
-        editdescription.setVisibility(View.VISIBLE);
-        groupView.setVisibility(View.VISIBLE);
-
-
-    }
-
     //Custom Dialog for internet check
     private void showCustomDialog() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getText(R.string.no_internet))
                 .setCancelable(true)
                 .setPositiveButton(getText(R.string.connect), new DialogInterface.OnClickListener() {
@@ -676,9 +921,53 @@ public class Place_Activity extends AppCompatActivity {
         alert.show();
     }
 
+
+    //Custom Dialog for Owner phone use
+    private void useOwnerPhoneDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getText(R.string.use_owner_phone) + Owner + " ?")
+                .setCancelable(true)
+                .setPositiveButton(getText(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        editcall.getEditText().setText(Owner);
+                    }
+                })
+                .setNegativeButton(getText(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
     public void CancelEdit(View view) {
 
-        Place_Activity.super.onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getText(R.string.cancel_edit))
+                .setCancelable(true)
+                .setPositiveButton(getText(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Place_Activity.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton(getText(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+
+
 //                edit.setVisibility(View.VISIBLE);
 //                like.setVisibility(View.VISIBLE);
 //                cancel.setVisibility(View.GONE);
@@ -696,8 +985,20 @@ public class Place_Activity extends AppCompatActivity {
 
     }
 
-    public void DeletePlace(View view) {
 
+    public void LikersList(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getText(R.string.likers) + String.valueOf(Likers))
+                .setCancelable(true)
+                .setNegativeButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
 
+        AlertDialog alert = builder.create();
+        alert.show();
     }
+
 }

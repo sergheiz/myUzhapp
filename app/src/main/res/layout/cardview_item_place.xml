@@ -45,22 +45,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/likes_count"
             android:singleLine="true"
             android:scrollHorizontally="true"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
-            android:fontFamily="@font/baloo"
+            android:textStyle="bold"
             android:text="Place Title"
             android:textColor="@color/Black"
             android:textSize="30sp"/>
 
+        <TextView
+            android:id="@+id/likes_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/like_btn"
+            android:layout_toStartOf="@+id/like_btn"
+            android:textStyle="bold"
+            android:text="Likes"
+            android:textColor="@color/Black"
+            android:textSize="20sp"/>
+
         <Button
-            android:id="@+id/list_favBtn"
-            android:layout_margin="10dp"
+            android:id="@+id/like_btn"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:elevation="8dp"
+            android:background="@drawable/favorite_shadow"/>
+
+        <Button
+            android:id="@+id/dlike_btn"
+            android:visibility="invisible"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/card6"
             android:background="@drawable/favorite_shadow"/>
 
 

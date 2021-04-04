@@ -23,9 +23,6 @@ public class RetailerStartUpScreen extends AppCompatActivity {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
-
-            Toast.makeText(RetailerStartUpScreen.this, "Already Logged In",
-                    Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(RetailerStartUpScreen.this, RetailerDashboard.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

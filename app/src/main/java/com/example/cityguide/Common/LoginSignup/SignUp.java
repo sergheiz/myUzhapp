@@ -185,9 +185,6 @@ public class SignUp extends AppCompatActivity {
     private boolean validatePhoneNumber() {
 
 
-
-
-
         String val = phoneNumber.getEditText().getText().toString().trim();
 
         if (n_phoneNo.equals(dbPhone)) {

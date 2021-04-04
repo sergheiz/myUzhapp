@@ -22,9 +22,9 @@
     </item>
 
     <item
-        android:id="@+id/bottom_nav_dashboard"
-        android:title="Dashboard"
-        android:icon="@drawable/bottom_nav_dashboard_icon"
+        android:id="@+id/bottom_nav_likes"
+        android:title="Likes"
+        android:icon="@drawable/favorite_shadow"
         app:cnb_backgroundColor="@color/colorPrimary">
 
     </item>

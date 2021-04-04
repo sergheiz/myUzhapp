@@ -451,6 +451,8 @@
                         android:id="@+id/featured_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
+                        android:paddingEnd="50dp"
+                        android:clipToPadding="false"
                         android:layout_below="@id/featured_background"
                         android:layout_marginTop="-10dp"
                         android:background="@drawable/round_corners"
@@ -515,8 +517,9 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/most_viewed_recycler"
-                        android:layout_gravity="center"
                         android:layout_width="match_parent"
+                        android:paddingEnd="50dp"
+                        android:clipToPadding="false"
                         android:layout_height="180dp" />
 
 
@@ -538,7 +541,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/cocogoose_black"
-                            android:text="@string/categories"
+                            android:text="@string/updated"
                             android:textAllCaps="true"
                             android:textColor="@color/colorAccent"
                             android:textSize="20sp" />
@@ -552,8 +555,10 @@
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/categories_recycler"
+                        android:id="@+id/updated_recycler"
                         android:layout_width="match_parent"
+                        android:paddingEnd="50dp"
+                        android:clipToPadding="false"
                         android:layout_height="180dp" />
 
 

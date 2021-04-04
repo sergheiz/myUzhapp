@@ -49,8 +49,8 @@ public class SplashScreen extends AppCompatActivity {
         getWindow().setEnterTransition(fade);
         getWindow().setExitTransition(fade);
 
-        Intent playsound = new Intent(this, PlaySound.class);
-        startService(playsound);
+//        Intent playsound = new Intent(this, PlaySound.class);
+//        startService(playsound);
 
 
         //Hooks
@@ -76,7 +76,7 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
 
-                stopService(playsound);
+//                stopService(playsound);
 
                 onBoardingScreen = getSharedPreferences("onBoardingScreen",MODE_PRIVATE);
                 SharedPreferences.Editor editor = onBoardingScreen.edit();

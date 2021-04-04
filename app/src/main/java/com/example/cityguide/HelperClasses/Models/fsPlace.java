@@ -2,27 +2,32 @@ package com.example.cityguide.HelperClasses.Models;
 
 import com.google.firebase.firestore.DocumentId;
 
+import java.util.List;
+
 public class fsPlace {
 
-    String documentId;
     String name;
     String owner;
     String description;
     String maplink;
+    String phone;
     String imgurl;
     String group;
+    List<String> likes;
 
     fsPlace() {
 
     }
 
-    public fsPlace(String name, String owner, String description, String maplink, String imgurl, String group) {
+    public fsPlace(String name, String owner, String description, String phone, String maplink, String imgurl, String group, List<String> likes) {
         this.name = name;
         this.owner = owner;
         this.description = description;
         this.maplink = maplink;
+        this.phone = phone;
         this.imgurl = imgurl;
         this.group = group;
+        this.likes = likes;
     }
 
     public String getName() {
@@ -58,6 +63,14 @@ public class fsPlace {
         this.maplink = maplink;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getImgurl() {
         return imgurl;
     }
@@ -74,14 +87,11 @@ public class fsPlace {
         this.group = group;
     }
 
-
-    public String getDocumentId() {
-        return documentId;
+    public List<String> getLikes() {
+        return likes;
     }
 
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
+    public void setLikes(List<String> likes) {
+        this.likes = likes;
     }
-
-
 }

@@ -20,11 +20,20 @@
 
 
             <ImageView
-                android:id="@+id/map_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/call_icon"
+                android:layout_margin="8dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/img_thumbnail"
-                android:layout_marginLeft="20dp"
+                android:src="@drawable/field_phone_number_icon"
+                app:tint="#0000EE" />
+
+            <ImageView
+                android:id="@+id/map_icon"
+                android:layout_margin="8dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/call_icon"
                 android:src="@drawable/show_on_map_image" />
 
 
@@ -36,9 +45,45 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/uzh_castle_photo" />
 
+            <TextView
+                android:id="@+id/likes_count"
+                android:onClick="LikersList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/like"
+                android:layout_toStartOf="@+id/like"
+                android:textStyle="bold"
+                android:text="Likes"
+                android:textColor="@color/Black"
+                android:textSize="20sp"/>
+
+            <ImageView
+                android:id="@+id/like"
+                android:onClick="LikeHit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/img_thumbnail"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/favorite_shadow" />
+
+            <ImageView
+                android:id="@+id/dlike"
+                android:onClick="dLikeHit"
+                android:visibility="invisible"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/like"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/favorite_shadow"
+                app:tint="@color/card6" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/black_border"
                 android:layout_alignStart="@id/img_thumbnail"
                 android:layout_marginTop="100dp"
                 android:layout_marginHorizontal="10dp"
@@ -51,7 +96,7 @@
                     android:layout_height="match_parent"
                     android:hint="Place Image Link"
                     android:singleLine="true"
-                    android:textSize="30sp"/>
+                    android:textSize="20sp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/muli_semibold"
-                    android:text="Choose Group:"
+                    android:text="Category:"
                     android:textColor="@color/Black"
                     android:textSize="18sp" />
 
@@ -122,8 +167,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
                     android:background="@color/Black" />
 
 
@@ -135,9 +178,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/img_thumbnail"
+                android:layout_toStartOf="@+id/likes_count"
                 android:layout_marginHorizontal="10dp"
+                android:textStyle="bold"
                 android:ellipsize="marquee"
-                android:fontFamily="@font/baloo"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
@@ -149,8 +193,10 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/black_border"
                 android:layout_alignStart="@id/img_thumbnail"
                 android:layout_alignBottom="@id/img_thumbnail"
+                android:layout_toStartOf="@+id/likes_count"
                 android:layout_marginHorizontal="10dp"
                 android:id="@+id/edit_txttitle"
                 android:visibility="invisible"
@@ -159,7 +205,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="@font/baloo"
+                    android:textStyle="bold"
                     android:hint="Place Title"
                     android:singleLine="true"
                     android:textSize="30sp"/>
@@ -167,6 +213,41 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+
+            <TextView
+                android:id="@+id/call_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/call_icon"
+                android:layout_toRightOf="@id/call_icon"
+                android:autoLink="phone"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="placeholder"
+                android:textSize="20sp" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/black_border"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/edit_txttitle"
+                android:layout_toRightOf="@id/call_icon"
+                android:id="@+id/edit_call_number"
+                android:visibility="invisible"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Place Contact number"
+                    android:inputType="phone"
+                    android:singleLine="true"
+                    android:textColor="#0000EE"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <TextView
@@ -185,7 +266,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/map_icon"
+                android:background="@drawable/black_border"
+                android:layout_below="@id/edit_call_number"
                 android:layout_toRightOf="@id/map_icon"
                 android:id="@+id/edit_map_link"
                 android:visibility="invisible"
@@ -197,25 +279,36 @@
                     android:hint="Place Map Link"
                     android:singleLine="true"
                     android:textColor="#0000EE"
-                    android:textSize="20sp"/>
+                    android:textSize="14sp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
 
 
+            <TextView
+                android:id="@+id/about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="About this place:"
+                android:textColor="@color/Black"
+                android:textSize="16sp"
+                android:layout_below="@id/map_link"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"/>
+
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/map_link"
-                android:layout_margin="10dp">
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/about">
 
                 <TextView
                     android:id="@+id/txtDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Placeholder Description text"
-                    android:textAlignment="center"
                     android:textIsSelectable="true"
                     android:textSize="16sp" />
 
@@ -225,8 +318,10 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/map_link"
+                android:background="@drawable/black_border"
+                android:layout_below="@id/about"
                 android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/edit_txtDesc"
                 android:visibility="invisible"
                 >
@@ -235,7 +330,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Place Description"
-                    android:textAlignment="center"
                     android:textSize="16sp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -247,6 +341,20 @@
 
     </ScrollView>
 
+    <ImageView
+        android:id="@+id/delete_place"
+        app:tint="@color/Black"
+        android:background="@color/card6"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="15dp"
+        android:elevation="8dp"
+        android:foreground="@drawable/black_border"
+        android:src="@drawable/delete_icon"
+        android:visibility="gone" />
+
+
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -256,16 +364,7 @@
 
 
 
-        <ImageView
-            android:id="@+id/like"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:elevation="8dp"
-            android:src="@drawable/favorite_shadow" />
-
-
-        <ImageView
+        <Button
             android:id="@+id/edit"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -273,20 +372,10 @@
             android:elevation="8dp"
             android:foreground="@drawable/black_border"
             android:onClick="EditPlace"
-            android:src="@drawable/edit_icon"
+            android:background="@drawable/edit_icon"
             android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/delete_place"
-            app:tint="@color/Black"
-            android:background="@color/card6"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:elevation="8dp"
-            android:foreground="@drawable/black_border"
-            android:src="@drawable/delete_icon"
-            android:visibility="gone" />
+
 
         <ImageView
             android:id="@+id/cancel_edit"
