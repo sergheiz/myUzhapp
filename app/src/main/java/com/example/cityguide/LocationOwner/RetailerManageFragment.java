@@ -42,7 +42,7 @@ public class RetailerManageFragment extends Fragment {
         manageRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
 
-        Query query = placesRef.whereEqualTo("owner",owner).orderBy("name", Query.Direction.DESCENDING);
+        Query query = placesRef.whereEqualTo("owner",owner);
 
         FirestoreRecyclerOptions<fsPlace> options =
                 new FirestoreRecyclerOptions.Builder<fsPlace>()

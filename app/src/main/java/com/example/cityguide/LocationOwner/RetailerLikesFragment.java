@@ -51,8 +51,19 @@ public class RetailerLikesFragment extends Fragment implements View.OnClickListe
         title.setOnClickListener(this::onClick);
 
         likesRV = (RecyclerView) v.findViewById(R.id.mylikes_recycler);
+
         owner = mAuth.getCurrentUser().getPhoneNumber();
 
+        Query query = placesRef.whereArrayContains("likes", owner);
+        FirestoreRecyclerOptions<fsPlace> options =
+                new FirestoreRecyclerOptions.Builder<fsPlace>()
+                        .setQuery(query, fsPlace.class)
+                        .build();
+        likesAdapter = new fsAdapter(getContext(), options);
+        likesRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        likesRV.setAdapter(likesAdapter);
+
+        likesAdapter.startListening();
 
 
         return v;
@@ -64,16 +75,7 @@ public class RetailerLikesFragment extends Fragment implements View.OnClickListe
     public void onStart() {
         super.onStart();
 
-        Query query = placesRef.whereArrayContains("likes", owner).orderBy("updated", Query.Direction.DESCENDING);
-        FirestoreRecyclerOptions<fsPlace> options =
-                new FirestoreRecyclerOptions.Builder<fsPlace>()
-                        .setQuery(query, fsPlace.class)
-                        .build();
-        likesAdapter = new fsAdapter(getContext(), options);
-        likesRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        likesRV.setAdapter(likesAdapter);
 
-        likesAdapter.startListening();
 
     }
 
@@ -82,12 +84,14 @@ public class RetailerLikesFragment extends Fragment implements View.OnClickListe
     public void onStop() {
         super.onStop();
 
-        likesAdapter.stopListening();
 
     }
 
     @Override
     public void onClick(View v) {
+
+
+        likesAdapter.stopListening();
 
 
     }

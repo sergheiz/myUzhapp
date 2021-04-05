@@ -178,7 +178,7 @@ public class FeaturedAdapter extends FirestoreRecyclerAdapter<fsPlace, FeaturedA
     }
 
     class featuredviewholder extends RecyclerView.ViewHolder {
-        TextView feat_title, feat_group, likes_count;
+        TextView feat_title, likes_count;
         ImageView feat_img;
         Button likefeat, dlikefeat;
         MaterialCardView feat_card;
@@ -187,11 +187,9 @@ public class FeaturedAdapter extends FirestoreRecyclerAdapter<fsPlace, FeaturedA
         public featuredviewholder(@NonNull View itemView) {
             super(itemView);
 
-
             likefeat = itemView.findViewById(R.id.like_btn_feat);
             dlikefeat = itemView.findViewById(R.id.dlike_btn_feat);
 
-            feat_group = (TextView) itemView.findViewById(R.id.feat_group_id);
             likes_count = (TextView) itemView.findViewById(R.id.likes_count);
 
 

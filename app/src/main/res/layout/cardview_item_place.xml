@@ -14,21 +14,16 @@
     android:focusable="true">
 
 
+    <View
+        android:id="@+id/list_anim_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"/>
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="170dp">
-
-        <View
-            android:id="@+id/list_anim_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_centerInParent="true"/>
-
-        <TextView
-            android:id="@+id/list_group_id"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_centerInParent="true"/>
 
 
         <ImageView

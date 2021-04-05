@@ -12,23 +12,16 @@
     android:clickable="true"
     android:focusable="true">
 
+    <View
+        android:id="@+id/f_anim_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <View
-            android:id="@+id/f_anim_id"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_centerInParent="true"/>
-
-        <TextView
-            android:id="@+id/feat_group_id"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_centerInParent="true"/>
-
 
         <ImageView
             android:id="@+id/feat_place_img_id"
@@ -44,7 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/likes_count"
             android:singleLine="true"
             android:scrollHorizontally="true"
             android:ellipsize="marquee"
@@ -53,6 +45,7 @@
             android:text="Place Title"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="30sp"/>
+
 
         <TextView
             android:id="@+id/likes_count"
@@ -89,7 +82,10 @@
             android:backgroundTint="@color/card6"/>
 
 
+
     </RelativeLayout>
+
+
 
 
 </com.google.android.material.card.MaterialCardView>

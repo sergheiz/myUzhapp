@@ -158,7 +158,7 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
                 intent.putExtra("LikesNum", likes_num);
 
                 Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair(v.findViewById(R.id.list_anim_view), "place_transition");
+                pairs[0] = new Pair(v.findViewById(R.id.list_anim_id), "place_transition");
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, pairs);
                 mContext.startActivity(intent, options.toBundle());
 
@@ -175,7 +175,7 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
     }
 
     static class myviewholder extends RecyclerView.ViewHolder {
-        TextView list_place_title, list_group, likes_count;
+        TextView list_place_title, likes_count;
         ImageView list_place_img;
         Button like, dlike;
         MaterialCardView list_cardView;
@@ -187,7 +187,6 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
             like = itemView.findViewById(R.id.like_btn);
             dlike = itemView.findViewById(R.id.dlike_btn);
 
-            list_group = (TextView) itemView.findViewById(R.id.list_group_id);
             likes_count = (TextView) itemView.findViewById(R.id.likes_count);
 
 

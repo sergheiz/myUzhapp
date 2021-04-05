@@ -8,12 +8,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.util.Pair;
@@ -29,36 +25,17 @@ import android.widget.Toast;
 import com.example.cityguide.Common.Place.Place_Activity;
 import com.example.cityguide.Common.Transport.TransportActivityMain;
 import com.example.cityguide.HelperClasses.Adapters.FeaturedAdapter;
-import com.example.cityguide.HelperClasses.Adapters.dbAdapter;
 import com.example.cityguide.Common.LoginSignup.RetailerStartUpScreen;
 import com.example.cityguide.HelperClasses.Adapters.fsAdapter;
-import com.example.cityguide.HelperClasses.Models.Place;
-import com.example.cityguide.HelperClasses.Models.dbPlace;
 import com.example.cityguide.HelperClasses.Models.fsPlace;
 import com.example.cityguide.HelperClasses.SessionManager;
-import com.example.cityguide.HelperClasses.Adapters.CategoriesAdapter;
-import com.example.cityguide.HelperClasses.Models.Category;
-import com.example.cityguide.HelperClasses.Adapters.MostViewedAdapter;
-import com.example.cityguide.LocationOwner.RetailerDashboard;
 import com.example.cityguide.R;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
