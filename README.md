@@ -6,7 +6,7 @@ Ungvar is an opensource project. The app is made by android enthusiast who loves
 
 © lucianrekkless
 
-Licensed under the [MIT License] (myUzhapp/LICENSE)
+Licensed under the [MIT License](https://github.com/lucianrekkless/myUzhapp/blob/main/LICENSE)
 
 
 
