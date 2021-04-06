@@ -64,6 +64,8 @@ import java.util.Map;
 
 public class Place_Activity extends AppCompatActivity {
 
+    //delete this comment
+
     private TextView tvtitle, tvdescription, tvcall, tvmaplink, likes_count;
     private TextInputLayout edititle, editdescription, editcall, editmaplink, editImgUrl;
     private ImageView img;
