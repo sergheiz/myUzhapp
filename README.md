@@ -4,7 +4,13 @@
 
 
 Ungvar is an opensource project. 
-\n The app is developed solely by Android enthusiast who loves his city Uzhhorod in Ukraine.
+
+The app is developed solely by Android enthusiast who loves his city Uzhhorod in Ukraine 🇺🇦  :ua:.
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate
 
 ## License & copyright
 
