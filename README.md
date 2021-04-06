@@ -1,7 +1,10 @@
 # Ungvár app
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 Ungvar is an opensource project. 
-The app is developed solely by Android enthusiast who loves his city Uzhhorod in Ukraine.
+\nThe app is developed solely by Android enthusiast who loves his city Uzhhorod in Ukraine.
 
 ## License & copyright
 
