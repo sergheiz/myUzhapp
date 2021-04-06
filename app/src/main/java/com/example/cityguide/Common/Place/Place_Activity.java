@@ -87,6 +87,7 @@ public class Place_Activity extends AppCompatActivity {
     int LikesNum, n_LikesNum;
 
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+    CollectionReference Places = FirebaseFirestore.getInstance().collection("Places");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -246,8 +247,7 @@ public class Place_Activity extends AppCompatActivity {
 
     public void LikeHit(View view) {
 
-        Query query = FirebaseFirestore.getInstance()
-                .collection("Places").whereEqualTo("name", Title);
+        Query query = Places.whereEqualTo("name", Title);
 
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -256,12 +256,10 @@ public class Place_Activity extends AppCompatActivity {
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
 
-                    FirebaseFirestore.getInstance()
-                            .collection("Places").document(documentSnapshot.getId())
+                    Places.document(documentSnapshot.getId())
                             .update("likes", FieldValue.arrayUnion(currentUserPhone));
 
-                    FirebaseFirestore.getInstance()
-                            .collection("Places").document(documentSnapshot.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    Places.document(documentSnapshot.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
@@ -274,6 +272,9 @@ public class Place_Activity extends AppCompatActivity {
 
                                     n_LikesNum = likes_list.size();
                                     likes_count.setText(String.valueOf(n_LikesNum));
+
+                                    Places.document(documentSnapshot.getId())
+                                            .update("likesNum", FieldValue.increment(1));
 
                                 }
                             }
@@ -290,8 +291,7 @@ public class Place_Activity extends AppCompatActivity {
     }
 
     public void dLikeHit(View view) {
-        Query query = FirebaseFirestore.getInstance()
-                .collection("Places").whereEqualTo("name", Title);
+        Query query = Places.whereEqualTo("name", Title);
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -299,12 +299,10 @@ public class Place_Activity extends AppCompatActivity {
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
 
-                    FirebaseFirestore.getInstance()
-                            .collection("Places").document(documentSnapshot.getId())
+                    Places.document(documentSnapshot.getId())
                             .update("likes", FieldValue.arrayRemove(currentUserPhone));
 
-                    FirebaseFirestore.getInstance()
-                            .collection("Places").document(documentSnapshot.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    Places.document(documentSnapshot.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
@@ -317,6 +315,9 @@ public class Place_Activity extends AppCompatActivity {
 
                                     n_LikesNum = likes_list.size();
                                     likes_count.setText(String.valueOf(n_LikesNum));
+
+                                    Places.document(documentSnapshot.getId())
+                                            .update("likesNum", FieldValue.increment(-1));
 
                                 }
                             }
@@ -366,8 +367,7 @@ public class Place_Activity extends AppCompatActivity {
                 .setPositiveButton(getText(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Query query = FirebaseFirestore.getInstance()
-                                .collection("Places").whereEqualTo("name", Title);
+                        Query query = Places.whereEqualTo("name", Title);
 
                         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
@@ -375,8 +375,7 @@ public class Place_Activity extends AppCompatActivity {
 
                                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
-                                    FirebaseFirestore.getInstance()
-                                            .collection("Places").document(documentSnapshot.getId())
+                                    Places.document(documentSnapshot.getId())
                                             .delete()
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
@@ -465,10 +464,11 @@ public class Place_Activity extends AppCompatActivity {
                 docData.put("owner", currentUserPhone);
                 docData.put("updated", curdate);
                 docData.put("likes", Arrays.asList());
+                docData.put("likesNum", 0);
+                docData.put("featured", "no");
 
                 //add new document
-                FirebaseFirestore.getInstance()
-                        .collection("Places").document().set(docData);
+                Places.document().set(docData);
 
                 Toast.makeText(getApplicationContext(), "Place " + n_title + " has been created!", Toast.LENGTH_SHORT).show();
 
@@ -478,8 +478,7 @@ public class Place_Activity extends AppCompatActivity {
             }
         } else {
 
-            Query query = FirebaseFirestore.getInstance()
-                    .collection("Places").whereEqualTo("name", Title);
+            Query query = Places.whereEqualTo("name", Title);
 
 
             if (!Imgurl.equals(n_imgUrl)) {
@@ -490,8 +489,7 @@ public class Place_Activity extends AppCompatActivity {
 
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("imgurl", n_imgUrl)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -511,8 +509,7 @@ public class Place_Activity extends AppCompatActivity {
                                         }
                                     });
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("updated", curdate);
                         }
 
@@ -536,8 +533,7 @@ public class Place_Activity extends AppCompatActivity {
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("name", n_title)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -557,8 +553,7 @@ public class Place_Activity extends AppCompatActivity {
                                         }
                                     });
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("updated", curdate);
 
                         }
@@ -582,8 +577,7 @@ public class Place_Activity extends AppCompatActivity {
 
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("phone", n_phone)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -605,8 +599,7 @@ public class Place_Activity extends AppCompatActivity {
                                         }
                                     });
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("updated", curdate);
 
                         }
@@ -630,8 +623,7 @@ public class Place_Activity extends AppCompatActivity {
 
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("maplink", n_maplink)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -640,9 +632,9 @@ public class Place_Activity extends AppCompatActivity {
                                             editmaplink.getEditText().setText(MapLink);
                                             fullMapLink = "<a href=" + MapLink + ">Show on Google maps</a>";
                                             tvmaplink.setText(fullMapLink);
-                                            Linkify.addLinks(tvmaplink, Linkify.ALL);
-//                                            tvmaplink.setClickable(true);
-//                                            tvmaplink.setMovementMethod(LinkMovementMethod.getInstance());
+//                                            Linkify.addLinks(tvmaplink, Linkify.ALL);
+                                            tvmaplink.setClickable(true);
+                                            tvmaplink.setMovementMethod(LinkMovementMethod.getInstance());
                                             tvmaplink.setText(Html.fromHtml(fullMapLink));
                                             Toast.makeText(getApplicationContext(), "MapLink Updated", Toast.LENGTH_SHORT).show();
 
@@ -656,8 +648,7 @@ public class Place_Activity extends AppCompatActivity {
                                         }
                                     });
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("updated", curdate);
 
                         }
@@ -682,8 +673,7 @@ public class Place_Activity extends AppCompatActivity {
 
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("description", n_description)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -703,8 +693,7 @@ public class Place_Activity extends AppCompatActivity {
                                         }
                                     });
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("updated", curdate);
 
                         }
@@ -729,8 +718,7 @@ public class Place_Activity extends AppCompatActivity {
 
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("group", n_group)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -755,8 +743,7 @@ public class Place_Activity extends AppCompatActivity {
                                         }
                                     });
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("updated", curdate);
 
                         }

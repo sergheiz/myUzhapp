@@ -34,9 +34,11 @@
         <TextView
             android:id="@+id/feat_place_title_id"
             android:layout_marginHorizontal="10dp"
+            android:paddingHorizontal="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/likes_count"
             android:singleLine="true"
             android:scrollHorizontally="true"
             android:ellipsize="marquee"

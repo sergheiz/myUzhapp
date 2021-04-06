@@ -516,7 +516,7 @@
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/most_viewed_recycler"
+                        android:id="@+id/most_liked_recycler"
                         android:layout_width="match_parent"
                         android:paddingEnd="50dp"
                         android:clipToPadding="false"

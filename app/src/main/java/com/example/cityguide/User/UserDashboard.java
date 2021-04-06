@@ -44,12 +44,12 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     FeaturedAdapter featuredAdapter;
 
-    fsAdapter foodAdapter, residAdapter, entertAdapter, mvAdapter, updatedAdapter;
+    fsAdapter foodAdapter, residAdapter, entertAdapter, mlAdapter, updatedAdapter;
 
     ImageView menuIcon;
     ScrollView scrollViewMain;
     RelativeLayout card1, card1x, food_and_drink, card2, card2x, residence, card4, card4x, entertainment;
-    Button likefeat, dlikefeat;
+
 
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -77,8 +77,6 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
 
         //Hooks
-        likefeat = findViewById(R.id.like_btn_feat);
-        dlikefeat = findViewById(R.id.dlike_btn_feat);
 
         card1 = findViewById(R.id.card1);
         card1x = findViewById(R.id.card1x);
@@ -111,7 +109,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         // Recycler Function Calls
         featuredRecycler();
-        mostViewedRecycler();
+        mostLikedRecycler();
         updatedRecycler();
 
 
@@ -126,7 +124,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         super.onStart();
 
         featuredAdapter.startListening();
-        mvAdapter.startListening();
+        mlAdapter.startListening();
         updatedAdapter.startListening();
 
         foodAdapter.startListening();
@@ -139,7 +137,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         super.onStop();
 
         featuredAdapter.stopListening();
-        mvAdapter.stopListening();
+        mlAdapter.stopListening();
         updatedAdapter.stopListening();
 
         foodAdapter.stopListening();
@@ -154,7 +152,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         featuredRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
 
-        Query query = placesRef.whereNotEqualTo("name",null).orderBy("name", Query.Direction.ASCENDING).limit(3);
+        Query query = placesRef.whereEqualTo("featured","yes").orderBy( String.valueOf("likesNum"), Query.Direction.DESCENDING).limit(5);
 
         FirestoreRecyclerOptions<fsPlace> options =
                 new FirestoreRecyclerOptions.Builder<fsPlace>()
@@ -168,21 +166,21 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     }
 
 
-    private void mostViewedRecycler() {
+    private void mostLikedRecycler() {
 
-        RecyclerView mvRV = (RecyclerView) findViewById(R.id.most_viewed_recycler);
-        mvRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        RecyclerView mlRV = (RecyclerView) findViewById(R.id.most_liked_recycler);
+        mlRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
 
-        Query query = placesRef.orderBy("name", Query.Direction.DESCENDING).limit(5);
+        Query query = placesRef.orderBy( String.valueOf("likesNum"), Query.Direction.DESCENDING).limit(10);
 
         FirestoreRecyclerOptions<fsPlace> options =
                 new FirestoreRecyclerOptions.Builder<fsPlace>()
                         .setQuery(query, fsPlace.class)
                         .build();
 
-        mvAdapter = new fsAdapter(this, options);
-        mvRV.setAdapter(mvAdapter);
+        mlAdapter = new fsAdapter(this, options);
+        mlRV.setAdapter(mlAdapter);
 
     }
 
@@ -192,7 +190,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         updRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
 
-        Query query = placesRef.orderBy("updated", Query.Direction.DESCENDING).limit(5);
+        Query query = placesRef.orderBy("updated", Query.Direction.DESCENDING).limit(10);
 
         FirestoreRecyclerOptions<fsPlace> options =
                 new FirestoreRecyclerOptions.Builder<fsPlace>()
@@ -440,6 +438,10 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
 
 
+        }
+
+        if (item.getItemId() == R.id.nav_my_favorites) {
+            startActivity(new Intent(getApplicationContext(), RetailerStartUpScreen.class));
         }
 
         if (item.getItemId() == R.id.nav_profile) {

@@ -14,11 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <service
-            android:name=".Common.Services.PlaySound"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity
             android:name=".Common.Place.Place_Activity"
             android:screenOrientation="portrait" />

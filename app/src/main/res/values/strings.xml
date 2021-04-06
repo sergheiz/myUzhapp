@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Ungvár</string>
     <string name="slogan_name"> Your city app</string>
-    <string name="powered_by"> Powered By NoName inc.</string>
+    <string name="powered_by"> Powered By lucianrekkless</string>
 
     // strings for on boarding screen
 

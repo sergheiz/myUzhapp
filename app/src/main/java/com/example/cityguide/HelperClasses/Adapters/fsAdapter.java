@@ -11,14 +11,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.cityguide.Common.Place.Place_Activity;
-import com.example.cityguide.HelperClasses.Models.dbPlace;
 import com.example.cityguide.HelperClasses.Models.fsPlace;
 import com.example.cityguide.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -27,6 +25,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -51,6 +50,7 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
     @Override
     protected void onBindViewHolder(@NonNull fsAdapter.myviewholder holder, int position, @NonNull fsPlace fsPlace) {
         int likes_num;
+        CollectionReference Places = FirebaseFirestore.getInstance().collection("Places");
         List<String> likers = fsPlace.getLikes();
         likes_num = likers.size();
         String currentUserPhone;
@@ -66,8 +66,7 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
             @Override
             public void onClick(View v) {
 
-                Query query = FirebaseFirestore.getInstance()
-                        .collection("Places").whereEqualTo("name", fsPlace.getName());
+                Query query = Places.whereEqualTo("name", fsPlace.getName());
 
                 query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -76,9 +75,11 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("likes", FieldValue.arrayUnion(currentUserPhone));
+
+                            Places.document(documentSnapshot.getId())
+                                    .update("likesNum", FieldValue.increment(1));
 
 
                             holder.like.setVisibility(View.INVISIBLE);
@@ -95,8 +96,7 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
             @Override
             public void onClick(View v) {
 
-                Query query = FirebaseFirestore.getInstance()
-                        .collection("Places").whereEqualTo("name", fsPlace.getName());
+                Query query = Places.whereEqualTo("name", fsPlace.getName());
 
                 query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -105,9 +105,11 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
 
 
-                            FirebaseFirestore.getInstance()
-                                    .collection("Places").document(documentSnapshot.getId())
+                            Places.document(documentSnapshot.getId())
                                     .update("likes", FieldValue.arrayRemove(currentUserPhone));
+
+                            Places.document(documentSnapshot.getId())
+                                    .update("likesNum", FieldValue.increment(-1));
 
                             holder.like.setVisibility(View.VISIBLE);
                             holder.dlike.setVisibility(View.INVISIBLE);

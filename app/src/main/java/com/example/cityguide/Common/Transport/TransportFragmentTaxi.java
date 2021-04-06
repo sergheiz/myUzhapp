@@ -22,7 +22,7 @@ public class TransportFragmentTaxi extends Fragment {
                              Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_transport_taxi, container, false);
         WebView taxi = v.findViewById(R.id.taxi_webView);
-        taxi.loadUrl("https://expresstaxi.uz.ua/online");
+        taxi.loadUrl("https://www.limejet.com/en/");
 
         // Enable Javascript
         WebSettings webSettings = taxi.getSettings();

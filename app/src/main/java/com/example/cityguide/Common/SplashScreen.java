@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.cityguide.Common.Services.PlaySound;
 import com.example.cityguide.HelperClasses.CheckInternet;
 import com.example.cityguide.R;
 import com.example.cityguide.User.UserDashboard;

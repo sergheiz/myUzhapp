@@ -37,6 +37,7 @@
         <TextView
             android:id="@+id/list_place_title"
             android:layout_marginHorizontal="10dp"
+            android:paddingHorizontal="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

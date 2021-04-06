@@ -180,6 +180,7 @@
                 android:layout_alignBottom="@id/img_thumbnail"
                 android:layout_toStartOf="@+id/likes_count"
                 android:layout_marginHorizontal="10dp"
+                android:paddingHorizontal="5dp"
                 android:textStyle="bold"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
