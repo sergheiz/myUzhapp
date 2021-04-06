@@ -14,7 +14,7 @@ Please make sure to update tests as appropriate
 
 ## Contact me
 
-(rekklesslucian@gmail.com)
+rekklesslucian@gmail.com
 
 ## License & copyright
 
