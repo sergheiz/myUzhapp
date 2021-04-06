@@ -1,3 +1,6 @@
+LICENSE
+README.md
+
 *.iml
 .gradle
 /local.properties
