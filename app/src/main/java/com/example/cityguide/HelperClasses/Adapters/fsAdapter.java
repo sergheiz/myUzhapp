@@ -38,9 +38,7 @@ public class fsAdapter extends FirestoreRecyclerAdapter<fsPlace, fsAdapter.myvie
 
     private Context mContext;
 
-    /**
-     //firestore recycler in fragmnet not updating when online
-     */
+
 
     public fsAdapter(Context mContext, FirestoreRecyclerOptions<fsPlace> options) {
         super(options);

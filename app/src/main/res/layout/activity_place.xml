@@ -78,7 +78,7 @@
                 android:layout_alignBottom="@+id/like"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/favorite_shadow"
-                app:tint="@color/card6" />
+                app:tint="@color/Red" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -156,6 +156,24 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text="@string/entertain" />
+
+                        <RadioButton
+                            android:background="@drawable/black_border"
+                            android:padding="5dp"
+                            android:id="@+id/shops"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/shops" />
+
+                        <RadioButton
+                            android:background="@drawable/black_border"
+                            android:padding="5dp"
+                            android:id="@+id/other"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/other" />
 
 
                     </RadioGroup>

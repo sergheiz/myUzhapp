@@ -55,7 +55,7 @@
             android:id="@+id/likes_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/like_btn"
+            android:layout_alignBottom="@+id/like_btn"
             android:layout_toStartOf="@+id/like_btn"
             android:textStyle="bold"
             android:text="Likes"
@@ -81,7 +81,7 @@
             android:layout_marginBottom="10dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:backgroundTint="@color/card6"
+            android:backgroundTint="@color/Red"
             android:background="@drawable/favorite_shadow"/>
 
 

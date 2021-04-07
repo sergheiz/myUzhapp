@@ -64,7 +64,6 @@ import java.util.Map;
 
 public class Place_Activity extends AppCompatActivity {
 
-    //delete this comment
 
     private TextView tvtitle, tvdescription, tvcall, tvmaplink, likes_count;
     private TextInputLayout edititle, editdescription, editcall, editmaplink, editImgUrl;
@@ -72,7 +71,7 @@ public class Place_Activity extends AppCompatActivity {
     private ImageView cancel, save, like, dlike, delete;
     private Button edit;
     private RadioGroup radioGroup;
-    private RadioButton selectedGroup, food, resid, entert;
+    private RadioButton selectedGroup, food, resid, entert, shops, other;
     private LinearLayout groupView;
 
     String Title;
@@ -125,6 +124,8 @@ public class Place_Activity extends AppCompatActivity {
         food = (RadioButton) findViewById(R.id.food);
         resid = (RadioButton) findViewById(R.id.resid);
         entert = (RadioButton) findViewById(R.id.entert);
+        shops = (RadioButton) findViewById(R.id.shops);
+        other = (RadioButton) findViewById(R.id.other);
 
 
         editImgUrl = findViewById(R.id.edit_imgurl);
@@ -167,6 +168,10 @@ public class Place_Activity extends AppCompatActivity {
             resid.setChecked(true);
         } else if (Group.equals("Entertainment")) {
             entert.setChecked(true);
+        } else if (Group.equals("Shops")) {
+            shops.setChecked(true);
+        } else if (Group.equals("Other")) {
+            other.setChecked(true);
         }
 
         tvtitle.setText(Title);
@@ -732,6 +737,10 @@ public class Place_Activity extends AppCompatActivity {
                                                 resid.setChecked(true);
                                             } else if (Group.equals("Entertainment")) {
                                                 entert.setChecked(true);
+                                            } else if (Group.equals("Shops")) {
+                                                shops.setChecked(true);
+                                            } else if (Group.equals("Other")) {
+                                                other.setChecked(true);
                                             }
                                             Toast.makeText(getApplicationContext(), "Group Updated", Toast.LENGTH_SHORT).show();
 

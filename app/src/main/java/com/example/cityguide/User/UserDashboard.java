@@ -44,11 +44,11 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     FeaturedAdapter featuredAdapter;
 
-    fsAdapter foodAdapter, residAdapter, entertAdapter, mlAdapter, updatedAdapter;
+    fsAdapter card1Adapter, card2Adapter, card4Adapter, card5Adapter, card6Adapter, mlAdapter, updatedAdapter;
 
     ImageView menuIcon;
     ScrollView scrollViewMain;
-    RelativeLayout card1, card1x, food_and_drink, card2, card2x, residence, card4, card4x, entertainment;
+    RelativeLayout card1, card1x, card1rl, card2, card2x, card2rl, card4, card4x, card4rl, card5, card5x, card5rl, card6, card6x, card6rl;
 
 
 
@@ -80,17 +80,28 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         card1 = findViewById(R.id.card1);
         card1x = findViewById(R.id.card1x);
-        food_and_drink = findViewById(R.id.food_drink);
+        card1rl = findViewById(R.id.card1rl);
 
 
         card2 = findViewById(R.id.card2);
         card2x = findViewById(R.id.card2x);
-        residence = findViewById(R.id.residence);
+        card2rl = findViewById(R.id.card2rl);
 
 
         card4 = findViewById(R.id.card4);
         card4x = findViewById(R.id.card4x);
-        entertainment = findViewById(R.id.entertainment);
+        card4rl = findViewById(R.id.card4rl);
+
+
+        card5 = findViewById(R.id.card5);
+        card5x = findViewById(R.id.card5x);
+        card5rl = findViewById(R.id.card5rl);
+
+
+        card6 = findViewById(R.id.card6);
+        card6x = findViewById(R.id.card6x);
+        card6rl = findViewById(R.id.card6rl);
+
 
         menuIcon = findViewById(R.id.menu_icon);
 
@@ -113,9 +124,11 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         updatedRecycler();
 
 
-        foodRecycler();
-        residenceRecycler();
-        entertainmentRecycler();
+        card1Recycler();
+        card2Recycler();
+        card4Recycler();
+        card5Recycler();
+        card6Recycler();
 
     }
 
@@ -127,9 +140,11 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         mlAdapter.startListening();
         updatedAdapter.startListening();
 
-        foodAdapter.startListening();
-        residAdapter.startListening();
-        entertAdapter.startListening();
+        card1Adapter.startListening();
+        card2Adapter.startListening();
+        card4Adapter.startListening();
+        card5Adapter.startListening();
+        card6Adapter.startListening();
     }
 
     @Override
@@ -140,9 +155,11 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         mlAdapter.stopListening();
         updatedAdapter.stopListening();
 
-        foodAdapter.stopListening();
-        residAdapter.stopListening();
-        entertAdapter.stopListening();
+        card1Adapter.stopListening();
+        card2Adapter.stopListening();
+        card4Adapter.stopListening();
+        card5Adapter.stopListening();
+        card6Adapter.stopListening();
     }
 
 
@@ -152,7 +169,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         featuredRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
 
-        Query query = placesRef.whereEqualTo("featured","yes").orderBy( String.valueOf("likesNum"), Query.Direction.DESCENDING).limit(5);
+        Query query = placesRef.whereEqualTo("featured","yes").limit(5);
 
         FirestoreRecyclerOptions<fsPlace> options =
                 new FirestoreRecyclerOptions.Builder<fsPlace>()
@@ -203,10 +220,10 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     }
 
 
-    private void foodRecycler() {
+    private void card1Recycler() {
 
-        RecyclerView foodRV = (RecyclerView) findViewById(R.id.food_and_drink_recycler);
-        foodRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        RecyclerView card1RV = (RecyclerView) findViewById(R.id.card1_recycler);
+        card1RV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
 
         Query query = placesRef.whereEqualTo("group", "Food and Drink");
@@ -216,16 +233,16 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
                         .setQuery(query, fsPlace.class)
                         .build();
 
-        foodAdapter = new fsAdapter(this, options);
-        foodRV.setAdapter(foodAdapter);
+        card1Adapter = new fsAdapter(this, options);
+        card1RV.setAdapter(card1Adapter);
 
     }
 
 
-    private void residenceRecycler() {
+    private void card2Recycler() {
 
-        RecyclerView residRV = (RecyclerView) findViewById(R.id.residence_recycler);
-        residRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        RecyclerView card2RV = (RecyclerView) findViewById(R.id.card2_recycler);
+        card2RV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
 
         Query query = placesRef.whereEqualTo("group", "Residence");
@@ -235,15 +252,15 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
                         .setQuery(query, fsPlace.class)
                         .build();
 
-        residAdapter = new fsAdapter(this, options);
-        residRV.setAdapter(residAdapter);
+        card2Adapter = new fsAdapter(this, options);
+        card2RV.setAdapter(card2Adapter);
 
     }
 
-    private void entertainmentRecycler() {
+    private void card4Recycler() {
 
-        RecyclerView entertRV = (RecyclerView) findViewById(R.id.entertainment_recycler);
-        entertRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        RecyclerView card4RV = (RecyclerView) findViewById(R.id.card4_recycler);
+        card4RV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
 
         Query query = placesRef.whereEqualTo("group", "Entertainment");
@@ -253,8 +270,42 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
                         .setQuery(query, fsPlace.class)
                         .build();
 
-        entertAdapter = new fsAdapter(this, options);
-        entertRV.setAdapter(entertAdapter);
+        card4Adapter = new fsAdapter(this, options);
+        card4RV.setAdapter(card4Adapter);
+    }
+
+    private void card5Recycler() {
+
+        RecyclerView card5RV = (RecyclerView) findViewById(R.id.card5_recycler);
+        card5RV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+
+        Query query = placesRef.whereEqualTo("group", "Shops");
+
+        FirestoreRecyclerOptions<fsPlace> options =
+                new FirestoreRecyclerOptions.Builder<fsPlace>()
+                        .setQuery(query, fsPlace.class)
+                        .build();
+
+        card5Adapter = new fsAdapter(this, options);
+        card5RV.setAdapter(card5Adapter);
+    }
+
+    private void card6Recycler() {
+
+        RecyclerView card6RV = (RecyclerView) findViewById(R.id.card6_recycler);
+        card6RV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+
+        Query query = placesRef.whereEqualTo("group", "Other");
+
+        FirestoreRecyclerOptions<fsPlace> options =
+                new FirestoreRecyclerOptions.Builder<fsPlace>()
+                        .setQuery(query, fsPlace.class)
+                        .build();
+
+        card6Adapter = new fsAdapter(this, options);
+        card6RV.setAdapter(card6Adapter);
     }
 
 
@@ -275,25 +326,31 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     }
 
 
-    public void callFoodAndDrink(View view) {
+    public void callCard1(View view) {
 
         scrollViewMain.setVisibility(View.GONE);
 
         card1.setBackgroundColor(ContextCompat.getColor(this, R.color.card1));
         card2.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
         card4.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
-        food_and_drink.setVisibility(View.VISIBLE);
-        residence.setVisibility(View.GONE);
-        entertainment.setVisibility(View.GONE);
+        card5.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card6.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card1rl.setVisibility(View.VISIBLE);
+        card2rl.setVisibility(View.GONE);
+        card4rl.setVisibility(View.GONE);
+        card5rl.setVisibility(View.GONE);
+        card6rl.setVisibility(View.GONE);
         card1x.setVisibility(View.VISIBLE);
         card2x.setVisibility(View.INVISIBLE);
         card4x.setVisibility(View.INVISIBLE);
+        card5x.setVisibility(View.INVISIBLE);
+        card6x.setVisibility(View.INVISIBLE);
         card1x.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 card1x.setVisibility(View.INVISIBLE);
                 card1.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.transparent));
-                food_and_drink.setVisibility(View.GONE);
+                card1rl.setVisibility(View.GONE);
                 scrollViewMain.setVisibility(View.VISIBLE);
             }
         });
@@ -301,25 +358,31 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     }
 
 
-    public void callResidence(View view) {
+    public void callCard2(View view) {
 
         scrollViewMain.setVisibility(View.GONE);
 
         card1.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
         card2.setBackgroundColor(ContextCompat.getColor(this, R.color.card2));
         card4.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
-        food_and_drink.setVisibility(View.GONE);
-        residence.setVisibility(View.VISIBLE);
-        entertainment.setVisibility(View.GONE);
+        card5.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card6.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card1rl.setVisibility(View.GONE);
+        card2rl.setVisibility(View.VISIBLE);
+        card4rl.setVisibility(View.GONE);
+        card5rl.setVisibility(View.GONE);
+        card6rl.setVisibility(View.GONE);
         card1x.setVisibility(View.INVISIBLE);
         card2x.setVisibility(View.VISIBLE);
         card4x.setVisibility(View.INVISIBLE);
+        card5x.setVisibility(View.INVISIBLE);
+        card6x.setVisibility(View.INVISIBLE);
         card2x.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 card2x.setVisibility(View.INVISIBLE);
                 card2.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.transparent));
-                residence.setVisibility(View.GONE);
+                card2rl.setVisibility(View.GONE);
                 scrollViewMain.setVisibility(View.VISIBLE);
 
             }
@@ -328,7 +391,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     }
 
-    public void callTransport(View view) {
+    public void callCard3(View view) {
 
         Intent intent = new Intent(getApplicationContext(), TransportActivityMain.class);
 
@@ -340,25 +403,31 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
     }
 
 
-    public void callEntertainment(View view) {
+    public void callCard4(View view) {
 
         scrollViewMain.setVisibility(View.GONE);
 
         card1.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
         card2.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
         card4.setBackgroundColor(ContextCompat.getColor(this, R.color.card4));
-        food_and_drink.setVisibility(View.GONE);
-        residence.setVisibility(View.GONE);
-        entertainment.setVisibility(View.VISIBLE);
+        card5.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card6.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card1rl.setVisibility(View.GONE);
+        card2rl.setVisibility(View.GONE);
+        card4rl.setVisibility(View.VISIBLE);
+        card5rl.setVisibility(View.GONE);
+        card6rl.setVisibility(View.GONE);
         card1x.setVisibility(View.INVISIBLE);
         card2x.setVisibility(View.INVISIBLE);
         card4x.setVisibility(View.VISIBLE);
+        card5x.setVisibility(View.INVISIBLE);
+        card6x.setVisibility(View.INVISIBLE);
         card4x.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 card4x.setVisibility(View.INVISIBLE);
                 card4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.transparent));
-                entertainment.setVisibility(View.GONE);
+                card4rl.setVisibility(View.GONE);
                 scrollViewMain.setVisibility(View.VISIBLE);
 
             }
@@ -366,6 +435,68 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     }
 
+    public void callCard5(View view) {
+
+        scrollViewMain.setVisibility(View.GONE);
+
+        card1.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card2.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card4.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card5.setBackgroundColor(ContextCompat.getColor(this, R.color.card5));
+        card6.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card1rl.setVisibility(View.GONE);
+        card2rl.setVisibility(View.GONE);
+        card4rl.setVisibility(View.GONE);
+        card5rl.setVisibility(View.VISIBLE);
+        card6rl.setVisibility(View.GONE);
+        card1x.setVisibility(View.INVISIBLE);
+        card2x.setVisibility(View.INVISIBLE);
+        card4x.setVisibility(View.INVISIBLE);
+        card5x.setVisibility(View.VISIBLE);
+        card6x.setVisibility(View.INVISIBLE);
+        card5x.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card5x.setVisibility(View.INVISIBLE);
+                card5.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.transparent));
+                card5rl.setVisibility(View.GONE);
+                scrollViewMain.setVisibility(View.VISIBLE);
+
+            }
+        });
+    }
+
+    public void callCard6(View view) {
+
+        scrollViewMain.setVisibility(View.GONE);
+
+        card1.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card2.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card4.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card5.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
+        card6.setBackgroundColor(ContextCompat.getColor(this, R.color.card6));
+        card1rl.setVisibility(View.GONE);
+        card2rl.setVisibility(View.GONE);
+        card4rl.setVisibility(View.GONE);
+        card5rl.setVisibility(View.GONE);
+        card6rl.setVisibility(View.VISIBLE);
+        card1x.setVisibility(View.INVISIBLE);
+        card2x.setVisibility(View.INVISIBLE);
+        card4x.setVisibility(View.INVISIBLE);
+        card5x.setVisibility(View.INVISIBLE);
+        card6x.setVisibility(View.VISIBLE);
+        card6x.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card6x.setVisibility(View.INVISIBLE);
+                card6.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.transparent));
+                card6rl.setVisibility(View.GONE);
+                scrollViewMain.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+    }
 
     //Navigation drawer Functions
     private void navigationDrawer() {
