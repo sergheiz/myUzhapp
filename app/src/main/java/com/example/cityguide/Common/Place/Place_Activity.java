@@ -1,12 +1,15 @@
 package com.example.cityguide.Common.Place;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Editable;
@@ -16,6 +19,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.transition.Fade;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,7 +56,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,15 +73,18 @@ import java.util.Map;
 
 public class Place_Activity extends AppCompatActivity {
 
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     private TextView tvtitle, tvdescription, tvcall, tvmaplink, likes_count;
-    private TextInputLayout edititle, editdescription, editcall, editmaplink, editImgUrl;
+    private TextInputLayout edititle, editdescription, editcall, editmaplink;
     private ImageView img;
     private ImageView cancel, save, like, dlike, delete;
-    private Button edit;
+    private Button edit, img_select;
     private RadioGroup radioGroup;
     private RadioButton selectedGroup, food, resid, entert, shops, other;
     private LinearLayout groupView;
+    private Uri mImageUri;
+
 
     String Title;
     String Owner;
@@ -82,11 +94,13 @@ public class Place_Activity extends AppCompatActivity {
     String fullMapLink;
     String Description;
     String Imgurl;
+    String n_imgUrl;
     String WhatToDo;
     String Likers;
     String currentUserPhone;
     int LikesNum, n_LikesNum;
 
+    private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("Place Images");
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     CollectionReference Places = FirebaseFirestore.getInstance().collection("Places");
 
@@ -103,9 +117,10 @@ public class Place_Activity extends AppCompatActivity {
         getWindow().setExitTransition(fade);
 
 
+        edit = (Button) findViewById(R.id.edit);
+        img_select = (Button) findViewById(R.id.img_select_btn_id);
         like = (ImageView) findViewById(R.id.like);
         dlike = (ImageView) findViewById(R.id.dlike);
-        edit = (Button) findViewById(R.id.edit);
         cancel = (ImageView) findViewById(R.id.cancel_edit);
         save = (ImageView) findViewById(R.id.save_edit);
         delete = (ImageView) findViewById(R.id.delete_place);
@@ -128,7 +143,6 @@ public class Place_Activity extends AppCompatActivity {
         other = (RadioButton) findViewById(R.id.other);
 
 
-        editImgUrl = findViewById(R.id.edit_imgurl);
         edititle = findViewById(R.id.edit_txttitle);
         editcall = findViewById(R.id.edit_call_number);
         editmaplink = findViewById(R.id.edit_map_link);
@@ -152,6 +166,12 @@ public class Place_Activity extends AppCompatActivity {
         Likers = intent.getExtras().getString("Likers");
         LikesNum = intent.getExtras().getInt("LikesNum");
 
+        img_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
 
         // Setting values
         if (Imgurl != null) {
@@ -199,14 +219,12 @@ public class Place_Activity extends AppCompatActivity {
 
         edititle.getEditText().setText(Title);
 
-        editImgUrl.getEditText().setText(Imgurl);
 
         editmaplink.getEditText().setText(MapLink);
 
         editcall.getEditText().setText(Phone);
 
         editdescription.getEditText().setText(Description);
-
 
 
         if (currentUser == null) {
@@ -250,6 +268,32 @@ public class Place_Activity extends AppCompatActivity {
         }
 
 
+    }
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+
+            Glide.with(this).load(mImageUri).into(img);
+
+        }
     }
 
     public void LikeHit(View view) {
@@ -356,7 +400,7 @@ public class Place_Activity extends AppCompatActivity {
         tvdescription.setVisibility(View.INVISIBLE);
 
 
-        editImgUrl.setVisibility(View.VISIBLE);
+        img_select.setVisibility(View.VISIBLE);
         edititle.setVisibility(View.VISIBLE);
         editmaplink.setVisibility(View.VISIBLE);
         editcall.setVisibility(View.VISIBLE);
@@ -387,6 +431,16 @@ public class Place_Activity extends AppCompatActivity {
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
+
+
+                                                    //
+                                                    //FIND Solution to delete images from Cloud Storage foladers
+                                                    //
+
+
+                                                    // mStorageRef.child(Title).delete(); - NOT WORKS
+
+
                                                     Toast.makeText(getApplicationContext(), "Place " + Title + " Deleted!", Toast.LENGTH_LONG).show();
 
                                                 }
@@ -427,6 +481,9 @@ public class Place_Activity extends AppCompatActivity {
     }
 
 
+
+
+
     public void SaveData(View view) {
 
 
@@ -437,16 +494,14 @@ public class Place_Activity extends AppCompatActivity {
         }
 
 
-        if (!validateTitle() | !validateDescription() | !validateImgUrl() | !validatePhone() | !validateMapLink() | !validateGroup()) {
+        if (!validateTitle() | !validateDescription() | !validatePhone() | !validateMapLink() | !validateGroup()) {
             return;
         }
 
         selectedGroup = findViewById(radioGroup.getCheckedRadioButtonId());
         String n_group = selectedGroup.getText().toString();
 
-
-        String n_imgUrl = editImgUrl.getEditText().getText().toString();
-        String n_title = edititle.getEditText().getText().toString();
+        String n_title = edititle.getEditText().getText().toString().trim();
         String n_maplink = editmaplink.getEditText().getText().toString();
         String n_phone = editcall.getEditText().getText().toString();
         String n_description = editdescription.getEditText().getText().toString();
@@ -456,31 +511,63 @@ public class Place_Activity extends AppCompatActivity {
         String curdate = formatter.format(date);
         Toast.makeText(getApplicationContext(), curdate, Toast.LENGTH_SHORT).show();
 
+
         if (WhatToDo != null) {
             if (WhatToDo.equals("Create New Place")) {
 
+                if (mImageUri != null) {
 
-                // Create a Map to store the data we want to set
-                Map<String, Object> docData = new HashMap<>();
-                docData.put("name", n_title);
-                docData.put("group", n_group);
-                docData.put("description", n_description);
-                docData.put("imgurl", n_imgUrl);
-                docData.put("maplink", n_maplink);
-                docData.put("phone", n_phone);
-                docData.put("owner", currentUserPhone);
-                docData.put("updated", curdate);
-                docData.put("likes", Arrays.asList());
-                docData.put("likesNum", 0);
-                docData.put("featured", "no");
+                    StorageReference fileReference = mStorageRef
+                            .child(n_title + "." + getFileExtension(mImageUri));
 
-                //add new document
-                Places.document().set(docData);
+                    fileReference.putFile(mImageUri)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                Toast.makeText(getApplicationContext(), "Place " + n_title + " has been created!", Toast.LENGTH_SHORT).show();
+                                    taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            n_imgUrl = uri.toString();
 
-                finish();
+                                            // Create a Map to store the data we want to set
+                                            Map<String, Object> docData = new HashMap<>();
+                                            docData.put("name", n_title);
+                                            docData.put("group", n_group);
+                                            docData.put("description", n_description);
+                                            docData.put("imgurl", n_imgUrl);
+                                            docData.put("maplink", n_maplink);
+                                            docData.put("phone", n_phone);
+                                            docData.put("owner", currentUserPhone);
+                                            docData.put("updated", curdate);
+                                            docData.put("likes", Arrays.asList());
+                                            docData.put("likesNum", 0);
+                                            docData.put("featured", "no");
 
+                                            //add new document
+                                            Places.document().set(docData);
+
+                                            Toast.makeText(getApplicationContext(), "Place " + n_title + " has been created!", Toast.LENGTH_SHORT).show();
+
+                                            finish();
+
+                                        }
+                                    });
+
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(Place_Activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                } else {
+                    Toast.makeText(this, "No Image Selected", Toast.LENGTH_SHORT).show();
+
+                }
 
             }
         } else {
@@ -490,45 +577,70 @@ public class Place_Activity extends AppCompatActivity {
 
             if (!Imgurl.equals(n_imgUrl)) {
 
-                query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (mImageUri != null) {
 
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    StorageReference fileReference = mStorageRef
+                            .child(n_title + "." + getFileExtension(mImageUri));
 
-                            Places.document(documentSnapshot.getId())
-                                    .update("imgurl", n_imgUrl)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    fileReference.putFile(mImageUri)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                    taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Imgurl = n_imgUrl;
-                                            Glide.with(img.getContext()).load(Imgurl).placeholder(R.drawable.image_placeholder).into(img);
-                                            editImgUrl.getEditText().setText(Imgurl);
-                                            Toast.makeText(getApplicationContext(), "Image Updated", Toast.LENGTH_SHORT).show();
+                                        public void onSuccess(Uri uri) {
+                                            n_imgUrl = uri.toString();
 
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), "Image Update Failed" + e, Toast.LENGTH_LONG).show();
+                                            query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                                                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+
+                                                        Places.document(documentSnapshot.getId())
+                                                                .update("imgurl", n_imgUrl)
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
+                                                                        Glide.with(img.getContext()).load(n_imgUrl).placeholder(R.drawable.image_placeholder).into(img);
+                                                                        Toast.makeText(getApplicationContext(), "Image Updated", Toast.LENGTH_SHORT).show();
+
+                                                                    }
+                                                                })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Toast.makeText(getApplicationContext(), "Image Update Failed" + e.getMessage(), Toast.LENGTH_LONG).show();
+
+                                                                    }
+                                                                });
+
+                                                        Places.document(documentSnapshot.getId())
+                                                                .update("updated", curdate);
+                                                    }
+
+
+                                                }
+                                            });
+
 
                                         }
                                     });
 
-                            Places.document(documentSnapshot.getId())
-                                    .update("updated", curdate);
-                        }
 
-                    }
-                })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), Title + e, Toast.LENGTH_LONG).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(Place_Activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+                    Toast.makeText(this, "No Image Selected", Toast.LENGTH_SHORT).show();
+                }
 
-                            }
-                        });
             }
 
             if (!Title.equals(n_title)) {
@@ -555,7 +667,7 @@ public class Place_Activity extends AppCompatActivity {
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), "Title Update Failed" + e, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Title Update Failed" + e.getMessage(), Toast.LENGTH_LONG).show();
 
                                         }
                                     });
@@ -570,7 +682,7 @@ public class Place_Activity extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), Title + e, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), Title + e.getMessage(), Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -601,7 +713,7 @@ public class Place_Activity extends AppCompatActivity {
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), "Phone Update Failed" + e, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Phone Update Failed" + e.getMessage(), Toast.LENGTH_LONG).show();
 
                                         }
                                     });
@@ -616,7 +728,7 @@ public class Place_Activity extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), Title + e, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), Title + e.getMessage(), Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -650,7 +762,7 @@ public class Place_Activity extends AppCompatActivity {
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), "MapLink Update Failed" + e, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "MapLink Update Failed" + e.getMessage(), Toast.LENGTH_LONG).show();
 
                                         }
                                     });
@@ -665,7 +777,7 @@ public class Place_Activity extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), Title + e, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), Title + e.getMessage(), Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -695,7 +807,7 @@ public class Place_Activity extends AppCompatActivity {
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), "Description Update Failed" + e, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Description Update Failed" + e.getMessage(), Toast.LENGTH_LONG).show();
 
                                         }
                                     });
@@ -710,7 +822,7 @@ public class Place_Activity extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), Title + e, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), Title + e.getMessage(), Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -749,7 +861,7 @@ public class Place_Activity extends AppCompatActivity {
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), "Group Update Failed" + e, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Group Update Failed" + e.getMessage(), Toast.LENGTH_LONG).show();
 
                                         }
                                     });
@@ -764,7 +876,7 @@ public class Place_Activity extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), Title + e, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), Title + e.getMessage(), Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -783,7 +895,7 @@ public class Place_Activity extends AppCompatActivity {
         tvcall.setVisibility(View.VISIBLE);
         tvdescription.setVisibility(View.VISIBLE);
 
-        editImgUrl.setVisibility(View.INVISIBLE);
+        img_select.setVisibility(View.INVISIBLE);
         edititle.setVisibility(View.INVISIBLE);
         editmaplink.setVisibility(View.INVISIBLE);
         editcall.setVisibility(View.INVISIBLE);
@@ -796,13 +908,13 @@ public class Place_Activity extends AppCompatActivity {
     private boolean validateTitle() {
 
 
-        String val = edititle.getEditText().getText().toString();
+        String val = edititle.getEditText().getText().toString().trim();
 
 
         if (val.isEmpty()) {
             edititle.setError(getText(R.string.val_not_empty));
             return false;
-        } else if (val.length() < 4) {
+        } else if (val.length() < 2) {
             edititle.setError(getText(R.string.val_too_short));
             return false;
         } else {
@@ -815,7 +927,7 @@ public class Place_Activity extends AppCompatActivity {
     private boolean validateDescription() {
 
 
-        String val = editdescription.getEditText().getText().toString();
+        String val = editdescription.getEditText().getText().toString().trim();
 
         if (val.isEmpty()) {
             editdescription.setError(getText(R.string.val_not_empty));
@@ -847,20 +959,6 @@ public class Place_Activity extends AppCompatActivity {
         }
     }
 
-    private boolean validateImgUrl() {
-
-
-        String val = editImgUrl.getEditText().getText().toString().trim();
-
-        if (val.isEmpty()) {
-            editImgUrl.setError(getText(R.string.val_not_empty));
-            return false;
-        } else {
-            editImgUrl.setError(null);
-            editImgUrl.setErrorEnabled(false);
-            return true;
-        }
-    }
 
     private boolean validateMapLink() {
 

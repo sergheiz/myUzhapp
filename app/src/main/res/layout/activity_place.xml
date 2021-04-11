@@ -80,25 +80,16 @@
                 android:src="@drawable/favorite_shadow"
                 app:tint="@color/Red" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/black_border"
-                android:layout_alignStart="@id/img_thumbnail"
-                android:layout_marginTop="100dp"
-                android:layout_marginHorizontal="10dp"
-                android:id="@+id/edit_imgurl"
+            <Button
                 android:visibility="invisible"
-                >
+                android:id="@+id/img_select_btn_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/group_layout"
+                android:layout_margin="10dp"
+                android:textAllCaps="false"
+                android:text="Choose Place Image:"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Place Image Link"
-                    android:singleLine="true"
-                    android:textSize="20sp"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
 
 
 
@@ -312,7 +303,7 @@
                 android:text="About this place:"
                 android:textColor="@color/Black"
                 android:textSize="16sp"
-                android:layout_below="@id/map_link"
+                android:layout_below="@id/edit_map_link"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"/>
 
@@ -362,14 +353,12 @@
 
     <ImageView
         android:id="@+id/delete_place"
-        app:tint="@color/Black"
-        android:background="@color/card6"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="15dp"
         android:elevation="8dp"
-        android:foreground="@drawable/black_border"
         android:src="@drawable/delete_icon"
+        app:tint="@color/Red"
         android:visibility="gone" />
 
 

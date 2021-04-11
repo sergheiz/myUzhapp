@@ -43,7 +43,7 @@
             android:scrollHorizontally="true"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
-            android:textStyle="bold"
+            android:textStyle="bold|italic"
             android:text="Place Title"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="30sp"/>
