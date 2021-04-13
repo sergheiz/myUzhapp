@@ -432,23 +432,33 @@ public class Place_Activity extends AppCompatActivity {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
 
+                                                    // Deleting image from Cloud Storage
 
-                                                    //
-                                                    //FIND Solution to delete images from Cloud Storage foladers
-                                                    //
+                                                    StorageReference  imgUrlRef = FirebaseStorage.getInstance().getReferenceFromUrl(Imgurl);
+                                                    imgUrlRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Toast.makeText(getApplicationContext(), "Deleted " + Title + " image!", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+
+                                                            Toast.makeText(getApplicationContext(), "Failed to delete " + Title + " image " + e.getMessage(), Toast.LENGTH_LONG).show();
 
 
-                                                    // mStorageRef.child(Title).delete(); - NOT WORKS
+                                                        }
+                                                    });
 
 
-                                                    Toast.makeText(getApplicationContext(), "Place " + Title + " Deleted!", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "Place Data" + Title + " Deleted!", Toast.LENGTH_LONG).show();
 
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(getApplicationContext(), Title + " Delete Failed" + e, Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), Title + " Failed Delete Data " + e.getMessage(), Toast.LENGTH_LONG).show();
 
                                                 }
                                             });
@@ -485,6 +495,11 @@ public class Place_Activity extends AppCompatActivity {
 
 
     public void SaveData(View view) {
+
+
+        //
+        // FIND Solution to Rename/Replace image file on Cloud Storage when updating the Place Name
+        //
 
 
         CheckInternet checkInternet = new CheckInternet();
