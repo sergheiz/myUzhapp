@@ -21,19 +21,19 @@
 
             <ImageView
                 android:id="@+id/call_icon"
-                android:layout_margin="8dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_below="@id/img_thumbnail"
+                android:layout_margin="8dp"
                 android:src="@drawable/field_phone_number_icon"
                 app:tint="#0000EE" />
 
             <ImageView
                 android:id="@+id/map_icon"
-                android:layout_margin="8dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_below="@id/call_icon"
+                android:layout_margin="8dp"
                 android:src="@drawable/show_on_map_image" />
 
 
@@ -47,74 +47,72 @@
 
             <TextView
                 android:id="@+id/likes_count"
-                android:onClick="LikersList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/like"
                 android:layout_toStartOf="@+id/like"
-                android:textStyle="bold"
+                android:onClick="LikersList"
                 android:text="Likes"
                 android:textColor="@color/Black"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/like"
-                android:onClick="LikeHit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
                 android:layout_alignBottom="@+id/img_thumbnail"
+                android:layout_alignParentEnd="true"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
+                android:onClick="LikeHit"
                 android:src="@drawable/favorite_shadow" />
 
             <ImageView
                 android:id="@+id/dlike"
-                android:onClick="dLikeHit"
-                android:visibility="invisible"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
                 android:layout_alignBottom="@+id/like"
+                android:layout_alignParentEnd="true"
                 android:layout_marginEnd="10dp"
+                android:onClick="dLikeHit"
                 android:src="@drawable/favorite_shadow"
+                android:visibility="invisible"
                 app:tint="@color/Red" />
 
+
             <Button
-                android:visibility="invisible"
                 android:id="@+id/img_select_btn_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/group_layout"
                 android:layout_margin="10dp"
+                android:text="Choose Place Image:"
                 android:textAllCaps="false"
-                android:text="Choose Place Image:"/>
-
-
-
+                android:visibility="invisible" />
 
 
             <LinearLayout
                 android:id="@+id/group_layout"
-                android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/edit_txttitle"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="invisible">
 
                 <TextView
-                    android:layout_marginStart="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/muli_semibold"
                     android:text="Category:"
                     android:textColor="@color/Black"
                     android:textSize="18sp" />
 
                 <HorizontalScrollView
-                    android:padding="5dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
 
                     <RadioGroup
                         android:id="@+id/radio_group"
@@ -123,54 +121,53 @@
                         android:orientation="horizontal">
 
                         <RadioButton
-                            android:background="@drawable/black_border"
-                            android:padding="5dp"
                             android:id="@+id/food"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/black_border"
+                            android:padding="5dp"
                             android:text="@string/food" />
 
                         <RadioButton
-                            android:background="@drawable/black_border"
-                            android:padding="5dp"
                             android:id="@+id/resid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
+                            android:background="@drawable/black_border"
+                            android:padding="5dp"
                             android:text="@string/residence" />
 
                         <RadioButton
-                            android:background="@drawable/black_border"
-                            android:padding="5dp"
                             android:id="@+id/entert"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
+                            android:background="@drawable/black_border"
+                            android:padding="5dp"
                             android:text="@string/entertain" />
 
                         <RadioButton
-                            android:background="@drawable/black_border"
-                            android:padding="5dp"
                             android:id="@+id/shops"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
+                            android:background="@drawable/black_border"
+                            android:padding="5dp"
                             android:text="@string/shops" />
 
                         <RadioButton
-                            android:background="@drawable/black_border"
-                            android:padding="5dp"
                             android:id="@+id/other"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
+                            android:background="@drawable/black_border"
+                            android:padding="5dp"
                             android:text="@string/other" />
 
 
                     </RadioGroup>
 
                 </HorizontalScrollView>
-
 
 
                 <View
@@ -187,41 +184,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/img_thumbnail"
-                android:layout_toStartOf="@+id/likes_count"
                 android:layout_marginHorizontal="10dp"
-                android:paddingHorizontal="5dp"
-                android:textStyle="bold"
+                android:layout_toStartOf="@+id/likes_count"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
+                android:paddingHorizontal="5dp"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle"
                 android:textColor="@color/Black"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_txttitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/black_border"
                 android:layout_alignStart="@id/img_thumbnail"
                 android:layout_alignBottom="@id/img_thumbnail"
-                android:layout_toStartOf="@+id/likes_count"
                 android:layout_marginHorizontal="10dp"
-                android:id="@+id/edit_txttitle"
-                android:visibility="invisible"
-                >
+                android:layout_toStartOf="@+id/likes_count"
+                android:background="@drawable/black_border"
+                android:visibility="invisible">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textStyle="bold"
                     android:hint="Place Title"
                     android:singleLine="true"
-                    android:textSize="30sp"/>
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
 
 
             <TextView
@@ -238,15 +233,14 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_call_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/black_border"
-                android:layout_alignParentEnd="true"
                 android:layout_below="@id/edit_txttitle"
+                android:layout_alignParentEnd="true"
                 android:layout_toRightOf="@id/call_icon"
-                android:id="@+id/edit_call_number"
-                android:visibility="invisible"
-                >
+                android:background="@drawable/black_border"
+                android:visibility="invisible">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -274,14 +268,13 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_map_link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/black_border"
                 android:layout_below="@id/edit_call_number"
                 android:layout_toRightOf="@id/map_icon"
-                android:id="@+id/edit_map_link"
-                android:visibility="invisible"
-                >
+                android:background="@drawable/black_border"
+                android:visibility="invisible">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -289,30 +282,28 @@
                     android:hint="Place Map Link"
                     android:singleLine="true"
                     android:textColor="#0000EE"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-
 
 
             <TextView
                 android:id="@+id/about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/edit_map_link"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:text="About this place:"
                 android:textColor="@color/Black"
-                android:textSize="16sp"
-                android:layout_below="@id/edit_map_link"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"/>
+                android:textSize="16sp" />
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@id/about"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_below="@id/about">
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:id="@+id/txtDesc"
@@ -326,25 +317,22 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_txtDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/black_border"
                 android:layout_below="@id/about"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/edit_txtDesc"
-                android:visibility="invisible"
-                >
+                android:background="@drawable/black_border"
+                android:visibility="invisible">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Place Description"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-
 
 
         </RelativeLayout>
@@ -358,9 +346,8 @@
         android:layout_margin="15dp"
         android:elevation="8dp"
         android:src="@drawable/delete_icon"
-        app:tint="@color/Red"
-        android:visibility="gone" />
-
+        android:visibility="gone"
+        app:tint="@color/Red" />
 
 
     <LinearLayout
@@ -371,47 +358,44 @@
         android:orientation="horizontal">
 
 
-
         <Button
             android:id="@+id/edit"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
+            android:background="@drawable/edit_icon"
             android:elevation="8dp"
             android:foreground="@drawable/black_border"
             android:onClick="EditPlace"
-            android:background="@drawable/edit_icon"
             android:visibility="gone" />
-
 
 
         <ImageView
             android:id="@+id/cancel_edit"
-            android:onClick="CancelEdit"
-            app:tint="@color/Black"
-            android:background="@color/colorPrimary"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
+            android:background="@color/colorPrimary"
             android:elevation="8dp"
             android:foreground="@drawable/black_border"
+            android:onClick="CancelEdit"
             android:src="@drawable/general_close_icon"
-            android:visibility="gone" />
-
+            android:visibility="gone"
+            app:tint="@color/Black" />
 
 
         <ImageView
             android:id="@+id/save_edit"
-            android:onClick="SaveData"
-            app:tint="@color/Black"
-            android:background="@color/colorPrimary"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
+            android:background="@color/colorPrimary"
             android:elevation="8dp"
             android:foreground="@drawable/black_border"
+            android:onClick="SaveData"
             android:src="@drawable/skip_icon"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:tint="@color/Black" />
 
     </LinearLayout>
 

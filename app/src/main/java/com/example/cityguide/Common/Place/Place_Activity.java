@@ -6,11 +6,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.Html;
@@ -56,11 +60,16 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -100,7 +109,9 @@ public class Place_Activity extends AppCompatActivity {
     String currentUserPhone;
     int LikesNum, n_LikesNum;
 
-    private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("Place Images");
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference mStorageRef = storage.getReference("Place Images");
+
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     CollectionReference Places = FirebaseFirestore.getInstance().collection("Places");
 
@@ -284,14 +295,41 @@ public class Place_Activity extends AppCompatActivity {
 
     }
 
+    public static class UtilClassName{
+        public static int getFileSize(Uri imageUri, Activity activity){
+            int kb_size=0;
+            try {
+                InputStream is=activity.getContentResolver().openInputStream(imageUri);
+                int byte_size=is.available();
+                kb_size=byte_size/1024;
+                Toast.makeText(activity, String.valueOf(kb_size) , Toast.LENGTH_SHORT).show();
+
+            }
+            catch (Exception e){
+                // here you can handle exception here
+            }
+            return kb_size;
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
+
             mImageUri = data.getData();
 
             Glide.with(this).load(mImageUri).into(img);
+
+            if(UtilClassName.getFileSize(mImageUri,this)<=500){
+                Toast.makeText(this, "Image Size Ok", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(this, "Image is too large" + "\n" + "Maximum image file size allowed: 1Mb", Toast.LENGTH_LONG).show();
+            }
+
+
 
         }
     }
@@ -434,7 +472,7 @@ public class Place_Activity extends AppCompatActivity {
 
                                                     // Deleting image from Cloud Storage
 
-                                                    StorageReference  imgUrlRef = FirebaseStorage.getInstance().getReferenceFromUrl(Imgurl);
+                                                    StorageReference imgUrlRef = storage.getReferenceFromUrl(Imgurl);
                                                     imgUrlRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
@@ -491,9 +529,6 @@ public class Place_Activity extends AppCompatActivity {
     }
 
 
-
-
-
     public void SaveData(View view) {
 
 
@@ -509,7 +544,7 @@ public class Place_Activity extends AppCompatActivity {
         }
 
 
-        if (!validateTitle() | !validateDescription() | !validatePhone() | !validateMapLink() | !validateGroup()) {
+        if (!validateTitle() | !validateImageSize() | !validateDescription() | !validatePhone() | !validateMapLink() | !validateGroup()) {
             return;
         }
 
@@ -675,6 +710,7 @@ public class Place_Activity extends AppCompatActivity {
                                             Title = n_title;
                                             tvtitle.setText(Title);
                                             edititle.getEditText().setText(Title);
+                                            RenameImageFile();
                                             Toast.makeText(getApplicationContext(), "Title Updated", Toast.LENGTH_SHORT).show();
 
                                         }
@@ -693,6 +729,8 @@ public class Place_Activity extends AppCompatActivity {
                         }
 
                     }
+
+
                 })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -919,6 +957,104 @@ public class Place_Activity extends AppCompatActivity {
 
     }
 
+    private void RenameImageFile() {
+
+        Query query = Places.whereEqualTo("name", Title);
+
+        StorageReference o_imgNameRef = storage.getReferenceFromUrl(Imgurl);
+        o_imgNameRef.getBytes(1024 * 1024)
+                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Toast.makeText(getApplicationContext(), "Success Getting Bytes ", Toast.LENGTH_LONG).show();
+                        StorageReference n_imgNameRef = mStorageRef
+                                .child(Title + ".png");
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+
+                        n_imgNameRef.putBytes(baos.toByteArray())
+                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        Toast.makeText(getApplicationContext(), "Success Putting Bytes ", Toast.LENGTH_LONG).show();
+                                        taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+
+                                                query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                                                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+
+                                                            Places.document(documentSnapshot.getId())
+                                                                    .update("imgurl", uri.toString())
+                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            Imgurl = uri.toString();
+                                                                            Toast.makeText(getApplicationContext(), "Success writing new name url", Toast.LENGTH_LONG).show();
+                                                                            o_imgNameRef.delete();
+                                                                        }
+                                                                    })
+                                                                    .addOnFailureListener(new OnFailureListener() {
+                                                                        @Override
+                                                                        public void onFailure(@NonNull Exception e) {
+                                                                            Toast.makeText(getApplicationContext(), "Failed writing new name url " + "/n" + e.getMessage(), Toast.LENGTH_LONG).show();
+                                                                        }
+                                                                    });
+
+                                                        }
+
+                                                    }
+                                                });
+
+                                            }
+                                        })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+
+                                                    }
+                                                });
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Failed Putting Bytes " + "/n" + e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "Failed Getting Bytes " + Imgurl + "/n" + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+    }
+
+
+    private boolean validateImageSize() {
+
+
+        if (UtilClassName.getFileSize(mImageUri,this)>=500){
+            Toast.makeText(this, "Image is too large" + "\n" + "Maximum image file size allowed: 500kb", Toast.LENGTH_LONG).show();
+            return false;
+        } else {
+            Toast.makeText(this, "Image size OK", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+
+
+    }
 
     private boolean validateTitle() {
 
