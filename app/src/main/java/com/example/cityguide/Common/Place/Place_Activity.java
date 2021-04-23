@@ -93,6 +93,7 @@ public class Place_Activity extends AppCompatActivity {
     private RadioButton selectedGroup, food, resid, entert, shops, other;
     private LinearLayout groupView;
     private Uri mImageUri;
+    private ByteArrayOutputStream baos;
 
 
     String Title;
@@ -126,6 +127,8 @@ public class Place_Activity extends AppCompatActivity {
 
         getWindow().setEnterTransition(fade);
         getWindow().setExitTransition(fade);
+
+        baos =  new ByteArrayOutputStream();
 
 
         edit = (Button) findViewById(R.id.edit);
@@ -302,7 +305,7 @@ public class Place_Activity extends AppCompatActivity {
                 InputStream is=activity.getContentResolver().openInputStream(imageUri);
                 int byte_size=is.available();
                 kb_size=byte_size/1024;
-                Toast.makeText(activity, String.valueOf(kb_size) , Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity,  "Image size: " + String.valueOf(kb_size) + "kb" , Toast.LENGTH_SHORT).show();
 
             }
             catch (Exception e){
@@ -320,13 +323,22 @@ public class Place_Activity extends AppCompatActivity {
 
             mImageUri = data.getData();
 
+            try {
+                Bitmap placeBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);
+                placeBitmap.compress(Bitmap.CompressFormat.JPEG,50,baos);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
             Glide.with(this).load(mImageUri).into(img);
 
             if(UtilClassName.getFileSize(mImageUri,this)<=500){
                 Toast.makeText(this, "Image Size Ok", Toast.LENGTH_SHORT).show();
             }
             else{
-                Toast.makeText(this, "Image is too large" + "\n" + "Maximum image file size allowed: 1Mb", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Image is too large" + "\n" + "Maximum image file size allowed: 500kb", Toast.LENGTH_LONG).show();
             }
 
 
@@ -531,12 +543,6 @@ public class Place_Activity extends AppCompatActivity {
 
     public void SaveData(View view) {
 
-
-        //
-        // FIND Solution to Rename/Replace image file on Cloud Storage when updating the Place Name
-        //
-
-
         CheckInternet checkInternet = new CheckInternet();
         if (!checkInternet.isConnected(getApplicationContext())) {
             showCustomDialog();
@@ -568,9 +574,9 @@ public class Place_Activity extends AppCompatActivity {
                 if (mImageUri != null) {
 
                     StorageReference fileReference = mStorageRef
-                            .child(n_title + "." + getFileExtension(mImageUri));
+                            .child(n_title + ".jpeg");
 
-                    fileReference.putFile(mImageUri)
+                    fileReference.putBytes(baos.toByteArray())
                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -620,7 +626,8 @@ public class Place_Activity extends AppCompatActivity {
                 }
 
             }
-        } else {
+        }
+        else {
 
             Query query = Places.whereEqualTo("name", Title);
 
@@ -630,9 +637,9 @@ public class Place_Activity extends AppCompatActivity {
                 if (mImageUri != null) {
 
                     StorageReference fileReference = mStorageRef
-                            .child(n_title + "." + getFileExtension(mImageUri));
+                            .child(n_title + ".jpeg");
 
-                    fileReference.putFile(mImageUri)
+                    fileReference.putBytes(baos.toByteArray())
                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -968,10 +975,10 @@ public class Place_Activity extends AppCompatActivity {
                     public void onSuccess(byte[] bytes) {
                         Toast.makeText(getApplicationContext(), "Success Getting Bytes ", Toast.LENGTH_LONG).show();
                         StorageReference n_imgNameRef = mStorageRef
-                                .child(Title + ".png");
+                                .child(Title + ".jpeg");
                         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
 
                         n_imgNameRef.putBytes(baos.toByteArray())
                                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
