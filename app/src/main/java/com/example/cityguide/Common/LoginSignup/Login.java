@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.transition.Fade;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
@@ -132,15 +133,13 @@ public class Login extends AppCompatActivity {
 
                         //get data from Firebase
                         String _fullname = snapshot.child(_completePhoneNumber).child("fullName").getValue(String.class);
-                        String _email = snapshot.child(_completePhoneNumber).child("email").getValue(String.class);
-                        String _password = snapshot.child(_completePhoneNumber).child("password").getValue(String.class);
+                        String _avatarUrl = snapshot.child(_completePhoneNumber).child("avatarUrl").getValue(String.class);
 
 
                         Intent intent = new Intent(getApplicationContext(), VerifyOTP.class);
                         intent.putExtra("phoneNo", _completePhoneNumber);
-                        intent.putExtra("email", _email);
+                        intent.putExtra("avatarUrl", _avatarUrl);
                         intent.putExtra("fullName", _fullname);
-                        intent.putExtra("password", _password);
                         intent.putExtra("whatToDo", "Login");
                         startActivity(intent);
                         finish();
@@ -232,5 +231,9 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    public void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
 
 }

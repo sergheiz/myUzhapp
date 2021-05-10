@@ -3,15 +3,15 @@ package com.example.cityguide.HelperClasses.Models;
 
 public class User {
 
-    String phoneNo, email, fullName, password;
+    String phoneNo, fullName, password, avatarUrl;
 
 
 
-    public User( String phoneNo, String email, String fullName, String password) {
+    public User( String phoneNo,  String fullName, String password, String avatarUrl) {
         this.phoneNo = phoneNo;
-        this.email = email;
         this.fullName = fullName;
         this.password = password;
+        this.avatarUrl = avatarUrl;
     }
 
     public String getPhoneNo() {
@@ -20,14 +20,6 @@ public class User {
 
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
 
@@ -45,6 +37,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
 }

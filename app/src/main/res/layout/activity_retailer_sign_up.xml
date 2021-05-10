@@ -107,35 +107,36 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/signup_email"
+                android:id="@+id/signup_password"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/enter_email"
+                android:hint="@string/enter_password"
                 app:boxStrokeColor="@color/Black"
                 app:boxStrokeWidthFocused="2dp"
-                app:endIconMode="clear_text"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/Black"
                 app:endIconTint="@color/Black"
                 app:hintTextColor="@color/Black"
-                app:startIconDrawable="@drawable/field_email_icon"
+                app:startIconDrawable="@drawable/field_password_icon"
                 app:startIconTint="@color/Black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/muli_semibold"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textPassword"
                     android:textColor="@color/Black"
                     android:textCursorDrawable="@null" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/signup_password"
+                android:id="@+id/signup_confirm_password"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/enter_password"
+                android:hint="@string/confirm_password"
                 app:boxStrokeColor="@color/Black"
                 app:boxStrokeWidthFocused="2dp"
                 app:endIconTint="@color/Black"

@@ -156,10 +156,10 @@ public class SetNewPasswordx extends AppCompatActivity {
                 if (snapshot.exists()) {
                     assert _phoneNumber != null;
                     String fullNameFromDB = snapshot.child(_phoneNumber).child("fullName").getValue(String.class);
-                    String emailFromDB = snapshot.child(_phoneNumber).child("email").getValue(String.class);
+                    String avatarUrlFromDB = snapshot.child(_phoneNumber).child("imgUrl").getValue(String.class);
 
                     SessionManager sessionManager = new SessionManager(SetNewPasswordx.this, SessionManager.SESSION_USERSLOGIN);
-                    sessionManager.createLoginSession(_phoneNumber, fullNameFromDB, emailFromDB, _newPassword);
+                    sessionManager.createLoginSession(_phoneNumber, fullNameFromDB, avatarUrlFromDB);
                     finish();
                 }
 

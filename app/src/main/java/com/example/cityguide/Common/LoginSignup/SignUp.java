@@ -42,7 +42,7 @@ public class SignUp extends AppCompatActivity {
 
     //Variables
 
-    TextInputLayout fullName, email, phoneNumber, password;
+    TextInputLayout fullName, phoneNumber, password, confirmPassword;
     CountryCodePicker countryCodePicker;
 
     Button nextBtn;
@@ -74,8 +74,8 @@ public class SignUp extends AppCompatActivity {
         fullName = findViewById(R.id.signup_fullname);
 
 
-        email = findViewById(R.id.signup_email);
         password = findViewById(R.id.signup_password);
+        confirmPassword = findViewById(R.id.signup_confirm_password);
 
         nextBtn = findViewById(R.id.next_btn);
 
@@ -97,7 +97,6 @@ public class SignUp extends AppCompatActivity {
 
 
         String _fullName = fullName.getEditText().getText().toString();
-        String _email = email.getEditText().getText().toString();
         String _password = password.getEditText().getText().toString().trim();
 
         //Get complete phone number
@@ -107,7 +106,7 @@ public class SignUp extends AppCompatActivity {
         }
         n_phoneNo = "+" + countryCodePicker.getFullNumber() + _getUserEnteredPhoneNumber;
 
-        if (!validateFullName() | !validatePhoneNumber() | !validateEmail() | !validatePassword()) {
+        if (!validateFullName() | !validatePhoneNumber() | !validatePassword()) {
             return;
         }
 
@@ -118,7 +117,6 @@ public class SignUp extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), VerifyOTP.class);
 
         intent.putExtra("fullName", _fullName);
-        intent.putExtra("email", _email);
         intent.putExtra("password", _password);
         intent.putExtra("phoneNo", n_phoneNo);
         intent.putExtra("whatToDo", "createNewUser"); // This is to identify that which action should OTP perform after verification.
@@ -213,7 +211,7 @@ public class SignUp extends AppCompatActivity {
         if (val.isEmpty()) {
             fullName.setError(getText(R.string.val_not_empty));
             return false;
-        } else if (val.length() > 30) {
+        } else if (val.length() > 17) {
             fullName.setError(getText(R.string.val_too_large));
             return false;
         } else {
@@ -223,42 +221,30 @@ public class SignUp extends AppCompatActivity {
         }
     }
 
-    private boolean validateEmail() {
 
-
-        String val = email.getEditText().getText().toString().trim();
-        //String spaces = "\\A\\w{1,30}+@\\w{1,30}+\\.+\\w{1,30}\\z";
-        String emailRegex = "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$";
-
-        if (val.isEmpty()) {
-            email.setError(getText(R.string.val_not_empty));
-            return false;
-        } else if (!val.matches(emailRegex)) {
-            email.setError(getText(R.string.val_invalid_email));
-            return false;
-        } else if (val.length() > 30) {
-            email.setError(getText(R.string.val_too_large));
-            return false;
-        } else {
-            email.setError(null);
-            email.setErrorEnabled(false);
-            return true;
-        }
-    }
 
     private boolean validatePassword() {
-        String val = password.getEditText().getText().toString().trim();
+        String pw = password.getEditText().getText().toString().trim();
+        String cpw = confirmPassword.getEditText().getText().toString().trim();
+        String noWhiteSpaces = "\\A\\w{4,20}\\z";
 
-        if (val.isEmpty()) {
+        if (pw.isEmpty()) {
             password.setError(getText(R.string.val_not_empty));
             return false;
-        } else if (val.length() < 4) {
+        } else if (!pw.matches(noWhiteSpaces)) {
+            password.setError(getText(R.string.val_no_whitespaces));
+            return false;
+        } else if (pw.length() < 4) {
             password.setError(getText(R.string.val_too_short));
             return false;
-        } else if (val.length() > 20) {
+        } else if (pw.length() > 20) {
             password.setError(getText(R.string.val_too_large));
             return false;
-        } else {
+        } else if (!pw.equals(cpw)) {
+            confirmPassword.setError(getText(R.string.val_match_password));
+            confirmPassword.requestFocus();
+            return false;
+        }  else {
             password.setError(null);
             password.setErrorEnabled(false);
             return true;

@@ -6,6 +6,14 @@
     // strings for on boarding screen
 
 
+    <string-array name="profile_update_options">
+        <item>Update</item>
+        <item>Profile Image</item>
+        <item>Full Name</item>
+        <item>Phone number</item>
+        <item>Password</item>
+    </string-array>
+
     // titles
     <string name="first_slide_title">Search Your Location</string>
     <string name="second_slide_title">Make A Call</string>
@@ -63,6 +71,7 @@
     <string name="my_favorites">My Favorites</string>
 
     <string name="login">Login</string>
+    <string name="login_signup">Login / Sign Up</string>
     <string name="profile">Profile</string>
     <string name="logout">Logout</string>
 
@@ -72,8 +81,8 @@
     // Retailer panel strings
     // General strings
     <string name="sign_up">Sign Up</string>
-    <string name="retailer_heading">Grow Your Business</string>
-    <string name="retailer_tag_line">We will help you to grow your business</string>
+    <string name="retailer_heading">Join Ungvár</string>
+    <string name="retailer_tag_line">Connect with city mates\nGet a directions\nGrow your business</string>
     <string name="create_account">Create Account</string>
     <string name="how_we_work">How we work?</string>
     <string name="remember_me">Remember Me</string>
@@ -93,7 +102,9 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="show_on_map">Show on Google maps</string>
     <string name="manage_my_places">Manage my Places</string>
-    <string name="liked_places">Places I like</string>
+    <string name="liked_places">Places I Like</string>
+    <string name="liked_description">Here you will see Places you like</string>
+    <string name="manage_description">You have not created Places.. Yet!</string>
 
 
     <string name="enter_username">Username</string>

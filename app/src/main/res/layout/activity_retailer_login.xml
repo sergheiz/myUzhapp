@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@color/colorPrimary"
     android:transitionName="transition_login"
     tools:context=".Common.LoginSignup.Login">
@@ -13,7 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="30dp">
+        android:onClick="hideKeyboard"
+        android:padding="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
@@ -143,34 +147,27 @@
                 android:paddingHorizontal="20dp"
                 android:text="@string/create_account" />
 
-            <RelativeLayout
-                android:id="@+id/login_progress_bar"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_centerInParent="true"
-                android:visibility="invisible">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:padding="60dp"
-                    android:src="@drawable/app_image_main" />
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/loading" />
-
-            </RelativeLayout>
-
 
         </RelativeLayout>
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/login_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/progressbar_background"
+        android:visibility="invisible">
 
-</ScrollView>
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true" />
+
+
+    </RelativeLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

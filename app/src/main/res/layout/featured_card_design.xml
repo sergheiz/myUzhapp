@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:foreground="@drawable/place_img_foreground"
             android:scaleType="centerCrop"
-            android:src="@drawable/hodynka_photo" />
+            android:src="@drawable/image_placeholder" />
 
         <TextView
             android:id="@+id/feat_place_title_id"

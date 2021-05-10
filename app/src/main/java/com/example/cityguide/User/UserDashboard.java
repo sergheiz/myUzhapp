@@ -20,8 +20,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.cityguide.Common.Place.Place_Activity;
 import com.example.cityguide.Common.Transport.TransportActivityMain;
 import com.example.cityguide.HelperClasses.Adapters.FeaturedAdapter;
@@ -36,6 +38,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
+
+import java.util.HashMap;
 
 public class UserDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -52,6 +56,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
 
 
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private CollectionReference placesRef = firebaseFirestore.collection("Places");
 
@@ -76,7 +81,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         getWindow().setExitTransition(fade);
 
 
-        //Hooks
+
+
 
         card1 = findViewById(R.id.card1);
         card1x = findViewById(R.id.card1x);
@@ -498,12 +504,10 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
     }
 
-    //Navigation drawer Functions
     private void navigationDrawer() {
-        //Navigation drawer
-
 
         navigationView.bringToFront();
+        resetNavigationContent();
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -516,6 +520,47 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
             }
         });
 
+    }
+
+    private void resetNavigationContent() {
+
+
+        navigationView.removeHeaderView(navigationView.getHeaderView(0));
+        navigationView.getMenu().clear();
+
+        if (mAuth.getCurrentUser() != null) {
+            navigationView.inflateHeaderView(R.layout.user_menu_header);
+            View header = navigationView.getHeaderView(0);
+            navigationView.inflateMenu(R.menu.user_main_menu);
+
+            TextView fullNameDrawer = header.findViewById(R.id.app_name);
+            TextView phoneDrawer = header.findViewById(R.id.menu_slogan);
+            ImageView avatarDrawer = header.findViewById(R.id.icon);
+            avatarDrawer.setClipToOutline(true);
+
+
+            SessionManager sessionManager = new SessionManager(this, SessionManager.SESSION_USERSLOGIN);
+            if (sessionManager.checkLogin()) {
+                HashMap<String, String> userDetails = sessionManager.getUsersDetailFromSession();
+                Glide.with(UserDashboard.this).load(userDetails.get(SessionManager.KEY_AVATARURL)).placeholder(R.drawable.field_username_icon).into(avatarDrawer);
+                fullNameDrawer.setText(userDetails.get(SessionManager.KEY_FULLNAME));
+                phoneDrawer.setText(userDetails.get(SessionManager.KEY_PHONENUMBER));
+            }
+
+
+        } else {
+            navigationView.inflateHeaderView(R.layout.menu_header);
+            navigationView.inflateMenu(R.menu.main_menu);
+        }
+
+
+    }
+
+
+    @Override
+    protected void onRestart() {
+        resetNavigationContent();
+        super.onRestart();
     }
 
 
@@ -534,7 +579,7 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
         if (item.getItemId() == R.id.nav_add_missing_place) {
 
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
 
             if (mAuth.getCurrentUser() != null) {
 
@@ -572,10 +617,14 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         }
 
         if (item.getItemId() == R.id.nav_my_favorites) {
-            startActivity(new Intent(getApplicationContext(), RetailerStartUpScreen.class));
+            startActivity(new Intent(getApplicationContext(), UserProfile.class));
         }
 
         if (item.getItemId() == R.id.nav_profile) {
+            startActivity(new Intent(getApplicationContext(), UserProfile.class));
+        }
+
+        if (item.getItemId() == R.id.nav_login_signup) {
             startActivity(new Intent(getApplicationContext(), RetailerStartUpScreen.class));
         }
 
@@ -583,10 +632,11 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         if (item.getItemId() == R.id.nav_logout) {
             SessionManager logout = new SessionManager(UserDashboard.this, SessionManager.SESSION_USERSLOGIN);
             logout.logoutUserFromSession();
-            FirebaseAuth.getInstance().signOut();
+            mAuth.signOut();
 //            ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
 //            am.clearApplicationUserData();
 
+            resetNavigationContent();
 
             Toast.makeText(UserDashboard.this, "Logout Success ", Toast.LENGTH_SHORT).show();
 

@@ -16,10 +16,8 @@
         android:layout_gravity="start"
         android:background="@color/colorPrimary"
         android:theme="@style/navigationTheme"
-        app:headerLayout="@layout/menu_header"
         app:itemIconTint="@color/colorPrimaryDark"
-        app:itemTextColor="@color/colorPrimaryDark"
-        app:menu="@menu/main_menu" />
+        app:itemTextColor="@color/colorPrimaryDark" />
 
     <RelativeLayout
         android:layout_width="match_parent"

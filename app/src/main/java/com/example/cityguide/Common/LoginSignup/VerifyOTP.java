@@ -17,8 +17,8 @@ import android.widget.Toast;
 import com.chaos.view.PinView;
 import com.example.cityguide.HelperClasses.SessionManager;
 import com.example.cityguide.HelperClasses.Models.User;
-import com.example.cityguide.LocationOwner.RetailerDashboard;
 import com.example.cityguide.R;
+import com.example.cityguide.User.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -28,8 +28,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +43,7 @@ public class VerifyOTP extends AppCompatActivity {
     TextView otpDescriptionText;
     ScrollView scrollViewOTP;
     private Animation animation;
-    String codeBySystem, phoneNo, email, fullName, password, whatToDo;
+    String codeBySystem, phoneNo, fullName, avatarUrl, password, whatToDo;
 
     private FirebaseAuth mAuth;
 
@@ -73,8 +76,8 @@ public class VerifyOTP extends AppCompatActivity {
         //get all data
         phoneNo = getIntent().getStringExtra("phoneNo");
         fullName = getIntent().getStringExtra("fullName");
-        email = getIntent().getStringExtra("email");
         password = getIntent().getStringExtra("password");
+        avatarUrl = getIntent().getStringExtra("avatarUrl");
         whatToDo = getIntent().getStringExtra("whatToDo");
 
         otpDescriptionText.setText(getText(R.string.otp_description_text) + "\n" + phoneNo);
@@ -152,10 +155,6 @@ public class VerifyOTP extends AppCompatActivity {
                                 createNewUser();
                             }
 
-                            if (whatToDo.equals("updatePhone")) {
-                                Toast.makeText(VerifyOTP.this, getText(R.string.otp_complete), Toast.LENGTH_SHORT).show();
-                                updatePhone();
-                            }
 
 
                         } else {
@@ -168,35 +167,6 @@ public class VerifyOTP extends AppCompatActivity {
                 });
     }
 
-    private void updatePhone() {
-
-        //Get data from fields
-        String o_phoneNumber = getIntent().getStringExtra("OLDphoneNo");
-
-        //Update Data in firebase
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.child(phoneNo).child("phoneNo").setValue(phoneNo);
-        reference.child(phoneNo).child("fullName").setValue(fullName);
-        reference.child(phoneNo).child("email").setValue(email);
-        reference.child(phoneNo).child("password").setValue(password);
-
-        reference.child(o_phoneNumber).removeValue();
-
-        SessionManager sessionManager = new SessionManager(VerifyOTP.this, SessionManager.SESSION_USERSLOGIN);
-        sessionManager.createLoginSession(phoneNo, fullName, email, password);
-
-        Toast.makeText(VerifyOTP.this, "Phone number Updated", Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(getApplicationContext(), RetailerDashboard.class);
-        startActivity(intent);
-
-        progressbar.setVisibility(View.GONE);
-
-
-
-        finish();
-
-    }
 
     public void setNewPassword() {
         Intent intent = new Intent(getApplicationContext(), SetNewPasswordx.class);
@@ -211,16 +181,16 @@ public class VerifyOTP extends AppCompatActivity {
     public void login() {
 
         SessionManager sessionManager = new SessionManager(VerifyOTP.this, SessionManager.SESSION_USERSLOGIN);
-        sessionManager.createLoginSession(phoneNo, fullName, email, password);
+        sessionManager.createLoginSession(phoneNo, fullName, avatarUrl);
 
-        Intent intent = new Intent(getApplicationContext(), RetailerDashboard.class);
+        Intent intent = new Intent(getApplicationContext(), UserProfile.class);
         startActivity(intent);
 
         progressbar.setVisibility(View.GONE);
 
-
-
         finish();
+
+
 
 
     }
@@ -231,11 +201,11 @@ public class VerifyOTP extends AppCompatActivity {
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         DatabaseReference reference = rootNode.getReference("Users");
 
-        User addNewUser = new User(phoneNo, email, fullName, password);
+        User addNewUser = new User(phoneNo, fullName, password, "");
         reference.child(phoneNo).setValue(addNewUser);
 
         SessionManager sessionManager = new SessionManager(VerifyOTP.this, SessionManager.SESSION_USERSLOGIN);
-        sessionManager.createLoginSession(phoneNo, fullName, email, password);
+        sessionManager.createLoginSession(phoneNo, fullName, "");
 
         progressbar.setVisibility(View.GONE);
 

@@ -24,6 +24,7 @@ import android.text.util.Linkify;
 import android.transition.Fade;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,7 +38,6 @@ import com.bumptech.glide.Glide;
 import com.example.cityguide.Common.LoginSignup.RetailerStartUpScreen;
 import com.example.cityguide.HelperClasses.CheckInternet;
 import com.example.cityguide.HelperClasses.Models.fsPlace;
-import com.example.cityguide.LocationOwner.RetailerDashboard;
 import com.example.cityguide.R;
 import com.example.cityguide.User.UserDashboard;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -96,6 +96,7 @@ public class Place_Activity extends AppCompatActivity {
     private ByteArrayOutputStream baos;
 
 
+
     String Title;
     String Owner;
     String Group;
@@ -127,6 +128,7 @@ public class Place_Activity extends AppCompatActivity {
 
         getWindow().setEnterTransition(fade);
         getWindow().setExitTransition(fade);
+
 
         baos =  new ByteArrayOutputStream();
 
@@ -176,7 +178,6 @@ public class Place_Activity extends AppCompatActivity {
         Description = intent.getExtras().getString("Description");
         Group = intent.getExtras().getString("Group");
 
-        String FavStatus = intent.getExtras().getString("FavStatus");
         Likers = intent.getExtras().getString("Likers");
         LikesNum = intent.getExtras().getInt("LikesNum");
 
@@ -284,11 +285,6 @@ public class Place_Activity extends AppCompatActivity {
 
     }
 
-    private String getFileExtension(Uri uri) {
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
 
     private void openFileChooser() {
         Intent intent = new Intent();
@@ -334,11 +330,11 @@ public class Place_Activity extends AppCompatActivity {
 
             Glide.with(this).load(mImageUri).into(img);
 
-            if(UtilClassName.getFileSize(mImageUri,this)<=500){
+            if(UtilClassName.getFileSize(mImageUri,this)<=1024){
                 Toast.makeText(this, "Image Size Ok", Toast.LENGTH_SHORT).show();
             }
             else{
-                Toast.makeText(this, "Image is too large" + "\n" + "Maximum image file size allowed: 500kb", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Image is too large" + "\n" + "Maximum image file size allowed: 1Mb", Toast.LENGTH_SHORT).show();
             }
 
 
@@ -488,27 +484,27 @@ public class Place_Activity extends AppCompatActivity {
                                                     imgUrlRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
-                                                            Toast.makeText(getApplicationContext(), "Deleted " + Title + " image!", Toast.LENGTH_LONG).show();
+                                                            Toast.makeText(getApplicationContext(), "Deleted " + Title + " image!", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }).addOnFailureListener(new OnFailureListener() {
                                                         @Override
                                                         public void onFailure(@NonNull Exception e) {
 
-                                                            Toast.makeText(getApplicationContext(), "Failed to delete " + Title + " image " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                                            Toast.makeText(getApplicationContext(), "Failed to delete " + Title + " image " + e.getMessage(), Toast.LENGTH_SHORT).show();
 
 
                                                         }
                                                     });
 
 
-                                                    Toast.makeText(getApplicationContext(), "Place Data" + Title + " Deleted!", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "Place Data" + Title + " Deleted!", Toast.LENGTH_SHORT).show();
 
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(getApplicationContext(), Title + " Failed Delete Data " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), Title + " Failed Delete Data " + e.getMessage(), Toast.LENGTH_SHORT).show();
 
                                                 }
                                             });
@@ -519,7 +515,7 @@ public class Place_Activity extends AppCompatActivity {
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getApplicationContext(), "Not found" + e, Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "Not found" + e, Toast.LENGTH_SHORT).show();
 
                                     }
                                 });
@@ -1031,7 +1027,7 @@ public class Place_Activity extends AppCompatActivity {
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getApplicationContext(), "Failed Putting Bytes " + "/n" + e.getMessage(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "Failed Putting Bytes " + "/n" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
 
@@ -1040,7 +1036,7 @@ public class Place_Activity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Failed Getting Bytes " + Imgurl + "/n" + e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Failed Getting Bytes " + Imgurl + "/n" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -1051,8 +1047,8 @@ public class Place_Activity extends AppCompatActivity {
     private boolean validateImageSize() {
 
 
-        if (UtilClassName.getFileSize(mImageUri,this)>=500){
-            Toast.makeText(this, "Image is too large" + "\n" + "Maximum image file size allowed: 500kb", Toast.LENGTH_LONG).show();
+        if (UtilClassName.getFileSize(mImageUri,this)>=1024){
+            Toast.makeText(this, "Image is too large" + "\n" + "Maximum image file size allowed: 1Mb", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             Toast.makeText(this, "Image size OK", Toast.LENGTH_SHORT).show();

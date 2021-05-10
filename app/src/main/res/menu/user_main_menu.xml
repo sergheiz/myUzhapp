@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <group android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home_icon"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/search_icon"
+            android:title="@string/search" />
+        <item
+            android:id="@+id/nav_my_favorites"
+            android:icon="@drawable/favorite_shadow"
+            android:title="@string/my_favorites" />
+        <item
+            android:id="@+id/nav_add_missing_place"
+            android:icon="@drawable/add_missing_place_icon"
+            android:title="@string/add_missing_place" />
+
+    </group>
+
+    <item android:title="Profile">
+        <menu>
+
+            <group android:checkableBehavior="none">
+
+                <item
+                    android:id="@+id/nav_profile"
+                    android:icon="@drawable/menu_profile_icon"
+                    android:title="@string/profile"/>
+                <item
+                    android:id="@+id/nav_logout"
+                    android:icon="@drawable/menu_logout_icon"
+                    android:title="@string/logout"/>
+
+            </group>
+
+        </menu>
+
+
+    </item>
+
+
+    <item android:title="Actions">
+        <menu>
+            <group android:checkableBehavior="none">
+                <item
+                    android:id="@+id/nav_share"
+                    android:icon="@drawable/menu_share_icon"
+                    android:title="@string/share" />
+                <item
+                    android:id="@+id/nav_rate_us"
+                    android:icon="@drawable/menu_rate_us_icon"
+                    android:title="@string/rate_us" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

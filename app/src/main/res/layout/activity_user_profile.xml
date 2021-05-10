@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".User.UserProfile">
+
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/colorPrimary">
+
+
+                <RelativeLayout
+                    android:id="@+id/profile_photo_rl"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:src="@drawable/field_username_icon">
+
+                    <ImageView
+                        android:id="@+id/profile_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/navy_circle"
+                        android:foreground="@drawable/navy_circle"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/field_username_icon" />
+
+                    <Button
+                        android:id="@+id/profile_image_picker"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/add_a_photo"
+                        android:visibility="visible" />
+
+
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/savePhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignTop="@+id/profile_photo_rl"
+                    android:layout_marginStart="-50dp"
+                    android:layout_toEndOf="@+id/profile_photo_rl"
+                    android:background="@drawable/black_border"
+                    android:drawableStart="@drawable/skip_icon"
+                    android:drawableTint="#4CAF50"
+                    android:elevation="8dp"
+                    android:paddingHorizontal="10dp"
+                    android:text="SAVE"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#4CAF50"
+                    android:textSize="20sp"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/img_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignTop="@+id/profile_photo_rl"
+                    android:layout_marginStart="-40dp"
+                    android:layout_toEndOf="@+id/profile_photo_rl"
+                    android:background="@color/transparent"
+                    android:clickable="false"
+                    android:drawableStart="@drawable/twotone_error"
+                    android:drawableTint="@color/Red"
+                    android:elevation="8dp"
+                    android:paddingHorizontal="5dp"
+                    android:text="@string/val_too_large"
+                    android:textAlignment="viewEnd"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    android:visibility="invisible" />
+
+
+                <TextView
+                    android:id="@+id/fullname_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/profile_photo_rl"
+                    android:includeFontPadding="false"
+                    android:text="User Full Name"
+                    android:singleLine="true"
+                    android:textColor="@color/Black"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/full_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/fullname_tv"
+                    android:layout_alignStart="@+id/fullname_tv"
+                    android:hint="Full Name"
+                    android:visibility="invisible">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/Black"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Button
+                    android:id="@+id/saveFullname"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/skip_icon"
+                    android:backgroundTint="#4CAF50"
+                    android:elevation="8dp"
+                    android:foreground="@drawable/black_border"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/phone_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/full_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/profile_photo_rl"
+                    android:text="+9999999999"
+                    android:textSize="14sp" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-50dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="12dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/colorPrimaryDark"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="7dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/reputation_image"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_centerHorizontal="true"
+                            android:src="@drawable/favorite_red" />
+
+                        <TextView
+                            android:id="@+id/reputation_score"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/reputation_image"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/baloo"
+                            android:includeFontPadding="false"
+                            android:text="9999999"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/reputation_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:includeFontPadding="false"
+                            android:text="City Reputation"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="26sp"
+                            android:textStyle="bold|italic" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/user_recyclers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/manage_title"
+                        android:layout_marginStart="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/manage_my_places"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_alignBaseline="@id/manage_title"
+                        android:layout_alignParentRight="true"
+                        android:text="@string/view_all" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/manage_title"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/manage_description"
+                        android:layout_marginHorizontal="30dp"
+                        android:gravity="center"
+                        android:textSize="26sp"
+                        android:textStyle="italic" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/myplaces_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_below="@id/manage_title"
+                        android:layout_height="180dp"
+                        android:background="#FAFAFA"
+                        android:clipToPadding="false"
+                        android:paddingEnd="50dp" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/i_like_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/liked_places"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/i_like_title"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="20dp"
+                        android:text="@string/view_all" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="30dp"
+                        android:gravity="center"
+                        android:layout_below="@id/i_like_title"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/liked_description"
+                        android:textSize="26sp"
+                        android:textStyle="italic" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/mylikes_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_below="@id/i_like_title"
+                        android:background="#FAFAFA"
+                        android:clipToPadding="false"
+                        android:paddingEnd="50dp" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

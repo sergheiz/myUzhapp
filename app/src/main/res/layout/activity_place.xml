@@ -43,7 +43,7 @@
                 android:layout_height="400dp"
                 android:foreground="@drawable/place_img_foreground"
                 android:scaleType="centerCrop"
-                android:src="@drawable/uzh_castle_photo" />
+                android:src="@drawable/image_placeholder" />
 
             <TextView
                 android:id="@+id/likes_count"
@@ -188,9 +188,9 @@
                 android:layout_toStartOf="@+id/likes_count"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:paddingHorizontal="5dp"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
+                android:paddingHorizontal="5dp"
                 android:text="TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle"
                 android:textColor="@color/Black"
                 android:textSize="30sp"

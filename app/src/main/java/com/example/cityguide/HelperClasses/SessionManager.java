@@ -14,14 +14,12 @@ public class SessionManager {
     //Session names
     public static final String SESSION_USERSLOGIN = "userLoginSession";
     public static final String SESSION_REMEMBERME = "rememberMe";
-    public static final String SESSION_EXISTENCE = "existence";
 
     //User session vars
     private static final String IS_LOGIN = "IsLoggedIn";
     public static final String KEY_FULLNAME = "fullName";
-    public static final String KEY_EMAIL = "email";
     public static final String KEY_PHONENUMBER = "phoneNumber";
-    public static final String KEY_PASSWORD = "password";
+    public static final String KEY_AVATARURL = "avatarUrl";
 
     //Remember me vars
     private static final String IS_REMEMBERME = "IsRememberMe";
@@ -30,10 +28,6 @@ public class SessionManager {
     public static final String KEY_REMEMBERMEPASSWORD = "password";
 
 
-    //Existence vars
-    private static final String IS_EXISTENCE = "IsExistence";
-
-    public static final String KEY_EXISTENCE = "existence";
 
 
     //Constructor
@@ -45,15 +39,14 @@ public class SessionManager {
     }
 
     // Users Login session
-    public void createLoginSession(String phoneNumber, String fullName, String email,  String password) {
+    public void createLoginSession(String phoneNumber, String fullName, String avatarUrl) {
 
         editor.putBoolean(IS_LOGIN, true);
 
 
         editor.putString(KEY_PHONENUMBER, phoneNumber);
         editor.putString(KEY_FULLNAME, fullName);
-        editor.putString(KEY_EMAIL, email);
-        editor.putString(KEY_PASSWORD, password);
+        editor.putString(KEY_AVATARURL, avatarUrl);
 
         editor.apply();
 
@@ -64,8 +57,7 @@ public class SessionManager {
 
         userData.put(KEY_PHONENUMBER, userSession.getString(KEY_PHONENUMBER, null));
         userData.put(KEY_FULLNAME, userSession.getString(KEY_FULLNAME, null));
-        userData.put(KEY_EMAIL, userSession.getString(KEY_EMAIL, null));
-        userData.put(KEY_PASSWORD, userSession.getString(KEY_PASSWORD, null));
+        userData.put(KEY_AVATARURL, userSession.getString(KEY_AVATARURL, null));
 
         return userData;
     }
@@ -85,6 +77,9 @@ public class SessionManager {
         editor.commit();
 
     }
+
+
+
 
     //Remember me session function
 
@@ -116,41 +111,6 @@ public class SessionManager {
         }
     }
 
-
-    // Existence session
-    public void createExistenceSession(String existence) {
-
-        editor.putBoolean(IS_EXISTENCE, true);
-
-
-        editor.putString(KEY_EXISTENCE, existence);
-        editor.apply();
-
-    }
-
-    public HashMap<String, String> getDatafromExistence() {
-        HashMap<String, String> data = new HashMap<String, String>();
-
-        data.put(KEY_EXISTENCE, userSession.getString(KEY_EXISTENCE, null));
-
-        return data;
-    }
-
-
-    public boolean checkExistence() {
-        if (userSession.getBoolean(IS_EXISTENCE, false)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void clearExistence() {
-
-        editor.clear();
-        editor.commit();
-
-    }
 
 
 }

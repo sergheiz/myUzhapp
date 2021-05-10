@@ -8,14 +8,16 @@ import android.os.Bundle;
 import android.transition.Fade;
 import android.util.Pair;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cityguide.LocationOwner.RetailerDashboard;
 import com.example.cityguide.R;
+import com.example.cityguide.User.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 
 
 public class RetailerStartUpScreen extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,7 @@ public class RetailerStartUpScreen extends AppCompatActivity {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
-            Intent intent = new Intent(RetailerStartUpScreen.this, RetailerDashboard.class);
+            Intent intent = new Intent(RetailerStartUpScreen.this, UserProfile.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
@@ -38,6 +40,7 @@ public class RetailerStartUpScreen extends AppCompatActivity {
 
         getWindow().setEnterTransition(fade);
         getWindow().setExitTransition(fade);
+
 
 
 

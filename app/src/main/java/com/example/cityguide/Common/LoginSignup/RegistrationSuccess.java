@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.example.cityguide.R;
 import com.example.cityguide.User.UserDashboard;
+import com.example.cityguide.User.UserProfile;
 
 public class RegistrationSuccess extends AppCompatActivity {
 
@@ -27,7 +28,7 @@ public class RegistrationSuccess extends AppCompatActivity {
     }
 
     public void oK(View view) {
-        startActivity(new Intent(getApplicationContext(), UserDashboard.class));
+        startActivity(new Intent(getApplicationContext(), UserProfile.class));
         finish();
     }
 }
