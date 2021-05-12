@@ -1,117 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Common.LoginSignup.VerifyOTP"
+    android:transitionName="otp_layout_transition"
+    android:onClick="hideKeyboard"
     android:background="@color/White"
-    android:id="@+id/otp_scrollview">
+    tools:context=".Common.LoginSignup.VerifyOTP">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:padding="30dp"
-        android:layout_gravity="center">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
             android:id="@+id/otp_title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/otp_code_text"
-            android:textSize="100sp"
-            android:textColor="@color/Black"
+            android:layout_centerHorizontal="true"
             android:fontFamily="@font/muli_black"
-            android:textAllCaps="true"
             android:includeFontPadding="false"
-            android:layout_centerHorizontal="true"/>
+            android:text="@string/otp_code_text"
+            android:textAllCaps="true"
+            android:textColor="@color/Black"
+            android:textSize="100sp" />
 
         <TextView
             android:id="@+id/otp_title2"
-            android:layout_below="@id/otp_title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/otp_verification_text"
-            android:textSize="24sp"
-            android:textColor="@color/Black"
+            android:layout_below="@id/otp_title1"
+            android:layout_centerHorizontal="true"
             android:fontFamily="@font/muli_black"
-            android:textAllCaps="true"
             android:includeFontPadding="false"
-            android:layout_centerHorizontal="true" />
+            android:text="@string/otp_verification_text"
+            android:textAllCaps="true"
+            android:textColor="@color/Black"
+            android:textSize="24sp" />
 
 
         <TextView
             android:id="@+id/otp_description_text"
-            android:layout_below="@id/otp_title2"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/Black"
+            android:gravity="center"
+            android:layout_below="@id/otp_title2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/muli_light"
             android:includeFontPadding="false"
-            android:layout_centerHorizontal="true" />
+            android:textColor="@color/Black"
+            android:textStyle="italic"
+            android:textSize="16sp" />
 
         <com.chaos.view.PinView
             android:id="@+id/pin_view"
+            style="@style/PinWidget.PinView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            app:itemCount="6"
-            app:itemWidth="40dp"
-            app:itemHeight="50dp"
-            android:layout_marginTop="30dp"
             android:layout_below="@id/otp_description_text"
-            app:lineColor="@color/colorAccent"
-            android:itemBackground="@color/lightWhite"
-            style="@style/PinWidget.PinView"
-            android:inputType="number"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
             android:cursorVisible="true"
+            android:inputType="number"
+            android:itemBackground="@color/lightWhite"
             app:cursorColor="@color/Black"
-            app:lineWidth="1dp"
             app:hideLineWhenFilled="true"
-            app:itemRadius="5dp"/>
+            app:itemCount="6"
+            app:itemHeight="50dp"
+            app:itemRadius="5dp"
+            app:itemWidth="40dp"
+            app:lineColor="@color/colorAccent"
+            app:lineWidth="1dp" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/pin_view"
+            android:layout_margin="30dp"
             android:background="@color/colorPrimary"
+            android:elevation="8dp"
             android:onClick="callNextScreenFromOTP"
             android:text="@string/verify_code"
-            android:elevation="8dp"
-            android:layout_margin="30dp"
-            android:textColor="@color/Black"/>
+            android:textColor="@color/Black" />
 
-        <RelativeLayout
-            android:id="@+id/verify_progress_bar"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_centerInParent="true"
-            android:visibility="invisible">
 
-            <ImageView
-                android:padding="60dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:src="@drawable/app_image_main"/>
+    </RelativeLayout>
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/loading"/>
+    <RelativeLayout
+        android:id="@+id/verify_progress_bar"
+        android:transitionName="otp_progress_transition"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/progressbar_background"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        </RelativeLayout>
-
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true" />
 
 
     </RelativeLayout>
 
 
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

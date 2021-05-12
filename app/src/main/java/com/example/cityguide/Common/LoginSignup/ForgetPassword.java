@@ -4,14 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.transition.Fade;
+import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -150,10 +153,15 @@ public class ForgetPassword extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), VerifyOTP.class);
                     intent.putExtra("phoneNo", _completePhoneNumber);
                     intent.putExtra("whatToDo", "setNewPassword");
-                    startActivity(intent);
+
+                    Pair[] pairs = new Pair[2];
+                    pairs[0] = new Pair(findViewById(R.id.forget_password_layout), "otp_layout_transition");
+                    pairs[1] = new Pair(findViewById(R.id.progress_bar), "otp_progress_transition");
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ForgetPassword.this, pairs);
+                    startActivity(intent, options.toBundle());
+
                     finish();
 
-                    progressBar.setVisibility(View.GONE);
                 }
                 else {
                     progressBar.setVisibility(View.GONE);
@@ -170,4 +178,10 @@ public class ForgetPassword extends AppCompatActivity {
             }
         });
     }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
+
 }

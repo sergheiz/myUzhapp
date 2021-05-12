@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/signup_1st_scrollView"
+    android:id="@+id/signup_layout"
+    android:onClick="hideKeyboard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:orientation="vertical"
     android:transitionName="transition_signup"
     tools:context=".Common.LoginSignup.SignUp">
 
@@ -14,9 +14,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="hideKeyboard"
         android:orientation="vertical"
-        android:padding="30dp">
+        android:padding="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <RelativeLayout
@@ -114,10 +115,10 @@
                 android:hint="@string/enter_password"
                 app:boxStrokeColor="@color/Black"
                 app:boxStrokeWidthFocused="2dp"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/Black"
                 app:endIconTint="@color/Black"
                 app:hintTextColor="@color/Black"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/Black"
                 app:startIconDrawable="@drawable/field_password_icon"
                 app:startIconTint="@color/Black">
 
@@ -158,13 +159,13 @@
 
             <Button
                 android:id="@+id/next_btn"
-                android:enabled="true"
-                android:onClick="callOTPScreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
                 android:background="@color/Black"
                 android:elevation="8dp"
+                android:enabled="true"
+                android:onClick="callOTPScreen"
                 android:text="@string/next_btn"
                 android:textColor="@color/White" />
 
@@ -174,5 +175,22 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/signup_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/progressbar_background"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</ScrollView>
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true" />
+
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

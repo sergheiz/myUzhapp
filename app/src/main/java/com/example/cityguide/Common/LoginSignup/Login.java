@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.transition.Fade;
+import android.util.Pair;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -141,9 +143,15 @@ public class Login extends AppCompatActivity {
                         intent.putExtra("avatarUrl", _avatarUrl);
                         intent.putExtra("fullName", _fullname);
                         intent.putExtra("whatToDo", "Login");
-                        startActivity(intent);
+
+                        Pair[] pairs = new Pair[2];
+                        pairs[0] = new Pair(findViewById(R.id.login_layout), "otp_layout_transition");
+                        pairs[1] = new Pair(findViewById(R.id.letTheUserLogin), "otp_progress_transition");
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Login.this, pairs);
+                        startActivity(intent, options.toBundle());
+
                         finish();
-                        progressbar.setVisibility(View.GONE);
+
                     } else {
                         progressbar.setVisibility(View.GONE);
                         Toast.makeText(Login.this, getText(R.string.wrong_password), Toast.LENGTH_SHORT).show();

@@ -12,10 +12,12 @@ import android.transition.Fade;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cityguide.HelperClasses.CheckInternet;
 import com.example.cityguide.HelperClasses.SessionManager;
@@ -72,6 +74,68 @@ public class SetNewPasswordx extends AppCompatActivity {
         setNewPasswordBtn.setAnimation(animation);
     }
 
+
+    //Setting  new password
+    public void setNewPasswordBtn(View view) {
+
+        CheckInternet checkInternet = new CheckInternet();
+        if (!checkInternet.isConnected(this)) {
+            showCustomDialog();
+            return;
+        }
+
+        if (!validatePassword()) {
+
+            return;
+
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+
+
+        String _newPassword = newPassword.getEditText().getText().toString().trim();
+        String _phoneNumber = getIntent().getStringExtra("phoneNo");
+
+
+        //Database
+        Query checkUser = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(_phoneNumber);
+        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (snapshot.exists()) {
+                    assert _phoneNumber != null;
+                    String fullNameFromDB = snapshot.child(_phoneNumber).child("fullName").getValue(String.class);
+                    String avatarUrlFromDB = snapshot.child(_phoneNumber).child("avatarUrl").getValue(String.class);
+
+                    //Update Data in firebase
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+                    reference.child(_phoneNumber).child("password").setValue(_newPassword);
+
+                    SessionManager sessionManager = new SessionManager(SetNewPasswordx.this, SessionManager.SESSION_USERSLOGIN);
+                    sessionManager.createLoginSession(_phoneNumber, fullNameFromDB, avatarUrlFromDB);
+
+
+                    Intent intent = new Intent(getApplicationContext(), ForgetPasswordSuccessMessage.class);
+                    startActivity(intent);
+
+                    finish();
+                }
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(SetNewPasswordx.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+
+
     //Custom Dialog for internet check
     private void showCustomDialog() {
 
@@ -123,65 +187,8 @@ public class SetNewPasswordx extends AppCompatActivity {
     }
 
 
-    //Setting  new password
-    public void setNewPasswordBtn(View view) {
-
-        CheckInternet checkInternet = new CheckInternet();
-        if (!checkInternet.isConnected(this)) {
-            showCustomDialog();
-            return;
-        }
-
-        if (!validatePassword()) {
-
-            return;
-
-        }
-        progressBar.setVisibility(View.VISIBLE);
-
-        //Get data from fields
-        String _newPassword = newPassword.getEditText().getText().toString().trim();
-        String _phoneNumber = getIntent().getStringExtra("phoneNo");
-
-
-
-
-
-        //Database
-        Query checkUser = FirebaseDatabase.getInstance().getReference("Users").orderByChild("phoneNo").equalTo(_phoneNumber);
-        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                if (snapshot.exists()) {
-                    assert _phoneNumber != null;
-                    String fullNameFromDB = snapshot.child(_phoneNumber).child("fullName").getValue(String.class);
-                    String avatarUrlFromDB = snapshot.child(_phoneNumber).child("avatarUrl").getValue(String.class);
-
-                    SessionManager sessionManager = new SessionManager(SetNewPasswordx.this, SessionManager.SESSION_USERSLOGIN);
-                    sessionManager.createLoginSession(_phoneNumber, fullNameFromDB, avatarUrlFromDB);
-                    finish();
-                }
-
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        //Update Data in firebase
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.child(_phoneNumber).child("password").setValue(_newPassword);
-
-
-        Intent intent = new Intent(getApplicationContext(), ForgetPasswordSuccessMessage.class);
-        startActivity(intent);
-
-
-
-
+    public void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 }

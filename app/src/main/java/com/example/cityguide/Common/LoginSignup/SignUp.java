@@ -5,6 +5,7 @@ import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -13,11 +14,13 @@ import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.Fade;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -44,6 +47,8 @@ public class SignUp extends AppCompatActivity {
 
     TextInputLayout fullName, phoneNumber, password, confirmPassword;
     CountryCodePicker countryCodePicker;
+
+    RelativeLayout progress_bar;
 
     Button nextBtn;
 
@@ -72,6 +77,9 @@ public class SignUp extends AppCompatActivity {
 
 
         fullName = findViewById(R.id.signup_fullname);
+
+
+        progress_bar = findViewById(R.id.progress_bar);
 
 
         password = findViewById(R.id.signup_password);
@@ -110,8 +118,7 @@ public class SignUp extends AppCompatActivity {
             return;
         }
 
-
-        Toast.makeText(SignUp.this, "reading", Toast.LENGTH_SHORT).show();
+        progress_bar.setVisibility(View.VISIBLE);
 
 
         Intent intent = new Intent(getApplicationContext(), VerifyOTP.class);
@@ -121,8 +128,12 @@ public class SignUp extends AppCompatActivity {
         intent.putExtra("phoneNo", n_phoneNo);
         intent.putExtra("whatToDo", "createNewUser"); // This is to identify that which action should OTP perform after verification.
 
+        Pair[] pairs = new Pair[2];
+        pairs[0] = new Pair(findViewById(R.id.signup_layout), "otp_layout_transition");
+        pairs[1] = new Pair(findViewById(R.id.next_btn), "otp_progress_transition");
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SignUp.this, pairs);
+        startActivity(intent, options.toBundle());
 
-        startActivity(intent);
         finish();
 
     }

@@ -180,6 +180,7 @@ public class UserProfile extends AppCompatActivity {
             n_avatarUrl = userDetails.get(SessionManager.KEY_AVATARURL);
 
 
+
             Glide.with(UserProfile.this).load(n_avatarUrl).placeholder(R.drawable.field_username_icon).into(userPhoto);
             fullnameTV.setText(fullNameFromDB);
             phoneTV.setText(phoneFromDB);

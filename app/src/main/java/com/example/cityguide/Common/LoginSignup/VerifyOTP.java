@@ -9,6 +9,7 @@ import android.transition.Fade;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -41,8 +42,6 @@ public class VerifyOTP extends AppCompatActivity {
     PinView pinFromUser;
     RelativeLayout progressbar;
     TextView otpDescriptionText;
-    ScrollView scrollViewOTP;
-    private Animation animation;
     String codeBySystem, phoneNo, fullName, avatarUrl, password, whatToDo;
 
     private FirebaseAuth mAuth;
@@ -65,13 +64,7 @@ public class VerifyOTP extends AppCompatActivity {
         progressbar = findViewById(R.id.verify_progress_bar);
         otpDescriptionText = findViewById(R.id.otp_description_text);
         pinFromUser = findViewById(R.id.pin_view);
-        scrollViewOTP = findViewById(R.id.otp_scrollview);
 
-        //Animation Hook
-        animation = AnimationUtils.loadAnimation(this, R.anim.slid_animation);
-
-        //Set animation to elements
-        scrollViewOTP.setAnimation(animation);
 
         //get all data
         phoneNo = getIntent().getStringExtra("phoneNo");
@@ -230,4 +223,10 @@ public class VerifyOTP extends AppCompatActivity {
         }
 
     }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
+
 }

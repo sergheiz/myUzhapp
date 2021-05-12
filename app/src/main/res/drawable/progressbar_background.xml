@@ -11,7 +11,7 @@
             <gradient
                 android:endColor="@color/Black"
                 android:startColor="@color/transparent"
-                android:gradientRadius="4000"
+                android:gradientRadius="3000"
                 android:type="radial"/>
 
         </shape>
