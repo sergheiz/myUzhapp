@@ -18,9 +18,9 @@ dev.sergheiz@gmail.com
 
 ## License & copyright
 
-© lucianrekkless
+© sergheiz
 
-Licensed under the [MIT License](https://github.com/lucianrekkless/myUzhapp/blob/main/LICENSE)
+Licensed under the [MIT License](https://github.com/sergheiz/myUzhapp/blob/main/LICENSE)
 
 
 
