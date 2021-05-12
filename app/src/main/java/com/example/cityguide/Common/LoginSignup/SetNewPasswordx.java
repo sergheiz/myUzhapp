@@ -31,7 +31,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SetNewPasswordx extends AppCompatActivity {
 
-    //blabla
     RelativeLayout progressBar;
     TextInputLayout newPassword, conformNewPassword;
     ImageView newPasswordIcon;
