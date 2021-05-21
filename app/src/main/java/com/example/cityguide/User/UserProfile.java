@@ -231,6 +231,7 @@ public class UserProfile extends AppCompatActivity {
                                         SessionManager sessionManager = new SessionManager(UserProfile.this, SessionManager.SESSION_USERSLOGIN);
                                         sessionManager.createLoginSession(phoneFromDB, fullNameFromDB, n_avatarUrl);
 
+                                        baos.reset();
                                     }
                                 });
 
@@ -328,12 +329,12 @@ public class UserProfile extends AppCompatActivity {
             try {
                 Bitmap placeBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);
                 placeBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                Glide.with(this).load(placeBitmap).placeholder(R.drawable.field_username_icon).into(userPhoto);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
 
-            Glide.with(this).load(mImageUri).placeholder(R.drawable.field_username_icon).into(userPhoto);
 
             if (UtilClassName.getFileSize(mImageUri, this) <= 1024) {
                 Toast.makeText(this, "Image Size Ok", Toast.LENGTH_SHORT).show();
@@ -344,7 +345,6 @@ public class UserProfile extends AppCompatActivity {
                 imgError.setVisibility(View.VISIBLE);
                 savePhoto.setVisibility(View.INVISIBLE);
             }
-
 
         }
     }
@@ -441,6 +441,7 @@ public class UserProfile extends AppCompatActivity {
 
         if (Place_Activity.UtilClassName.getFileSize(mImageUri, this) >= 1024) {
             Toast.makeText(this, "Image is too large" + "\n" + "Maximum image file size allowed: 1Mb", Toast.LENGTH_SHORT).show();
+            baos.reset();
             return false;
         } else {
             Toast.makeText(this, "Image size OK", Toast.LENGTH_SHORT).show();

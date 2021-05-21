@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/slider_image"
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:padding="50dp"
+        app:layout_constraintBottom_toTopOf="@id/slider_heading"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.13999999"
+        app:layout_constraintVertical_chainStyle="packed"
         app:srcCompat="@drawable/add_missing_place" />
 
     <TextView
         android:id="@+id/slider_heading"
+        app:layout_constraintTop_toBottomOf="@id/slider_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintBottom_toTopOf="@id/slider_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/baloo"
@@ -31,9 +40,14 @@
         android:id="@+id/slider_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:layout_marginHorizontal="15dp"
-        android:textColor="@color/Black"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/muli_semibold"
-        android:text="@string/third_slide_desc" />
-</LinearLayout>
+        android:paddingHorizontal="15dp"
+        android:text="@string/third_slide_desc"
+        android:textAlignment="center"
+        android:textColor="@color/Black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/slider_heading" />
+</androidx.constraintlayout.widget.ConstraintLayout>

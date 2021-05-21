@@ -658,7 +658,10 @@ public class Place_Activity extends AppCompatActivity {
                                                                     public void onSuccess(Void aVoid) {
                                                                         Glide.with(img.getContext()).load(n_imgUrl).placeholder(R.drawable.image_placeholder).into(img);
                                                                         Toast.makeText(getApplicationContext(), "Image Updated", Toast.LENGTH_SHORT).show();
+                                                                        baos.reset();
 
+                                                                        Places.document(documentSnapshot.getId())
+                                                                                .update("updated", curdate);
                                                                     }
                                                                 })
                                                                 .addOnFailureListener(new OnFailureListener() {
@@ -668,9 +671,6 @@ public class Place_Activity extends AppCompatActivity {
 
                                                                     }
                                                                 });
-
-                                                        Places.document(documentSnapshot.getId())
-                                                                .update("updated", curdate);
                                                     }
 
 
@@ -1049,6 +1049,7 @@ public class Place_Activity extends AppCompatActivity {
 
         if (UtilClassName.getFileSize(mImageUri,this)>=1024){
             Toast.makeText(this, "Image is too large" + "\n" + "Maximum image file size allowed: 1Mb", Toast.LENGTH_SHORT).show();
+            baos.reset();
             return false;
         } else {
             Toast.makeText(this, "Image size OK", Toast.LENGTH_SHORT).show();
