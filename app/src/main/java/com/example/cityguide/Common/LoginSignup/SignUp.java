@@ -79,7 +79,7 @@ public class SignUp extends AppCompatActivity {
         fullName = findViewById(R.id.signup_fullname);
 
 
-        progress_bar = findViewById(R.id.progress_bar);
+        progress_bar = findViewById(R.id.signup_progress_bar);
 
 
         password = findViewById(R.id.signup_password);
